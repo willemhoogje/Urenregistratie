@@ -15,6 +15,15 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<style>
+  html,body{background:#fff!important}
+  #appstage{padding:0!important;min-height:100dvh!important;display:block!important}
+  #appphone{width:100%!important;max-width:560px!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important;margin:0 auto!important}
+  #appstatus{display:none!important}
+  #apphome{display:none!important}
+  #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
+  #apptabbar{padding-top:6px!important;padding-bottom:max(env(safe-area-inset-bottom),8px)!important}
+</style>
 <script src="./support.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
@@ -47,7 +56,7 @@ if ('serviceWorker' in navigator) {
     #appstatus{display:none!important}
     #apphome{display:none!important}
     #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-    #apptabbar{padding-bottom:calc(env(safe-area-inset-bottom) + 12px)!important}
+    #apptabbar{padding-top:6px!important;padding-bottom:max(env(safe-area-inset-bottom),8px)!important}
   }
   #printArea{display:none}
   @media print{
@@ -121,10 +130,6 @@ if ('serviceWorker' in navigator) {
             </div>
           </div>
 
-          <button onClick="{{ openAdd }}" style="width:100%;margin-top:14px;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Uren toevoegen
-          </button>
-
           <sc-if value="{{ hasEntries }}" hint-placeholder-val="{{ true }}">
             <sc-for list="{{ dayGroups }}" as="g" hint-placeholder-count="2">
               <div style="margin-top:24px">
@@ -152,7 +157,7 @@ if ('serviceWorker' in navigator) {
           </sc-if>
           <sc-if value="{{ noEntries }}" hint-placeholder-val="{{ false }}">
             <div style="text-align:center;padding:46px 20px;color:var(--soft)">
-              <div style="font-size:14px;line-height:1.6">Nog geen uren geboekt.<br/>Tik op <b style="color:var(--navy)">Uren toevoegen</b>.</div>
+              <div style="font-size:14px;line-height:1.6">Nog geen uren geboekt.<br/>Tik op de <b style="color:var(--navy)">+</b> rechtsonder.</div>
             </div>
           </sc-if>
           </sc-if>
@@ -164,10 +169,7 @@ if ('serviceWorker' in navigator) {
         <div style="padding:20px 18px 0">
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Beheer</div>
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Projecten</h1>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px">
-            <button onClick="{{ openNewProject }}" style="background:var(--navy);color:#fff;border:none;border-radius:13px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuw</button>
-            <button onClick="{{ openImport }}" style="background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:13px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Importeer</button>
-          </div>
+          <button onClick="{{ openNewProject }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuw project</button>
           <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
             <div style="margin-top:14px;display:flex;flex-direction:column;gap:11px">
               <sc-for list="{{ projectList }}" as="p" hint-placeholder-count="3">
@@ -192,7 +194,7 @@ if ('serviceWorker' in navigator) {
             </div>
           </sc-if>
           <sc-if value="{{ noProjects }}" hint-placeholder-val="{{ true }}">
-            <div style="text-align:center;padding:40px 20px;color:var(--soft);font-size:14px;line-height:1.6">Nog geen projecten.<br/>Voeg er een toe of <b style="color:var(--navy)">importeer</b> mapnamen uit je Drive.</div>
+            <div style="text-align:center;padding:40px 20px;color:var(--soft);font-size:14px;line-height:1.6">Nog geen projecten.<br/>Voeg er een toe met de knop hierboven.</div>
           </sc-if>
         </div>
       </sc-if>
@@ -258,8 +260,7 @@ if ('serviceWorker' in navigator) {
       <!-- ===== MANDAGENREGISTER ===== -->
       <sc-if value="{{ isWeekstaat }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px 18px 0">
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Bij je factuur</div>
-          <h1 style="font-family:var(--disp);font-size:29px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Mandagenregister</h1>
+          <h1 style="font-family:var(--disp);font-size:29px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:4px 0 0">Mandagenregister</h1>
 
           <!-- Onderaannemer card (boven de urenstaat) -->
           <div style="background:var(--navy);border-radius:16px;padding:15px 16px;margin-top:16px;color:#fff">
@@ -332,11 +333,7 @@ if ('serviceWorker' in navigator) {
             <div style="text-align:center;padding:32px 20px;color:var(--soft);font-size:14px;line-height:1.6">Geen uren op dit project<br/>in de gekozen periode.</div>
           </sc-if>
 
-          <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <button onClick="{{ downloadCSV }}" style="background:var(--paper);border:1px solid var(--line);color:var(--ink);border-radius:13px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>CSV</button>
-            <button onClick="{{ printStaat }}" style="background:var(--paper);border:1px solid var(--line);color:var(--ink);border-radius:13px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>PDF / print</button>
-            <button onClick="{{ shareStaat }}" style="grid-column:1 / -1;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Mandagenregister delen</button>
-          </div>
+          <button onClick="{{ printStaat }}" style="width:100%;margin-top:18px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Mandagenregister — PDF / print</button>
         </div>
       </sc-if>
 
@@ -363,6 +360,11 @@ if ('serviceWorker' in navigator) {
       </button>
     </div>
     <div id="apphome" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
+    <sc-if value="{{ showFab }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ openAdd }}" aria-label="Uren toevoegen" style="position:absolute;right:18px;bottom:calc(env(safe-area-inset-bottom) + 86px);width:60px;height:60px;border-radius:50%;background:var(--navy);border:none;box-shadow:0 10px 24px rgba(12,18,30,.36);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:30">
+        <svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </sc-if>
 
     <!-- ===== SHEET: ADD ENTRY ===== -->
     <sc-if value="{{ isSheetAdd }}" hint-placeholder-val="{{ false }}">
@@ -513,14 +515,16 @@ if ('serviceWorker' in navigator) {
         </div>
         <div style="padding:18px 18px 34px">
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>ZZP'ers · wie boekt uren</div>
+          <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 10px">Tik op de <b style="color:var(--muted)">ster</b> om de hoofdgebruiker in te stellen — daarmee open je de app standaard.</p>
           <sc-if value="{{ hasPerson }}" hint-placeholder-val="{{ false }}">
             <div style="background:var(--mist);border:1px solid var(--line);border-radius:14px;overflow:hidden">
               <sc-for list="{{ peopleList }}" as="m" hint-placeholder-count="2">
                 <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-top:1px solid var(--line)">
                   <button onClick="{{ m.onSelect }}" style="flex:1;display:flex;align-items:center;gap:11px;background:none;border:none;cursor:pointer;text-align:left;min-width:0">
                     <span style="width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:var(--disp);flex:none">{{ m.initials }}</span>
-                    <span style="min-width:0"><span style="display:flex;align-items:center;gap:7px"><span style="font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span><sc-if value="{{ m.active }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;font-weight:600;color:#fff;background:var(--green);border-radius:99px;padding:3px 7px;letter-spacing:.05em;flex:none">ACTIEF</span></sc-if></span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">KvK {{ m.kvk }}</span></span>
+                    <span style="min-width:0"><span style="display:flex;align-items:center;gap:7px"><span style="font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span><sc-if value="{{ m.active }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;font-weight:600;color:#fff;background:var(--green);border-radius:99px;padding:3px 7px;letter-spacing:.05em;flex:none">ACTIEF</span></sc-if><sc-if value="{{ m.isMain }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;font-weight:600;color:#fff;background:var(--navy);border-radius:99px;padding:3px 7px;letter-spacing:.05em;flex:none">HOOFD</span></sc-if></span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">KvK {{ m.kvk }}</span></span>
                   </button>
+                  <button onClick="{{ m.onSetMain }}" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--paper);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg></button>
                   <button onClick="{{ m.onEdit }}" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--muted);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6c7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
                   <button onClick="{{ m.onRemove }}" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--soft);cursor:pointer;flex:none;font-size:16px;line-height:1">×</button>
                 </div>
@@ -594,7 +598,7 @@ if ('serviceWorker' in navigator) {
   </div>
 
   <!-- PRINT AREA -->
-  <div id="printArea" style="font-family:var(--body);color:var(--ink);padding:16mm 14mm">
+  <div id="printArea" style="--navy:#1c2a3a;--blue:#1a365d;--ink:#16202b;--muted:#6c7280;--soft:#9aa0a8;--line:#e4e6e9;--mist:#f6f7f8;--paper:#fff;--disp:'Space Grotesk',system-ui,sans-serif;--body:'Poppins',system-ui,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:var(--body);color:var(--ink);padding:16mm 14mm">
     <div id="printRegister">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
       <img src="assets/abeco-logo.png" style="height:14mm"/>
@@ -706,23 +710,26 @@ class Component extends DCLogic {
     try{const raw=localStorage.getItem(this.KEY);if(raw)data=JSON.parse(raw);}catch(e){}
     if(!data||!data.projects)data=this.seed();
     const firstProj=(data.projects&&data.projects[0])?data.projects[0].id:'';
-    return Object.assign({tab:'uren',sheet:null,scope:'mij',omode:'dag',weekOffset:0,weeks:1,regProjectId:firstProj,printMode:'register',
+    const st=Object.assign({tab:'uren',sheet:null,scope:'mij',omode:'dag',weekOffset:0,weeks:1,regProjectId:firstProj,printMode:'register',
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',
       newFirst:'',newLast:'',newKvk:'',newActName:'',importText:'',editPersonId:'',ep_first:'',ep_last:'',ep_kvk:''},data);
+    if(st.mainPersonId&&(st.people||[]).some(p=>p.id===st.mainPersonId))st.activePersonId=st.mainPersonId;
+    return st;
   }
   seed(){
     return {
       company:{name:'ABECO Projecten BV',address:'Oude Grintweg 55',city:'5688 MA Oirschot',kvk:''},
       people:[],
       activePersonId:'',
+      mainPersonId:'',
       projects:[],
       activities:['Montage','Productie','Voorbereiding','Overleg','Reizen','Schoonmaak'],
       entries:[]
     };
   }
-  persist(){ try{const s=this.state;localStorage.setItem(this.KEY,JSON.stringify({company:s.company,people:s.people,activePersonId:s.activePersonId,projects:s.projects,activities:s.activities,entries:s.entries}));}catch(e){} }
+  persist(){ try{const s=this.state;localStorage.setItem(this.KEY,JSON.stringify({company:s.company,people:s.people,activePersonId:s.activePersonId,mainPersonId:s.mainPersonId,projects:s.projects,activities:s.activities,entries:s.entries}));}catch(e){} }
   up(patch){ this.setState(patch,()=>this.persist()); }
   uid(p){ return (p||'id')+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
   toISO(d){ const z=n=>(n<10?'0':'')+n; return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
@@ -764,12 +771,13 @@ class Component extends DCLogic {
   runImport(){ const s=this.state; const lines=s.importText.split('\n').map(l=>l.trim()).filter(Boolean); if(!lines.length){this.setState({sheet:null});return;} const have=s.projects.map(p=>p.name.toLowerCase()); let added=[]; lines.forEach(line=>{ let num='',name=line; const m=line.match(/^([A-Za-z]{0,3}\d[\w\/\.\-]*)[\s\-_:]+(.+)$/); if(m){num=m[1];name=m[2].trim();} if(have.indexOf(name.toLowerCase())>=0)return; have.push(name.toLowerCase()); added.push({id:this.uid('pr'),name,number:(num||'—'),location:'',client:''}); }); const patch={projects:s.projects.concat(added),sheet:null,importText:''}; if(!s.regProjectId&&added.length)patch.regProjectId=added[0].id; this.up(patch); if(typeof alert==='function')alert(added.length+' project'+(added.length===1?'':'en')+' geïmporteerd.'); }
   toggleNewAct(){ this.setState(st=>({showNewAct:!st.showNewAct})); }
   addActInline(){ const s=this.state; const v=s.newActInline.trim(); if(!v)return; const activities=s.activities.indexOf(v)>=0?s.activities:s.activities.concat([v]); this.up({activities,f_activity:v,newActInline:'',showNewAct:false}); }
-  addPerson(){ const s=this.state; const last=s.newLast.trim(); if(!last)return; const id=this.uid('p'); const people=s.people.concat([{id,first:s.newFirst.trim(),last,kvk:s.newKvk.trim()}]); const patch={people,newFirst:'',newLast:'',newKvk:''}; if(!s.activePersonId)patch.activePersonId=id; this.up(patch); }
+  addPerson(){ const s=this.state; const last=s.newLast.trim(); if(!last)return; const id=this.uid('p'); const people=s.people.concat([{id,first:s.newFirst.trim(),last,kvk:s.newKvk.trim()}]); const patch={people,newFirst:'',newLast:'',newKvk:''}; if(!s.activePersonId)patch.activePersonId=id; if(!s.mainPersonId)patch.mainPersonId=id; this.up(patch); }
   selectPerson(id){ this.up({activePersonId:id}); }
   openEditPerson(p){ this.setState({sheet:'editPerson',editPersonId:p.id,ep_first:p.first||'',ep_last:p.last||'',ep_kvk:p.kvk||''}); }
   saveEditPerson(){ const s=this.state; if(!s.ep_last.trim())return; const people=s.people.map(p=>p.id===s.editPersonId?Object.assign({},p,{first:s.ep_first.trim(),last:s.ep_last.trim(),kvk:s.ep_kvk.trim()}):p); this.up({people,sheet:'settings'}); }
   removeEditPerson(){ const s=this.state; const people=s.people.filter(p=>p.id!==s.editPersonId); const activePersonId=s.activePersonId===s.editPersonId?(people[0]?people[0].id:''):s.activePersonId; this.up({people,activePersonId,sheet:'settings'}); }
-  removePerson(id){ const s=this.state; const people=s.people.filter(p=>p.id!==id); const activePersonId=s.activePersonId===id?(people[0]?people[0].id:''):s.activePersonId; this.up({people,activePersonId}); }
+  removePerson(id){ const s=this.state; const people=s.people.filter(p=>p.id!==id); const activePersonId=s.activePersonId===id?(people[0]?people[0].id:''):s.activePersonId; const mainPersonId=s.mainPersonId===id?(people[0]?people[0].id:''):s.mainPersonId; this.up({people,activePersonId,mainPersonId}); }
+  setMain(id){ this.up({mainPersonId:id,activePersonId:id}); }
   addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; this.up({activities:s.activities.concat([v]),newActName:''}); }
   removeActivity(name){ const s=this.state; this.up({activities:s.activities.filter(a=>a!==name)}); }
   resetData(){ if(typeof confirm==='function'&&!confirm('Alle projecten, uren en ZZP\u2019ers wissen?'))return; const seed=this.seed(); this.setState(Object.assign({sheet:null,regProjectId:'',activePersonId:''},seed),()=>this.persist()); }
@@ -839,7 +847,7 @@ class Component extends DCLogic {
     const activityChips=s.activities.map(a=>({name:a,style:this.chipStyle(a===s.f_activity),onTap:()=>this.setState({f_activity:a})}));
     const hourChips=[4,6,8].map(h=>({label:''+h,onTap:()=>this.setState({f_hours:this.fmt(h)})}));
     const canSave=!!s.f_projectId&&!!s.f_activity&&this.parseHours(s.f_hours)>0;
-    const peopleList=s.people.map(p=>({name:this.dispApp(p),initials:this.av(p),kvk:p.kvk||'—',active:p.id===s.activePersonId,onSelect:()=>this.selectPerson(p.id),onEdit:()=>this.openEditPerson(p),onRemove:()=>this.removePerson(p.id)}));
+    const peopleList=s.people.map(p=>({name:this.dispApp(p),initials:this.av(p),kvk:p.kvk||'—',active:p.id===s.activePersonId,isMain:p.id===s.mainPersonId,onSetMain:()=>this.setMain(p.id),onSelect:()=>this.selectPerson(p.id),onEdit:()=>this.openEditPerson(p),onRemove:()=>this.removePerson(p.id)}));
     const activitiesList=s.activities.map(a=>({name:a,onRemove:()=>this.removeActivity(a)}));
     const co=s.company||{name:'',address:'',city:'',kvk:''};
     const ovByProj={}; mine.forEach(e=>{(ovByProj[e.projectId]=ovByProj[e.projectId]||[]).push(e);});
@@ -853,7 +861,7 @@ class Component extends DCLogic {
       tabUren:()=>this.setTab('uren'), tabProj:()=>this.setTab('projecten'), tabOver:()=>this.setTab('overzicht'), tabWeek:()=>this.setTab('weekstaat'),
       tabUrenStyle:this.tabStyle(s.tab==='uren'), tabProjStyle:this.tabStyle(s.tab==='projecten'), tabOverStyle:this.tabStyle(s.tab==='overzicht'), tabWeekStyle:this.tabStyle(s.tab==='weekstaat'),
       todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),
-      openAdd:()=>this.openAdd(), dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
+      openAdd:()=>this.openAdd(), showFab:(s.tab==='uren'&&!!activeP), dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(), openImport:()=>this.openImport(),
       setMij:()=>this.setScope('mij'), setTeam:()=>this.setScope('team'),
       scopeMijStyle:this.segStyle(s.scope==='mij'), scopeTeamStyle:this.segStyle(s.scope==='team'),

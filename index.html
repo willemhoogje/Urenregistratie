@@ -22,7 +22,7 @@
   #appstatus{display:none!important}
   #apphome{display:none!important}
   #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-  #apptabbar{padding-top:4px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 12px),6px)!important}
+  #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),3px)!important}
   .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
 </style>
 <script src="./support.js"></script>
@@ -59,7 +59,7 @@ if ('serviceWorker' in navigator) {
     #appstatus{display:none!important}
     #apphome{display:none!important}
     #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-    #apptabbar{padding-top:4px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 12px),6px)!important}
+    #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),3px)!important}
   }
   #printArea{display:none}
   @media print{
@@ -376,20 +376,20 @@ if ('serviceWorker' in navigator) {
     <!-- TAB BAR -->
     <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:9px 6px 24px;z-index:25">
       <button onClick="{{ tabUren }}" style="{{ tabUrenStyle }}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span style="font-size:10px;font-weight:600;margin-top:3px">Uren</span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:1px">Uren</span>
       </button>
       <button onClick="{{ tabProj }}" style="{{ tabProjStyle }}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-        <span style="font-size:10px;font-weight:600;margin-top:3px">Projecten</span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:1px">Projecten</span>
       </button>
       <button onClick="{{ tabOver }}" style="{{ tabOverStyle }}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
-        <span style="font-size:10px;font-weight:600;margin-top:3px">Overzicht</span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:1px">Overzicht</span>
       </button>
       <button onClick="{{ tabWeek }}" style="{{ tabWeekStyle }}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
-        <span style="font-size:10px;font-weight:600;margin-top:3px">Register</span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:1px">Register</span>
       </button>
     </div>
     <div id="apphome" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
@@ -648,19 +648,25 @@ if ('serviceWorker' in navigator) {
   <!-- PRINT AREA -->
   <div id="printArea" style="--navy:#1c2a3a;--blue:#1a365d;--ink:#16202b;--muted:#6c7280;--soft:#9aa0a8;--line:#e4e6e9;--mist:#f6f7f8;--paper:#fff;--disp:'Space Grotesk',system-ui,sans-serif;--body:'Poppins',system-ui,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:var(--body);color:var(--ink);padding:16mm 14mm">
     <div id="printRegister">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
       <img src="assets/abeco-logo.png" style="height:14mm"/>
       <div style="text-align:right"><div style="font-family:var(--disp);font-size:17pt;font-weight:700;letter-spacing:.04em">MANDAGENREGISTER</div></div>
     </div>
 
-    <div style="margin-top:14px;border:1px solid var(--line);border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:1fr 1fr;gap:5px 24px;font-size:9pt">
-      <div style="grid-column:1 / -1;font-family:var(--disp);font-weight:600;font-size:9.5pt;margin-bottom:3px;color:var(--navy)">Onderaannemer</div>
-      <div><span style="color:var(--muted);display:inline-block;width:22mm">Naam</span><b>{{ coName }}</b></div>
-      <div><span style="color:var(--muted);display:inline-block;width:30mm">Datum</span>{{ regDateLabel }}</div>
-      <div><span style="color:var(--muted);display:inline-block;width:22mm">Adres</span>{{ coAddress }}</div>
-      <div><span style="color:var(--muted);display:inline-block;width:30mm">Projectnaam</span>{{ regProjName }}</div>
-      <div><span style="color:var(--muted);display:inline-block;width:22mm">Plaats</span>{{ coCity }}</div>
-      <div><span style="color:var(--muted);display:inline-block;width:30mm">Projectnummer</span><span style="font-family:var(--disp)">{{ regProjNumber }}</span></div>
+    <div style="margin-top:14px;border:1px solid var(--line);border-radius:6px;padding:11px 13px;font-size:9pt">
+      <div style="font-family:var(--disp);font-weight:600;font-size:9.5pt;margin-bottom:6px;color:var(--navy)">Onderaannemer</div>
+      <div style="display:flex;gap:24px">
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+          <div><span style="color:var(--muted);display:inline-block;width:22mm">Naam</span><b>{{ coName }}</b></div>
+          <div><span style="color:var(--muted);display:inline-block;width:22mm">Adres</span>{{ coAddress }}</div>
+          <div><span style="color:var(--muted);display:inline-block;width:22mm">Plaats</span>{{ coCity }}</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+          <div><span style="color:var(--muted);display:inline-block;width:30mm">Datum</span>{{ regDateLabel }}</div>
+          <div><span style="color:var(--muted);display:inline-block;width:30mm">Projectnaam</span>{{ regProjName }}</div>
+          <div><span style="color:var(--muted);display:inline-block;width:30mm">Projectnummer</span><span style="font-family:var(--disp)">{{ regProjNumber }}</span></div>
+        </div>
+      </div>
     </div>
 
     <sc-for list="{{ printWeeks }}" as="wk" hint-placeholder-count="1">
@@ -694,7 +700,7 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <div id="printOverview">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
         <img src="assets/abeco-logo.png" style="height:14mm"/>
         <div style="text-align:right"><div style="font-family:var(--disp);font-size:17pt;font-weight:700;letter-spacing:.04em">URENOVERZICHT</div></div>
       </div>
@@ -736,7 +742,7 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <div id="printProject">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
         <img src="assets/abeco-logo.png" style="height:14mm"/>
         <div style="text-align:right"><div style="font-family:var(--disp);font-size:17pt;font-weight:700;letter-spacing:.04em">PROJECTOVERZICHT</div></div>
       </div>
@@ -934,7 +940,7 @@ class Component extends DCLogic {
     const curMon=this.getMonday(new Date()); const curDates=[]; for(let i=0;i<7;i++)curDates.push(this.toISO(this.addDays(curMon,i)));
     const weekTotal=mine.filter(e=>curDates.indexOf(e.date)>=0).reduce((a,e)=>a+e.hours,0);
     const projectList=s.projects.map(p=>{const es=s.entries.filter(e=>e.projectId===p.id);const tot=es.reduce((a,e)=>a+e.hours,0); const num=(p.number&&p.number!=='—')?p.number:''; const meta=(p.location?p.location+' · ':'')+es.length+' boeking'+(es.length===1?'':'en'); return {name:p.name,number:num,hasNumber:!!num,meta,totalLabel:this.fmt(tot),onTap:()=>{ if(Date.now()-(this._swipeTs||0)<350)return; this.openAddWith(p.id); },onSwipe:(ev)=>this.swipe(ev,()=>this.deleteProjectById(p.id))};});
-    const scoped0=s.scope==='team'?s.entries:mine;
+    const scoped0=s.scope==='team'?s.entries.filter(e=>e.projectId!==this.GEN):mine;
     const scoped=(s.scope==='team'&&s.ovProjectId)?scoped0.filter(e=>e.projectId===s.ovProjectId):scoped0;
     const grandTotal=scoped.reduce((a,e)=>a+e.hours,0);
     const obyDate={}; scoped.forEach(e=>{obyDate[e.date]=(obyDate[e.date]||0)+e.hours;});
@@ -1012,7 +1018,7 @@ class Component extends DCLogic {
       setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)), setCoKvk:e=>this.setCompany('kvk',ev(e)),
       resetData:()=>this.resetData(),
       isPrintRegister:s.printMode!=='overview', isPrintOverview:s.printMode==='overview', printOverview:()=>this.printOverview(),
-      printOvProjects, printOvGrand, printOvWho:activeP?this.dispApp(activeP):'—', printOvDate:this.todayLong(), hasOvExport:mine.length>0,
+      printOvProjects, printOvGrand, printOvWho:activeP?this.dispApp(activeP):'—', printOvDate:this.todayLong(), hasOvExport:(mine.length>0&&s.scope!=='team'),
       printDays:this.DCOLS, printWeeks
     };
   }

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Uren — ABECO Projecten</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Urenregistratie ABECO Projecten">
@@ -40,21 +40,34 @@ if ('serviceWorker' in navigator) {
   textarea{resize:none}
   @keyframes sheetUp{from{transform:translateY(101%)}to{transform:translateY(0)}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @media (display-mode: standalone), (display-mode: fullscreen){
+    html,body{background:#fff!important}
+    #appstage{padding:0!important;min-height:100dvh!important;display:block!important}
+    #appphone{width:100%!important;max-width:560px!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important;margin:0 auto!important}
+    #appstatus{display:none!important}
+    #apphome{display:none!important}
+    #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
+    #apptabbar{padding-bottom:calc(env(safe-area-inset-bottom) + 12px)!important}
+  }
   #printArea{display:none}
   @media print{
     body{background:#fff!important;padding:0!important}
     body *{visibility:hidden}
     #printArea,#printArea *{visibility:visible}
-    #printArea{display:block!important;position:absolute;left:0;top:0;width:100%}
+    @page{size:A4;margin:0}
+    #printArea{display:block!important;position:absolute;left:0;top:0;width:100%;padding:12mm 12mm!important}
+    #printOverview{display:none}
+    body[data-print="overview"] #printRegister{display:none}
+    body[data-print="overview"] #printOverview{display:block}
   }
 </style>
 </helmet>
-<div style="--navy:#1c2a3a;--blue:#1a365d;--ink:#16202b;--muted:#6c7280;--soft:#9aa0a8;--line:#e4e6e9;--chip:#f0f1f3;--mist:#f6f7f8;--paper:#ffffff;--green:#5BC48A;--disp:'Space Grotesk',system-ui,sans-serif;--body:'Poppins',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:36px 16px;font-family:var(--body)">
+<div id="appstage" style="--navy:#1c2a3a;--blue:#1a365d;--ink:#16202b;--muted:#6c7280;--soft:#9aa0a8;--line:#e4e6e9;--chip:#f0f1f3;--mist:#f6f7f8;--paper:#ffffff;--green:#5BC48A;--disp:'Space Grotesk',system-ui,sans-serif;--body:'Poppins',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:36px 16px;font-family:var(--body)">
 
-  <div style="width:390px;height:844px;border-radius:46px;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.34),0 0 0 11px #0c0f14,0 0 0 12px #2a2f37;display:flex;flex-direction:column">
+  <div id="appphone" style="width:390px;height:844px;border-radius:46px;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.34),0 0 0 11px #0c0f14,0 0 0 12px #2a2f37;display:flex;flex-direction:column">
 
     <!-- STATUS BAR -->
-    <div style="position:relative;height:50px;flex:none;background:var(--paper);z-index:6">
+    <div id="appstatus" style="position:relative;height:50px;flex:none;background:var(--paper);z-index:6">
       <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:116px;height:32px;border-radius:18px;background:#05070a"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 26px 0">
         <span style="font-size:15px;font-weight:600;color:var(--ink);font-family:var(--disp);letter-spacing:.02em">9:41</span>
@@ -67,7 +80,7 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <!-- BRAND HEADER -->
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 18px 11px;background:var(--paper);border-bottom:1px solid var(--line);flex:none;z-index:5">
+    <div id="appbrand" style="display:flex;align-items:center;justify-content:space-between;padding:4px 18px 11px;background:var(--paper);border-bottom:1px solid var(--line);flex:none;z-index:5">
       <img src="assets/abeco-logo.png" alt="ABECO" style="height:20px;width:auto;display:block"/>
       <div style="display:flex;align-items:center;gap:9px">
         <button onClick="{{ openSettings }}" style="display:flex;align-items:center;gap:8px;background:var(--mist);border:1px solid var(--line);border-radius:999px;padding:3px 11px 3px 3px;cursor:pointer;max-width:165px">
@@ -331,7 +344,7 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <!-- TAB BAR -->
-    <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:9px 6px 24px;z-index:25">
+    <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:9px 6px 24px;z-index:25">
       <button onClick="{{ tabUren }}" style="{{ tabUrenStyle }}">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         <span style="font-size:10px;font-weight:600;margin-top:3px">Uren</span>
@@ -349,7 +362,7 @@ if ('serviceWorker' in navigator) {
         <span style="font-size:10px;font-weight:600;margin-top:3px">Register</span>
       </button>
     </div>
-    <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
+    <div id="apphome" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
 
     <!-- ===== SHEET: ADD ENTRY ===== -->
     <sc-if value="{{ isSheetAdd }}" hint-placeholder-val="{{ false }}">
@@ -517,11 +530,11 @@ if ('serviceWorker' in navigator) {
 
           <div style="background:var(--mist);border:1px solid var(--line);border-radius:13px;padding:13px;margin-top:11px">
             <div style="font-size:11px;font-weight:600;color:var(--ink);margin-bottom:9px">Nieuwe ZZP'er toevoegen</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-              <input value="{{ newFirst }}" onChange="{{ setNewFirst }}" placeholder="Voornaam" style="padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:var(--paper);color:var(--ink)"/>
-              <input value="{{ newLast }}" onChange="{{ setNewLast }}" placeholder="Achternaam" style="padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:var(--paper);color:var(--ink)"/>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <input value="{{ newFirst }}" onChange="{{ setNewFirst }}" placeholder="Voornaam" autocapitalize="words" autocomplete="off" style="width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:var(--paper);color:var(--ink)"/>
+              <input value="{{ newLast }}" onChange="{{ setNewLast }}" placeholder="Achternaam" autocapitalize="words" autocomplete="off" style="width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:var(--paper);color:var(--ink)"/>
+              <input value="{{ newKvk }}" onChange="{{ setNewKvk }}" inputmode="numeric" placeholder="KvK-nummer" style="width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:var(--paper);color:var(--ink);font-family:var(--disp)"/>
             </div>
-            <input value="{{ newKvk }}" onChange="{{ setNewKvk }}" inputmode="numeric" placeholder="KvK-nummer" style="width:100%;margin-top:8px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:var(--paper);color:var(--ink);font-family:var(--disp)"/>
             <button onClick="{{ addPerson }}" style="width:100%;margin-top:9px;background:var(--navy);color:#fff;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:600;cursor:pointer">ZZP'er toevoegen</button>
           </div>
 
@@ -576,13 +589,13 @@ if ('serviceWorker' in navigator) {
           <button onClick="{{ removeEditPerson }}" style="width:100%;margin-top:18px;background:none;border:1px solid #e7c9c9;color:#b4413c;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer">ZZP'er verwijderen</button>
         </div>
       </div>
-    </sc-if>
+    </div>
 
   </div>
 
   <!-- PRINT AREA -->
   <div id="printArea" style="font-family:var(--body);color:var(--ink);padding:16mm 14mm">
-    <sc-if value="{{ isPrintRegister }}" hint-placeholder-val="{{ true }}">
+    <div id="printRegister">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
       <img src="assets/abeco-logo.png" style="height:14mm"/>
       <div style="text-align:right"><div style="font-family:var(--disp);font-size:17pt;font-weight:700;letter-spacing:.04em">MANDAGENREGISTER</div></div>
@@ -626,9 +639,9 @@ if ('serviceWorker' in navigator) {
         </table>
       </div>
     </sc-for>
-    </sc-if>
+    </div>
 
-    <sc-if value="{{ isPrintOverview }}" hint-placeholder-val="{{ false }}">
+    <div id="printOverview">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
         <img src="assets/abeco-logo.png" style="height:14mm"/>
         <div style="text-align:right"><div style="font-family:var(--disp);font-size:17pt;font-weight:700;letter-spacing:.04em">URENOVERZICHT</div></div>
@@ -786,8 +799,8 @@ class Component extends DCLogic {
   buildCSV(){ const weeks=this.regData(); const days=this.DCOLS; let out=[]; const proj=this.proj(this.state.regProjectId)||{}; out.push('Mandagenregister;'+(proj.name||'')); out.push('Projectnummer;'+(proj.number||'')); out.push(''); weeks.forEach(wk=>{ out.push(wk.weekLabel+' ('+wk.range+')'); out.push('#;KvK-nummer;Naam en voorletters;'+days.join(';')+';Totaal'); wk.rows.forEach(r=>{ out.push(r.nr+';'+r.kvk+';'+r.name+';'+r.cells.map(c=>this.fmt2(c)).join(';')+';'+this.fmt2(r.total)); }); out.push('Totaal;;;'+days.map(()=>'').join(';')+';'+this.fmt2(wk.weekTotal)); out.push(''); }); return out.join('\n'); }
   downloadCSV(){ try{ const csv=this.buildCSV(); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; const proj=this.proj(this.state.regProjectId)||{}; a.download='mandagenregister-'+((proj.number||'').replace(/[^\w]/g,'')||'export')+'.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); }catch(e){} }
   shareStaat(){ const weeks=this.regData(); const proj=this.proj(this.state.regProjectId)||{}; let grand=0; const blocks=weeks.map(wk=>{ grand+=wk.weekTotal; const lines=wk.rows.filter(r=>r.total>0).map(r=>'  '+r.name+' (KvK '+r.kvk+'): '+this.fmt2(r.total)); return wk.weekLabel+' ('+wk.range+'):\n'+(lines.join('\n')||'  —')+'\n  Totaal: '+this.fmt2(wk.weekTotal); }); const text='MANDAGENREGISTER\n'+(proj.name||'')+' — '+(proj.number||'')+'\nOnderaannemer: '+(this.state.company.name)+'\n\n'+blocks.join('\n\n')+'\n\nEindtotaal: '+this.fmt2(grand)+' uur'; try{ if(navigator.share){navigator.share({title:'Mandagenregister '+(proj.name||''),text});return;} }catch(e){} try{ navigator.clipboard.writeText(text).then(()=>{if(typeof alert==='function')alert('Mandagenregister gekopieerd naar klembord.');}); }catch(e){ if(typeof alert==='function')alert(text); } }
-  printStaat(){ this.setState({printMode:'register'},()=>setTimeout(()=>{try{window.print();}catch(e){}},60)); }
-  printOverview(){ this.setState({printMode:'overview'},()=>setTimeout(()=>{try{window.print();}catch(e){}},60)); }
+  printStaat(){ try{ document.body.setAttribute('data-print','register'); window.print(); }catch(e){} }
+  printOverview(){ try{ document.body.setAttribute('data-print','overview'); window.print(); }catch(e){} }
   chipStyle(sel){ const C=this.C; return Object.assign({display:'inline-flex',alignItems:'center',gap:'6px',padding:'9px 14px',borderRadius:'999px',fontSize:'13.5px',fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}, sel?{background:C.navy,color:'#fff',border:'1px solid '+C.navy}:{background:'#fff',color:C.ink,border:'1px solid '+C.line}); }
   tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'4px 2px',color:active?C.navy:C.soft}; }
   segStyle(active){ const C=this.C; return {flex:1,border:'none',borderRadius:'9px',padding:'9px 6px',fontSize:'13px',fontWeight:600,cursor:'pointer',background:active?C.navy:'transparent',color:active?'#fff':C.muted,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}; }

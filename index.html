@@ -16,13 +16,14 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
 <style>
-  html,body{background:#fff!important}
-  #appstage{padding:0!important;min-height:100dvh!important;display:block!important}
-  #appphone{width:100%!important;max-width:560px!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important;margin:0 auto!important}
+  html,body{background:#fff!important;overflow:hidden!important;overscroll-behavior:none!important;position:fixed;width:100%;height:100%}
+  #appstage{padding:0!important;min-height:100dvh!important;display:block!important;overflow:hidden!important}
+  #appphone{width:100%!important;max-width:560px!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important;margin:0 auto!important;overflow:hidden!important}
   #appstatus{display:none!important}
   #apphome{display:none!important}
   #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-  #apptabbar{padding-top:6px!important;padding-bottom:max(env(safe-area-inset-bottom),8px)!important}
+  #apptabbar{padding-top:4px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 12px),6px)!important}
+  .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
 </style>
 <script src="./support.js"></script>
 <script>
@@ -39,6 +40,8 @@ if ('serviceWorker' in navigator) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -56,7 +59,7 @@ if ('serviceWorker' in navigator) {
     #appstatus{display:none!important}
     #apphome{display:none!important}
     #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-    #apptabbar{padding-top:6px!important;padding-bottom:max(env(safe-area-inset-bottom),8px)!important}
+    #apptabbar{padding-top:4px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 12px),6px)!important}
   }
   #printArea{display:none}
   @media print{
@@ -210,6 +213,33 @@ if ('serviceWorker' in navigator) {
             <button onClick="{{ setTeam }}" style="{{ scopeTeamStyle }}">Alle ZZP'ers</button>
           </div>
 
+          <sc-if value="{{ isTeam }}" hint-placeholder-val="{{ false }}">
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Project</label>
+          <sc-if value="{{ ovHasSel }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:12px;background:var(--navy);border-radius:12px;padding:12px 14px">
+              <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:rgba(255,255,255,.16);border-radius:6px;padding:4px 7px;white-space:nowrap">{{ ovSelBadge }}</span>
+              <span style="flex:1;min-width:0;font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ovSelName }}</span>
+              <button onClick="{{ clearOvProject }}" style="background:rgba(255,255,255,.16);border:none;color:#fff;font-size:12px;font-weight:600;border-radius:8px;padding:7px 11px;cursor:pointer">Alle</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ovNoSel }}" hint-placeholder-val="{{ true }}">
+            <div style="position:relative">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" style="position:absolute;left:13px;top:13px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+              <input value="{{ ovProjQuery }}" onChange="{{ setOvProjQuery }}" placeholder="Zoek project (leeg = alle)…" style="width:100%;padding:12px 14px 12px 38px;border:1px solid var(--line);border-radius:12px;font-size:14px;color:var(--ink);background:var(--paper)"/>
+            </div>
+            <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:8px;display:flex;flex-direction:column;gap:7px">
+                <sc-for list="{{ ovProjMatches }}" as="m" hint-placeholder-count="3">
+                  <button onClick="{{ m.onTap }}" style="width:100%;text-align:left;display:flex;align-items:center;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:10px 13px;cursor:pointer">
+                    <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;white-space:nowrap;flex:none">{{ m.badge }}</span>
+                    <span style="font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </sc-if>
+          </sc-if>
+
           <div style="background:var(--navy);border-radius:18px;padding:17px 18px;color:#fff;margin-top:12px">
             <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)">{{ scopeLabel }} · totaal</div>
             <div style="font-family:var(--disp);font-size:38px;font-weight:600;line-height:1;margin-top:8px">{{ grandTotalLabel }}<span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.6);margin-left:5px">uur</span></div>
@@ -218,7 +248,7 @@ if ('serviceWorker' in navigator) {
           <div style="display:flex;gap:6px;margin-top:16px">
             <button onClick="{{ setDag }}" style="{{ omodeDagStyle }}">Per dag</button>
             <button onClick="{{ setWeek }}" style="{{ omodeWeekStyle }}">Per week</button>
-            <button onClick="{{ setProj }}" style="{{ omodeProjStyle }}">Per project</button>
+            <sc-if value="{{ isMij }}" hint-placeholder-val="{{ true }}"><button onClick="{{ setProj }}" style="{{ omodeProjStyle }}">Per project</button></sc-if>
           </div>
 
           <div style="margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden">
@@ -250,8 +280,11 @@ if ('serviceWorker' in navigator) {
           <sc-if value="{{ noOverview }}" hint-placeholder-val="{{ false }}">
             <div style="text-align:center;padding:34px 20px;color:var(--soft);font-size:14px">Nog geen geboekte uren.</div>
           </sc-if>
+          <sc-if value="{{ teamHasSel }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ printProject }}" style="width:100%;margin-top:16px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Projectoverzicht — download PDF</button>
+          </sc-if>
           <sc-if value="{{ hasOvExport }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ printOverview }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Urenoverzicht — PDF / print</button>
+            <button onClick="{{ printOverview }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Urenoverzicht — download PDF</button>
             <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:9px 4px 0">Alle projecten van {{ activeFirst }} met werkzaamheden op één uitdraai.</p>
           </sc-if>
         </div>
@@ -333,7 +366,7 @@ if ('serviceWorker' in navigator) {
             <div style="text-align:center;padding:32px 20px;color:var(--soft);font-size:14px;line-height:1.6">Geen uren op dit project<br/>in de gekozen periode.</div>
           </sc-if>
 
-          <button onClick="{{ printStaat }}" style="width:100%;margin-top:18px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Mandagenregister — PDF / print</button>
+          <button onClick="{{ printStaat }}" style="width:100%;margin-top:18px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Mandagenregister — download PDF</button>
         </div>
       </sc-if>
 
@@ -364,6 +397,12 @@ if ('serviceWorker' in navigator) {
       <button onClick="{{ openAdd }}" aria-label="Uren toevoegen" style="position:absolute;right:18px;bottom:calc(env(safe-area-inset-bottom) + 86px);width:60px;height:60px;border-radius:50%;background:var(--navy);border:none;box-shadow:0 10px 24px rgba(12,18,30,.36);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:30">
         <svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
       </button>
+    </sc-if>
+    <sc-if value="{{ hasUndo }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:14px;right:86px;bottom:calc(env(safe-area-inset-bottom) + 84px);z-index:45;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#16202b;color:#fff;border-radius:13px;padding:11px 14px;box-shadow:0 10px 26px rgba(8,12,20,.4);animation:fadeIn .2s ease">
+        <span style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ undoLabel }}</span>
+        <button onClick="{{ undo }}" style="background:none;border:none;color:#86b4ff;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap">Ongedaan maken</button>
+      </div>
     </sc-if>
 
     <!-- ===== SHEET: ADD ENTRY ===== -->
@@ -515,16 +554,15 @@ if ('serviceWorker' in navigator) {
         </div>
         <div style="padding:18px 18px 34px">
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>ZZP'ers · wie boekt uren</div>
-          <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 10px">Tik op de <b style="color:var(--muted)">ster</b> om de hoofdgebruiker in te stellen — daarmee open je de app standaard.</p>
+          <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 10px">De <b style="color:var(--muted)">hoofdgebruiker</b> (★) opent de app standaard. Instellen kan via <b style="color:var(--muted)">Bewerk gebruiker</b> (potlood).</p>
           <sc-if value="{{ hasPerson }}" hint-placeholder-val="{{ false }}">
             <div style="background:var(--mist);border:1px solid var(--line);border-radius:14px;overflow:hidden">
               <sc-for list="{{ peopleList }}" as="m" hint-placeholder-count="2">
                 <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-top:1px solid var(--line)">
                   <button onClick="{{ m.onSelect }}" style="flex:1;display:flex;align-items:center;gap:11px;background:none;border:none;cursor:pointer;text-align:left;min-width:0">
                     <span style="width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:var(--disp);flex:none">{{ m.initials }}</span>
-                    <span style="min-width:0"><span style="display:flex;align-items:center;gap:7px"><span style="font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span><sc-if value="{{ m.active }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;font-weight:600;color:#fff;background:var(--green);border-radius:99px;padding:3px 7px;letter-spacing:.05em;flex:none">ACTIEF</span></sc-if><sc-if value="{{ m.isMain }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;font-weight:600;color:#fff;background:var(--navy);border-radius:99px;padding:3px 7px;letter-spacing:.05em;flex:none">HOOFD</span></sc-if></span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">KvK {{ m.kvk }}</span></span>
+                    <span style="min-width:0"><span style="display:flex;align-items:center;gap:7px"><span style="font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span><sc-if value="{{ m.active }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;font-weight:600;color:#fff;background:var(--green);border-radius:99px;padding:3px 7px;letter-spacing:.05em;flex:none">ACTIEF</span></sc-if><sc-if value="{{ m.isMain }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="#F2B544" stroke="#F2B544" stroke-width="1" style="flex:none" title="Hoofdgebruiker"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg></sc-if></span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">KvK {{ m.kvk }}</span></span>
                   </button>
-                  <button onClick="{{ m.onSetMain }}" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--paper);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg></button>
                   <button onClick="{{ m.onEdit }}" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--muted);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6c7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
                   <button onClick="{{ m.onRemove }}" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--soft);cursor:pointer;flex:none;font-size:16px;line-height:1">×</button>
                 </div>
@@ -590,7 +628,17 @@ if ('serviceWorker' in navigator) {
           </div>
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>KvK-nummer</label>
           <input value="{{ epKvk }}" onChange="{{ setEpKvk }}" inputmode="numeric" placeholder="Bijv. 71239723" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist);font-family:var(--disp)"/>
-          <button onClick="{{ removeEditPerson }}" style="width:100%;margin-top:18px;background:none;border:1px solid #e7c9c9;color:#b4413c;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer">ZZP'er verwijderen</button>
+          <sc-if value="{{ epIsMain }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:10px;margin-top:18px;background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:13px 14px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#F2B544" stroke="#F2B544" stroke-width="1" style="flex:none"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg>
+              <span style="font-size:14px;font-weight:600;color:var(--ink)">Hoofdgebruiker</span>
+              <span style="margin-left:auto;font-size:12px;color:var(--soft)">opent standaard</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ epNotMain }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ setMainEdit }}" style="width:100%;margin-top:18px;background:var(--paper);border:1px solid var(--navy);color:var(--navy);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg>Instellen als hoofdgebruiker</button>
+          </sc-if>
+          <button onClick="{{ removeEditPerson }}" style="width:100%;margin-top:10px;background:none;border:1px solid #e7c9c9;color:#b4413c;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer">ZZP'er verwijderen</button>
         </div>
       </div>
     </div>
@@ -685,7 +733,35 @@ if ('serviceWorker' in navigator) {
         <span style="font-family:var(--disp);font-weight:600;font-size:11pt">Totaal alle projecten</span>
         <span style="font-family:var(--disp);font-weight:700;font-size:13pt">{{ printOvGrand }} uur</span>
       </div>
-    </sc-if>
+    </div>
+
+    <div id="printProject">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
+        <img src="assets/abeco-logo.png" style="height:14mm"/>
+        <div style="text-align:right"><div style="font-family:var(--disp);font-size:17pt;font-weight:700;letter-spacing:.04em">PROJECTOVERZICHT</div></div>
+      </div>
+      <div style="margin-top:14px;border:1px solid var(--line);border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:1fr 1fr;gap:5px 24px;font-size:9pt">
+        <div style="grid-column:1 / -1;font-family:var(--disp);font-weight:600;font-size:9.5pt;margin-bottom:3px;color:var(--navy)">Project</div>
+        <div><span style="color:var(--muted);display:inline-block;width:30mm">Projectnaam</span><b>{{ ovSelName }}</b></div>
+        <div><span style="color:var(--muted);display:inline-block;width:30mm">Datum</span>{{ regDateLabel }}</div>
+        <div><span style="color:var(--muted);display:inline-block;width:30mm">Projectnummer</span><span style="font-family:var(--disp)">{{ ovSelNumber }}</span></div>
+        <div><span style="color:var(--muted);display:inline-block;width:30mm">Totaal</span><b style="font-family:var(--disp)">{{ grandTotalLabel }} uur</b></div>
+      </div>
+      <div style="font-family:var(--disp);font-size:10.5pt;font-weight:600;margin:14px 0 3px">Per week</div>
+      <table style="width:100%;border-collapse:collapse;font-size:9pt">
+        <thead><tr style="background:var(--navy);color:#fff"><th style="text-align:left;padding:5px 8px">Week</th><th style="text-align:left;padding:5px 8px">Periode</th><th style="text-align:right;padding:5px 8px;width:22mm">Uren</th></tr></thead>
+        <tbody>
+          <sc-for list="{{ weekRows }}" as="r" hint-placeholder-count="3"><tr style="border-bottom:1px solid var(--line)"><td style="padding:5px 8px;font-family:var(--disp)">{{ r.weekLabel }}</td><td style="padding:5px 8px">{{ r.range }}</td><td style="padding:5px 8px;text-align:right;font-family:var(--disp)">{{ r.totalLabel }}</td></tr></sc-for>
+        </tbody>
+      </table>
+      <div style="font-family:var(--disp);font-size:10.5pt;font-weight:600;margin:14px 0 3px">Per dag</div>
+      <table style="width:100%;border-collapse:collapse;font-size:9pt">
+        <thead><tr style="background:var(--navy);color:#fff"><th style="text-align:left;padding:5px 8px">Datum</th><th style="text-align:right;padding:5px 8px;width:22mm">Uren</th></tr></thead>
+        <tbody>
+          <sc-for list="{{ dagRows }}" as="r" hint-placeholder-count="4"><tr style="border-bottom:1px solid var(--line)"><td style="padding:5px 8px">{{ r.label }}</td><td style="padding:5px 8px;text-align:right;font-family:var(--disp)">{{ r.totalLabel }}</td></tr></sc-for>
+        </tbody>
+      </table>
+    </div>
 
   </div>
 
@@ -710,7 +786,7 @@ class Component extends DCLogic {
     try{const raw=localStorage.getItem(this.KEY);if(raw)data=JSON.parse(raw);}catch(e){}
     if(!data||!data.projects)data=this.seed();
     const firstProj=(data.projects&&data.projects[0])?data.projects[0].id:'';
-    const st=Object.assign({tab:'uren',sheet:null,scope:'mij',omode:'dag',weekOffset:0,weeks:1,regProjectId:firstProj,printMode:'register',
+    const st=Object.assign({tab:'uren',sheet:null,scope:'mij',omode:'dag',weekOffset:0,weeks:1,regProjectId:firstProj,printMode:'register',undoLabel:'',ovProjectId:'',ovProjQuery:'',
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',
@@ -761,9 +837,11 @@ class Component extends DCLogic {
   clearProject(){ this.setState({f_projectId:'',f_projQuery:''}); }
   saveEntry(){ const s=this.state; const h=this.parseHours(s.f_hours); if(!s.f_projectId||!s.f_activity||h<=0)return; let entries=s.entries.slice(); if(s.editingId){ entries=entries.map(e=>e.id===s.editingId?Object.assign({},e,{date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}):e); } else { entries.push({id:this.uid('e'),personId:s.activePersonId,date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}); } this.up({entries,sheet:null,showNewAct:false}); }
   deleteEntry(){ const s=this.state; this.up({entries:s.entries.filter(e=>e.id!==s.editingId),sheet:null}); }
-  deleteById(id){ this.up({entries:this.state.entries.filter(x=>x.id!==id)}); }
-  deleteProjectById(id){ const s=this.state; const projects=s.projects.filter(p=>p.id!==id); const entries=s.entries.filter(e=>e.projectId!==id); const regProjectId=s.regProjectId===id?(projects[0]?projects[0].id:''):s.regProjectId; this.up({projects,entries,regProjectId}); }
-  swipe(ev,doDelete){ const el=ev.currentTarget; const startX=ev.clientX; let dx=0,moved=false; el.style.transition='none'; const move=(me)=>{ dx=Math.min(0,(me.clientX!=null?me.clientX:startX)-startX); if(Math.abs(dx)>5)moved=true; el.style.transform='translateX('+dx+'px)'; }; const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); el.style.transition='transform .2s ease'; if(moved)this._swipeTs=Date.now(); if(dx<-80){ el.style.transform='translateX(-110%)'; el.style.opacity='0'; setTimeout(()=>doDelete(),170); } else { el.style.transform='translateX(0)'; } }; document.addEventListener('pointermove',move); document.addEventListener('pointerup',up); }
+  deleteById(id){ const s=this.state; if(!s.entries.some(x=>x.id===id))return; this._undoSnap={entries:s.entries.slice()}; this.up({entries:s.entries.filter(x=>x.id!==id)}); this.flagUndo('Boeking verwijderd'); }
+  flagUndo(label){ if(this._undoTimer)clearTimeout(this._undoTimer); this.setState({undoLabel:label}); const self=this; this._undoTimer=setTimeout(function(){ self._undoSnap=null; self.setState({undoLabel:''}); },5000); }
+  undo(){ if(this._undoTimer)clearTimeout(this._undoTimer); const snap=this._undoSnap; this._undoSnap=null; if(!snap){ this.setState({undoLabel:''}); return; } this.up(Object.assign({undoLabel:''},snap)); }
+  deleteProjectById(id){ const s=this.state; if(!s.projects.some(p=>p.id===id))return; this._undoSnap={projects:s.projects.slice(),entries:s.entries.slice(),regProjectId:s.regProjectId}; const projects=s.projects.filter(p=>p.id!==id); const entries=s.entries.filter(e=>e.projectId!==id); const regProjectId=s.regProjectId===id?(projects[0]?projects[0].id:''):s.regProjectId; this.up({projects,entries,regProjectId}); this.flagUndo('Project verwijderd'); }
+  swipe(ev,doDelete){ const el=ev.currentTarget; const startX=ev.clientX; let dx=0,moved=false; el.style.transition='none'; const move=(me)=>{ dx=Math.min(0,(me.clientX!=null?me.clientX:startX)-startX); if(Math.abs(dx)>5)moved=true; el.style.transform='translateX('+dx+'px)'; }; const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); if(moved)this._swipeTs=Date.now(); if(dx<-80){ el.style.transition=''; el.style.transform=''; el.style.opacity=''; doDelete(); } else { el.style.transition='transform .2s ease'; el.style.transform='translateX(0)'; setTimeout(function(){ el.style.transition=''; el.style.transform=''; },220); } }; document.addEventListener('pointermove',move); document.addEventListener('pointerup',up); }
   openNewProject(){ this.setState({sheet:'addProject',p_name:'',p_number:'',p_location:'',p_client:'',projFromEntry:false}); }
   openNewProjectFromEntry(){ this.setState({sheet:'addProject',p_name:'',p_number:'',p_location:'',p_client:'',projFromEntry:true}); }
   openImport(){ this.setState({sheet:'import',importText:''}); }
@@ -778,11 +856,14 @@ class Component extends DCLogic {
   removeEditPerson(){ const s=this.state; const people=s.people.filter(p=>p.id!==s.editPersonId); const activePersonId=s.activePersonId===s.editPersonId?(people[0]?people[0].id:''):s.activePersonId; this.up({people,activePersonId,sheet:'settings'}); }
   removePerson(id){ const s=this.state; const people=s.people.filter(p=>p.id!==id); const activePersonId=s.activePersonId===id?(people[0]?people[0].id:''):s.activePersonId; const mainPersonId=s.mainPersonId===id?(people[0]?people[0].id:''):s.mainPersonId; this.up({people,activePersonId,mainPersonId}); }
   setMain(id){ this.up({mainPersonId:id,activePersonId:id}); }
+  setMainEdit(){ const s=this.state; if(!s.editPersonId)return; this.up({mainPersonId:s.editPersonId,activePersonId:s.editPersonId}); }
   addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; this.up({activities:s.activities.concat([v]),newActName:''}); }
   removeActivity(name){ const s=this.state; this.up({activities:s.activities.filter(a=>a!==name)}); }
   resetData(){ if(typeof confirm==='function'&&!confirm('Alle projecten, uren en ZZP\u2019ers wissen?'))return; const seed=this.seed(); this.setState(Object.assign({sheet:null,regProjectId:'',activePersonId:''},seed),()=>this.persist()); }
-  setScope(v){ this.setState({scope:v}); }
+  setScope(v){ if(v==='team'&&this.state.omode==='project'){ this.setState({scope:v,omode:'dag'}); } else { this.setState({scope:v}); } }
   setOmode(v){ this.setState({omode:v}); }
+  selectOvProject(id){ this.setState({ovProjectId:id,ovProjQuery:''}); }
+  clearOvProject(){ this.setState({ovProjectId:'',ovProjQuery:''}); }
   setCompany(k,v){ this.up({company:Object.assign({},this.state.company,{[k]:v})}); }
   prevWeek(){ this.setState(st=>({weekOffset:st.weekOffset-1})); }
   nextWeek(){ this.setState(st=>({weekOffset:st.weekOffset+1})); }
@@ -807,8 +888,36 @@ class Component extends DCLogic {
   buildCSV(){ const weeks=this.regData(); const days=this.DCOLS; let out=[]; const proj=this.proj(this.state.regProjectId)||{}; out.push('Mandagenregister;'+(proj.name||'')); out.push('Projectnummer;'+(proj.number||'')); out.push(''); weeks.forEach(wk=>{ out.push(wk.weekLabel+' ('+wk.range+')'); out.push('#;KvK-nummer;Naam en voorletters;'+days.join(';')+';Totaal'); wk.rows.forEach(r=>{ out.push(r.nr+';'+r.kvk+';'+r.name+';'+r.cells.map(c=>this.fmt2(c)).join(';')+';'+this.fmt2(r.total)); }); out.push('Totaal;;;'+days.map(()=>'').join(';')+';'+this.fmt2(wk.weekTotal)); out.push(''); }); return out.join('\n'); }
   downloadCSV(){ try{ const csv=this.buildCSV(); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; const proj=this.proj(this.state.regProjectId)||{}; a.download='mandagenregister-'+((proj.number||'').replace(/[^\w]/g,'')||'export')+'.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); }catch(e){} }
   shareStaat(){ const weeks=this.regData(); const proj=this.proj(this.state.regProjectId)||{}; let grand=0; const blocks=weeks.map(wk=>{ grand+=wk.weekTotal; const lines=wk.rows.filter(r=>r.total>0).map(r=>'  '+r.name+' (KvK '+r.kvk+'): '+this.fmt2(r.total)); return wk.weekLabel+' ('+wk.range+'):\n'+(lines.join('\n')||'  —')+'\n  Totaal: '+this.fmt2(wk.weekTotal); }); const text='MANDAGENREGISTER\n'+(proj.name||'')+' — '+(proj.number||'')+'\nOnderaannemer: '+(this.state.company.name)+'\n\n'+blocks.join('\n\n')+'\n\nEindtotaal: '+this.fmt2(grand)+' uur'; try{ if(navigator.share){navigator.share({title:'Mandagenregister '+(proj.name||''),text});return;} }catch(e){} try{ navigator.clipboard.writeText(text).then(()=>{if(typeof alert==='function')alert('Mandagenregister gekopieerd naar klembord.');}); }catch(e){ if(typeof alert==='function')alert(text); } }
-  printStaat(){ try{ document.body.setAttribute('data-print','register'); window.print(); }catch(e){} }
-  printOverview(){ try{ document.body.setAttribute('data-print','overview'); window.print(); }catch(e){} }
+  printStaat(){ this.genPdf('printRegister','mandagenregister'); }
+  printOverview(){ this.genPdf('printOverview','urenoverzicht'); }
+  printProject(){ this.genPdf('printProject','projectoverzicht'); }
+  genPdf(id,fname){
+    var node=document.getElementById(id), pa=document.getElementById('printArea');
+    if(!node||!pa||!window.html2canvas||!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print', id==='printOverview'?'overview':'register'); window.print(); }catch(e){} return; }
+    var prevPa=pa.getAttribute('style')||'';
+    var kids=Array.prototype.slice.call(pa.children); var prevK=kids.map(function(k){return k.style.display;});
+    kids.forEach(function(k){ k.style.display=(k===node?'block':'none'); });
+    pa.style.cssText=prevPa+';display:block;position:fixed;left:-10000px;top:0;width:794px;background:#fff;padding:32px;z-index:-1';
+    var restore=function(){ pa.setAttribute('style',prevPa); kids.forEach(function(k,i){ k.style.display=prevK[i]; }); };
+    window.html2canvas(node,{scale:2,backgroundColor:'#ffffff',useCORS:true,windowWidth:794}).then(function(canvas){
+      try{
+        var jsPDF=window.jspdf.jsPDF, pdf=new jsPDF('p','mm','a4');
+        var margin=8, iw=210-margin*2, pageH=297-margin*2;
+        var pxPerMm=canvas.width/iw, pageHpx=pageH*pxPerMm, sy=0;
+        var sc=document.createElement('canvas'), cx=sc.getContext('2d'), first=true;
+        while(sy<canvas.height-1){
+          var hpx=Math.min(pageHpx,canvas.height-sy);
+          sc.width=canvas.width; sc.height=hpx;
+          cx.fillStyle='#fff'; cx.fillRect(0,0,sc.width,sc.height);
+          cx.drawImage(canvas,0,sy,canvas.width,hpx,0,0,canvas.width,hpx);
+          if(!first)pdf.addPage();
+          pdf.addImage(sc.toDataURL('image/jpeg',0.92),'JPEG',margin,margin,iw,hpx/pxPerMm);
+          first=false; sy+=hpx;
+        }
+        pdf.save(fname+'.pdf');
+      }catch(e){} restore();
+    }).catch(function(){ restore(); try{ document.body.setAttribute('data-print', id==='printOverview'?'overview':'register'); window.print(); }catch(e){} });
+  }
   chipStyle(sel){ const C=this.C; return Object.assign({display:'inline-flex',alignItems:'center',gap:'6px',padding:'9px 14px',borderRadius:'999px',fontSize:'13.5px',fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}, sel?{background:C.navy,color:'#fff',border:'1px solid '+C.navy}:{background:'#fff',color:C.ink,border:'1px solid '+C.line}); }
   tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'4px 2px',color:active?C.navy:C.soft}; }
   segStyle(active){ const C=this.C; return {flex:1,border:'none',borderRadius:'9px',padding:'9px 6px',fontSize:'13px',fontWeight:600,cursor:'pointer',background:active?C.navy:'transparent',color:active?'#fff':C.muted,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}; }
@@ -825,7 +934,8 @@ class Component extends DCLogic {
     const curMon=this.getMonday(new Date()); const curDates=[]; for(let i=0;i<7;i++)curDates.push(this.toISO(this.addDays(curMon,i)));
     const weekTotal=mine.filter(e=>curDates.indexOf(e.date)>=0).reduce((a,e)=>a+e.hours,0);
     const projectList=s.projects.map(p=>{const es=s.entries.filter(e=>e.projectId===p.id);const tot=es.reduce((a,e)=>a+e.hours,0); const num=(p.number&&p.number!=='—')?p.number:''; const meta=(p.location?p.location+' · ':'')+es.length+' boeking'+(es.length===1?'':'en'); return {name:p.name,number:num,hasNumber:!!num,meta,totalLabel:this.fmt(tot),onTap:()=>{ if(Date.now()-(this._swipeTs||0)<350)return; this.openAddWith(p.id); },onSwipe:(ev)=>this.swipe(ev,()=>this.deleteProjectById(p.id))};});
-    const scoped=s.scope==='team'?s.entries:mine;
+    const scoped0=s.scope==='team'?s.entries:mine;
+    const scoped=(s.scope==='team'&&s.ovProjectId)?scoped0.filter(e=>e.projectId===s.ovProjectId):scoped0;
     const grandTotal=scoped.reduce((a,e)=>a+e.hours,0);
     const obyDate={}; scoped.forEach(e=>{obyDate[e.date]=(obyDate[e.date]||0)+e.hours;});
     const dagRows=Object.keys(obyDate).sort().reverse().map(d=>({label:this.dayLabel(d),totalLabel:this.fmt(obyDate[d])}));
@@ -833,6 +943,9 @@ class Component extends DCLogic {
     const weekRows=Object.keys(obyWeek).sort().reverse().map(m=>{const mon=this.parseISO(m);return {weekLabel:'Week '+this.isoWeek(mon),range:this.rangeLabel(mon),totalLabel:this.fmt(obyWeek[m])};});
     const obyProj={}; scoped.forEach(e=>{obyProj[e.projectId]=(obyProj[e.projectId]||0)+e.hours;});
     const projRows=Object.keys(obyProj).map(pid=>{const p=this.proj(pid)||{};return {name:this.projName(pid),badge:this.projBadge(p),totalLabel:this.fmt(obyProj[pid]),_v:obyProj[pid]};}).sort((a,b)=>b._v-a._v);
+    const ovSel=this.proj(s.ovProjectId);
+    const oq=s.ovProjQuery.trim().toLowerCase();
+    const ovProjMatches=s.projects.filter(p=>!oq||p.name.toLowerCase().indexOf(oq)>=0||(p.number||'').toLowerCase().indexOf(oq)>=0).slice(0,6).map(p=>({name:p.name,badge:this.projBadge(p),onTap:()=>this.selectOvProject(p.id)}));
     const regWeeksRaw=this.regData();
     const regWeeks=regWeeksRaw.map(wk=>({weekLabel:wk.weekLabel,range:wk.range,totalLabel:this.fmt2(wk.weekTotal),rows:wk.rows.filter(r=>r.total>0).map(r=>({name:r.name,kvk:r.kvk,totalLabel:this.fmt2(r.total),cells:r.cells.map((c,i)=>({label:this.DCOLS[i],val:this.fmt2(c)}))}))}));
     const hasRegRows=regWeeks.some(w=>w.rows.length>0);
@@ -861,7 +974,7 @@ class Component extends DCLogic {
       tabUren:()=>this.setTab('uren'), tabProj:()=>this.setTab('projecten'), tabOver:()=>this.setTab('overzicht'), tabWeek:()=>this.setTab('weekstaat'),
       tabUrenStyle:this.tabStyle(s.tab==='uren'), tabProjStyle:this.tabStyle(s.tab==='projecten'), tabOverStyle:this.tabStyle(s.tab==='overzicht'), tabWeekStyle:this.tabStyle(s.tab==='weekstaat'),
       todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),
-      openAdd:()=>this.openAdd(), showFab:(s.tab==='uren'&&!!activeP), dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
+      openAdd:()=>this.openAdd(), showFab:(s.tab==='uren'&&!!activeP), undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(), dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(), openImport:()=>this.openImport(),
       setMij:()=>this.setScope('mij'), setTeam:()=>this.setScope('team'),
       scopeMijStyle:this.segStyle(s.scope==='mij'), scopeTeamStyle:this.segStyle(s.scope==='team'),
@@ -869,8 +982,9 @@ class Component extends DCLogic {
       setDag:()=>this.setOmode('dag'), setWeek:()=>this.setOmode('week'), setProj:()=>this.setOmode('project'),
       omodeDagStyle:this.segStyle(s.omode==='dag'), omodeWeekStyle:this.segStyle(s.omode==='week'), omodeProjStyle:this.segStyle(s.omode==='project'),
       isDag:s.omode==='dag', isWeek:s.omode==='week', isProj:s.omode==='project', dagRows, weekRows, projRows, noOverview:scoped.length===0,
+      ovHasSel:!!ovSel, ovNoSel:!ovSel, ovSelName:ovSel?ovSel.name:'', ovSelBadge:ovSel?this.projBadge(ovSel):'', ovProjQuery:s.ovProjQuery, setOvProjQuery:e=>this.setState({ovProjQuery:ev(e)}), ovProjMatches, clearOvProject:()=>this.clearOvProject(), isTeam:s.scope==='team', isMij:s.scope!=='team', teamHasSel:(s.scope==='team'&&!!ovSel), ovSelNumber:(ovSel&&ovSel.number&&ovSel.number!=='—')?ovSel.number:'—', printProject:()=>this.printProject(),
       regProjChips, prevWeek:()=>this.prevWeek(), nextWeek:()=>this.nextWeek(), startWeekLabel:'Week '+this.isoWeek(startMon),
-      incWeeks:()=>this.incWeeks(), decWeeks:()=>this.decWeeks(), weeksLabel:s.weeks+(s.weeks===1?' week':' weken'),
+      incWeeks:()=>this.incWeeks(), decWeeks:()=>this.decWeeks(), weeksLabel:s.weeks+' wk',
       coName:co.name, coAddress:co.address, coCity:co.city, coKvk:co.kvk||'', hasCoKvk:!!(co.kvk&&(''+co.kvk).trim()),
       regProjName, regProjNumber:regProj.number||'—', regDateLabel:this.todayLong(),
       regWeeks, hasReg:hasRegRows, noReg:!hasRegRows,
@@ -891,7 +1005,7 @@ class Component extends DCLogic {
       pLocation:s.p_location, setPLocation:e=>this.setState({p_location:ev(e)}), pClient:s.p_client, setPClient:e=>this.setState({p_client:ev(e)}),
       saveProject:()=>this.saveProject(), saveProjectStyle:this.primStyle(!!s.p_name.trim()),
       importText:s.importText, setImportText:e=>this.setState({importText:ev(e)}), runImport:()=>this.runImport(), importStyle:this.primStyle(!!s.importText.trim()),
-      isSheetEditPerson:s.sheet==='editPerson', closeEditPerson:()=>this.setState({sheet:'settings'}), epFirst:s.ep_first, setEpFirst:e=>this.setState({ep_first:ev(e)}), epLast:s.ep_last, setEpLast:e=>this.setState({ep_last:ev(e)}), epKvk:s.ep_kvk, setEpKvk:e=>this.setState({ep_kvk:ev(e)}), saveEditPerson:()=>this.saveEditPerson(), saveEditPersonStyle:this.primStyle(!!s.ep_last.trim()), removeEditPerson:()=>this.removeEditPerson(),
+      isSheetEditPerson:s.sheet==='editPerson', closeEditPerson:()=>this.setState({sheet:'settings'}), epFirst:s.ep_first, setEpFirst:e=>this.setState({ep_first:ev(e)}), epLast:s.ep_last, setEpLast:e=>this.setState({ep_last:ev(e)}), epKvk:s.ep_kvk, setEpKvk:e=>this.setState({ep_kvk:ev(e)}), saveEditPerson:()=>this.saveEditPerson(), saveEditPersonStyle:this.primStyle(!!s.ep_last.trim()), removeEditPerson:()=>this.removeEditPerson(), epIsMain:s.editPersonId===s.mainPersonId, epNotMain:s.editPersonId!==s.mainPersonId, setMainEdit:()=>this.setMainEdit(),
       peopleList, newFirst:s.newFirst, setNewFirst:e=>this.setState({newFirst:ev(e)}), newLast:s.newLast, setNewLast:e=>this.setState({newLast:ev(e)}),
       newKvk:s.newKvk, setNewKvk:e=>this.setState({newKvk:ev(e)}), addPerson:()=>this.addPerson(),
       activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),

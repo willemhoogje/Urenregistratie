@@ -1,5 +1,5 @@
 /* ABECO Uren — service worker (relatieve paden, werkt in een submap op GitHub Pages) */
-const CACHE = 'abeco-uren-v10';
+const CACHE = 'abeco-uren-v17';
 const CORE = [
   './',
   './index.html',
@@ -8,7 +8,9 @@ const CORE = [
   './assets/abeco-logo.png',
   './icons/icon-192.png',
   './icons/icon-512.png',
-  './icons/apple-touch-icon-180.png'
+  './icons/apple-touch-icon-180.png',
+  'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
 ];
 
 self.addEventListener('install', (e) => {

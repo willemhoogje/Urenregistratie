@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Uren — ABECO Projecten</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Urenregistratie ABECO Projecten">
+<meta name="theme-color" content="#012F6D">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Uren">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<script src="./support.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
+  });
+}
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#5a6068;font-family:'Poppins',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .noscroll::-webkit-scrollbar{display:none}
+  .noscroll{scrollbar-width:none}
+  input,textarea,button{font-family:inherit}
+  textarea{resize:none}
+  @keyframes sheetUp{from{transform:translateY(101%)}to{transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  #printArea{display:none}
+  @media print{
+    body{background:#fff!important;padding:0!important}
+    body *{visibility:hidden}
+    #printArea,#printArea *{visibility:visible}
+    #printArea{display:block!important;position:absolute;left:0;top:0;width:100%}
+  }
+</style>
+</helmet>
+<div style="--navy:#1c2a3a;--blue:#1a365d;--ink:#16202b;--muted:#6c7280;--soft:#9aa0a8;--line:#e4e6e9;--chip:#f0f1f3;--mist:#f6f7f8;--paper:#ffffff;--green:#5BC48A;--disp:'Space Grotesk',system-ui,sans-serif;--body:'Poppins',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:36px 16px;font-family:var(--body)">
+
+  <div style="width:390px;height:844px;border-radius:46px;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.34),0 0 0 11px #0c0f14,0 0 0 12px #2a2f37;display:flex;flex-direction:column">
+
+    <!-- STATUS BAR -->
+    <div style="position:relative;height:50px;flex:none;background:var(--paper);z-index:6">
+      <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:116px;height:32px;border-radius:18px;background:#05070a"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 26px 0">
+        <span style="font-size:15px;font-weight:600;color:var(--ink);font-family:var(--disp);letter-spacing:.02em">9:41</span>
+        <span style="display:flex;gap:7px;align-items:center">
+          <svg width="18" height="11" viewBox="0 0 18 11"><rect x="0" y="6.5" width="3" height="4.5" rx=".7" fill="#16202b"/><rect x="4.6" y="4" width="3" height="7" rx=".7" fill="#16202b"/><rect x="9.2" y="1.8" width="3" height="9.2" rx=".7" fill="#16202b"/><rect x="13.8" y="0" width="3" height="11" rx=".7" fill="#16202b"/></svg>
+          <svg width="16" height="11" viewBox="0 0 16 11"><path d="M8 2.6c2 0 3.9.8 5.3 2.1l1-1A9 9 0 0 0 8 1a9 9 0 0 0-6.3 2.7l1 1A7.4 7.4 0 0 1 8 2.6Z" fill="#16202b"/><path d="M8 5.8c1.1 0 2.2.5 3 1.3l1-1A6 6 0 0 0 8 4.3a6 6 0 0 0-4 1.8l1 1A4.6 4.6 0 0 1 8 5.8Z" fill="#16202b"/><circle cx="8" cy="9.4" r="1.4" fill="#16202b"/></svg>
+          <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.2" stroke="#16202b" stroke-opacity=".35" fill="none"/><rect x="2" y="2" width="18" height="8" rx="1.8" fill="#16202b"/><path d="M24 4v4c.8-.3 1.4-1.1 1.4-2S24.8 4.3 24 4Z" fill="#16202b" fill-opacity=".4"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- BRAND HEADER -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 18px 11px;background:var(--paper);border-bottom:1px solid var(--line);flex:none;z-index:5">
+      <img src="assets/abeco-logo.png" alt="ABECO" style="height:20px;width:auto;display:block"/>
+      <div style="display:flex;align-items:center;gap:9px">
+        <button onClick="{{ openSettings }}" style="display:flex;align-items:center;gap:8px;background:var(--mist);border:1px solid var(--line);border-radius:999px;padding:3px 11px 3px 3px;cursor:pointer;max-width:165px">
+          <span style="width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;font-family:var(--disp);flex:none">{{ activeInitials }}</span>
+          <span style="font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ activeName }}</span>
+        </button>
+        <button onClick="{{ openSettings }}" style="width:34px;height:34px;border-radius:50%;background:var(--mist);border:1px solid var(--line);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- SCROLL CONTENT -->
+    <div class="noscroll" style="flex:1;overflow-y:auto;background:var(--mist)">
+
+      <!-- ===== UREN ===== -->
+      <sc-if value="{{ isUren }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:20px 18px 0">
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>{{ todayLong }}</div>
+          <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">{{ urenTitle }}</h1>
+
+          <sc-if value="{{ noPerson }}" hint-placeholder-val="{{ false }}">
+            <div style="background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:28px 22px;margin-top:18px;text-align:center">
+              <div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:18px">Nog geen ZZP'ers toegevoegd.<br/>Voeg je eerste ZZP'er toe om uren te boeken.</div>
+              <button onClick="{{ openSettings }}" style="background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px 22px;font-size:14.5px;font-weight:600;cursor:pointer">ZZP'er toevoegen</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ hasPerson }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px">
+            <div style="background:var(--navy);border-radius:18px;padding:15px 16px;color:#fff">
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)"><span style="width:6px;height:6px;background:#fff;border-radius:1.5px"></span>Deze week</div>
+              <div style="font-family:var(--disp);font-size:32px;font-weight:600;line-height:1;margin-top:10px">{{ weekTotal }}<span style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-left:4px">uur</span></div>
+            </div>
+            <div style="background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:15px 16px">
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Vandaag</div>
+              <div style="font-family:var(--disp);font-size:32px;font-weight:600;line-height:1;margin-top:10px;color:var(--ink)">{{ todayTotal }}<span style="font-size:14px;font-weight:500;color:var(--muted);margin-left:4px">uur</span></div>
+            </div>
+          </div>
+
+          <button onClick="{{ openAdd }}" style="width:100%;margin-top:14px;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Uren toevoegen
+          </button>
+
+          <sc-if value="{{ hasEntries }}" hint-placeholder-val="{{ true }}">
+            <sc-for list="{{ dayGroups }}" as="g" hint-placeholder-count="2">
+              <div style="margin-top:24px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>{{ g.label }}</div>
+                  <span style="font-family:var(--disp);font-size:13px;font-weight:600;color:var(--ink)">{{ g.totalLabel }} uur</span>
+                </div>
+                <div style="background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden">
+                  <sc-for list="{{ g.entries }}" as="e" hint-placeholder-count="2">
+                    <div style="position:relative;border-top:1px solid var(--line);overflow:hidden">
+                      <div style="position:absolute;inset:0;background:#b4413c;display:flex;align-items:center;justify-content:flex-end;padding-right:18px;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg><span style="color:#fff;font-size:13px;font-weight:600">Verwijder</span></div>
+                      <button onClick="{{ e.onTap }}" onPointerDown="{{ e.onSwipe }}" style="position:relative;width:100%;display:flex;align-items:center;gap:12px;padding:13px 15px;background:var(--paper);border:none;cursor:pointer;text-align:left;touch-action:pan-y">
+                        <span style="width:9px;height:9px;border-radius:2px;background:var(--navy);flex:none"></span>
+                        <span style="flex:1;min-width:0">
+                          <span style="display:block;font-size:14.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.projectName }}</span>
+                          <span style="display:block;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.sub }}</span>
+                        </span>
+                        <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink);flex:none">{{ e.hoursLabel }}<span style="font-size:11px;color:var(--soft);font-weight:500"> u</span></span>
+                      </button>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </sc-if>
+          <sc-if value="{{ noEntries }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:46px 20px;color:var(--soft)">
+              <div style="font-size:14px;line-height:1.6">Nog geen uren geboekt.<br/>Tik op <b style="color:var(--navy)">Uren toevoegen</b>.</div>
+            </div>
+          </sc-if>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- ===== PROJECTEN ===== -->
+      <sc-if value="{{ isProjecten }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:20px 18px 0">
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Beheer</div>
+          <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Projecten</h1>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px">
+            <button onClick="{{ openNewProject }}" style="background:var(--navy);color:#fff;border:none;border-radius:13px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuw</button>
+            <button onClick="{{ openImport }}" style="background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:13px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Importeer</button>
+          </div>
+          <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:11px">
+              <sc-for list="{{ projectList }}" as="p" hint-placeholder-count="3">
+                <div style="position:relative;border-radius:16px;overflow:hidden">
+                <div style="position:absolute;inset:0;background:#b4413c;display:flex;align-items:center;justify-content:flex-end;padding-right:18px;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg><span style="color:#fff;font-size:13px;font-weight:600">Verwijder</span></div>
+                <button onClick="{{ p.onTap }}" onPointerDown="{{ p.onSwipe }}" style="position:relative;width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:15px 16px;cursor:pointer;display:flex;align-items:center;gap:13px;touch-action:pan-y">
+                  <span style="width:44px;height:44px;border-radius:11px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+                  <span style="flex:1;min-width:0">
+                    <span style="display:block;font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</span>
+                    <span style="display:flex;align-items:center;gap:7px;margin-top:4px;min-width:0">
+                      <sc-if value="{{ p.hasNumber }}" hint-placeholder-val="{{ false }}"><span style="font-family:var(--disp);font-size:11px;font-weight:600;color:var(--navy);background:var(--mist);border:1px solid var(--line);border-radius:6px;padding:2px 7px;white-space:nowrap;flex:none">{{ p.number }}</span></sc-if>
+                      <span style="font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.meta }}</span>
+                    </span>
+                  </span>
+                  <span style="text-align:right;flex:none">
+                    <span style="display:block;font-family:var(--disp);font-size:17px;font-weight:600;color:var(--ink)">{{ p.totalLabel }}</span>
+                    <span style="display:block;font-size:10px;color:var(--soft);font-weight:500;text-transform:uppercase;letter-spacing:.08em">uur</span>
+                  </span>
+                </button>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noProjects }}" hint-placeholder-val="{{ true }}">
+            <div style="text-align:center;padding:40px 20px;color:var(--soft);font-size:14px;line-height:1.6">Nog geen projecten.<br/>Voeg er een toe of <b style="color:var(--navy)">importeer</b> mapnamen uit je Drive.</div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- ===== OVERZICHT ===== -->
+      <sc-if value="{{ isOverzicht }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:20px 18px 0">
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Totalen</div>
+          <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Overzicht</h1>
+
+          <div style="display:flex;gap:6px;background:var(--chip);border:1px solid var(--line);border-radius:12px;padding:4px;margin-top:16px">
+            <button onClick="{{ setMij }}" style="{{ scopeMijStyle }}">{{ activeFirst }}</button>
+            <button onClick="{{ setTeam }}" style="{{ scopeTeamStyle }}">Alle ZZP'ers</button>
+          </div>
+
+          <div style="background:var(--navy);border-radius:18px;padding:17px 18px;color:#fff;margin-top:12px">
+            <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)">{{ scopeLabel }} · totaal</div>
+            <div style="font-family:var(--disp);font-size:38px;font-weight:600;line-height:1;margin-top:8px">{{ grandTotalLabel }}<span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.6);margin-left:5px">uur</span></div>
+          </div>
+
+          <div style="display:flex;gap:6px;margin-top:16px">
+            <button onClick="{{ setDag }}" style="{{ omodeDagStyle }}">Per dag</button>
+            <button onClick="{{ setWeek }}" style="{{ omodeWeekStyle }}">Per week</button>
+            <button onClick="{{ setProj }}" style="{{ omodeProjStyle }}">Per project</button>
+          </div>
+
+          <div style="margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden">
+            <sc-if value="{{ isDag }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ dagRows }}" as="r" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-top:1px solid var(--line)">
+                  <span style="font-size:14px;font-weight:500;color:var(--ink)">{{ r.label }}</span>
+                  <span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span>
+                </div>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ isWeek }}" hint-placeholder-val="{{ false }}">
+              <sc-for list="{{ weekRows }}" as="r" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-top:1px solid var(--line)">
+                  <span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600;color:var(--ink)">{{ r.weekLabel }}</span><span style="display:block;font-size:12px;color:var(--muted)">{{ r.range }}</span></span>
+                  <span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span>
+                </div>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ isProj }}" hint-placeholder-val="{{ false }}">
+              <sc-for list="{{ projRows }}" as="r" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-top:1px solid var(--line)">
+                  <span style="min-width:0;display:flex;align-items:center;gap:10px"><span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 6px;white-space:nowrap">{{ r.badge }}</span><span style="font-size:14px;font-weight:500;color:var(--ink)">{{ r.name }}</span></span>
+                  <span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span>
+                </div>
+              </sc-for>
+            </sc-if>
+          </div>
+          <sc-if value="{{ noOverview }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:34px 20px;color:var(--soft);font-size:14px">Nog geen geboekte uren.</div>
+          </sc-if>
+          <sc-if value="{{ hasOvExport }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ printOverview }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Urenoverzicht — PDF / print</button>
+            <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:9px 4px 0">Alle projecten van {{ activeFirst }} met werkzaamheden op één uitdraai.</p>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- ===== MANDAGENREGISTER ===== -->
+      <sc-if value="{{ isWeekstaat }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:20px 18px 0">
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Bij je factuur</div>
+          <h1 style="font-family:var(--disp);font-size:29px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Mandagenregister</h1>
+
+          <!-- Onderaannemer card (boven de urenstaat) -->
+          <div style="background:var(--navy);border-radius:16px;padding:15px 16px;margin-top:16px;color:#fff">
+            <div style="display:flex;align-items:center;gap:7px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:11px"><span style="width:6px;height:6px;background:#fff;border-radius:1.5px"></span>Onderaannemer</div>
+            <div style="font-family:var(--disp);font-size:16px;font-weight:600">{{ coName }}</div>
+            <div style="font-size:12.5px;color:rgba(255,255,255,.7);margin-top:2px">{{ coAddress }} · {{ coCity }}</div>
+          </div>
+
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Project</label>
+          <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ regProjChips }}" as="c" hint-placeholder-count="2">
+                <button onClick="{{ c.onTap }}" style="{{ c.style }}"><span style="font-family:var(--disp);font-size:10px;opacity:.7">{{ c.badge }}</span>{{ c.name }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noProjects }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:12.5px;color:var(--soft);line-height:1.5">Nog geen projecten — voeg er een toe via de tab <b style="color:var(--muted)">Projecten</b>.</div>
+          </sc-if>
+
+          <!-- Project info -->
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-top:12px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:12.5px">
+            <span style="color:var(--soft)">Projectnaam</span><span style="color:var(--ink);font-weight:500">{{ regProjName }}</span>
+            <span style="color:var(--soft)">Projectnummer</span><span style="color:var(--ink);font-weight:500;font-family:var(--disp)">{{ regProjNumber }}</span>
+            <span style="color:var(--soft)">Datum</span><span style="color:var(--ink);font-weight:500">{{ regDateLabel }}</span>
+          </div>
+
+          <div style="display:flex;gap:9px;margin-top:14px">
+            <div style="flex:1;display:flex;align-items:center;justify-content:space-between;background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:6px">
+              <button onClick="{{ prevWeek }}" style="width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5l-6 6 6 6"/></svg></button>
+              <div style="text-align:center"><div style="font-family:var(--disp);font-size:14px;font-weight:600;color:var(--ink)">{{ startWeekLabel }}</div><div style="font-size:10.5px;color:var(--muted)">vanaf</div></div>
+              <button onClick="{{ nextWeek }}" style="width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:6px;width:128px">
+              <button onClick="{{ decWeeks }}" style="width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--mist);cursor:pointer;font-size:18px;color:var(--navy);line-height:1">−</button>
+              <div style="text-align:center"><div style="font-family:var(--disp);font-size:14px;font-weight:600;color:var(--ink)">{{ weeksLabel }}</div></div>
+              <button onClick="{{ incWeeks }}" style="width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--mist);cursor:pointer;font-size:18px;color:var(--navy);line-height:1">+</button>
+            </div>
+          </div>
+
+          <sc-if value="{{ hasReg }}" hint-placeholder-val="{{ true }}">
+            <sc-for list="{{ regWeeks }}" as="wk" hint-placeholder-count="1">
+              <div style="margin-top:20px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>{{ wk.weekLabel }} · {{ wk.range }}</div>
+                  <span style="font-family:var(--disp);font-size:13px;font-weight:600;color:var(--ink)">{{ wk.totalLabel }} u</span>
+                </div>
+                <div style="background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden">
+                  <sc-for list="{{ wk.rows }}" as="r" hint-placeholder-count="2">
+                    <div style="padding:13px 15px;border-top:1px solid var(--line)">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+                        <span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">KvK {{ r.kvk }}</span></span>
+                        <span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink);flex:none">{{ r.totalLabel }} u</span>
+                      </div>
+                      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:10px">
+                        <sc-for list="{{ r.cells }}" as="d" hint-placeholder-count="5">
+                          <div style="text-align:center;background:var(--mist);border:1px solid var(--line);border-radius:8px;padding:5px 2px">
+                            <div style="font-size:8.5px;color:var(--soft);text-transform:uppercase;letter-spacing:.04em">{{ d.label }}</div>
+                            <div style="font-family:var(--disp);font-size:12px;font-weight:600;color:var(--ink);margin-top:1px">{{ d.val }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </sc-if>
+          <sc-if value="{{ noReg }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:32px 20px;color:var(--soft);font-size:14px;line-height:1.6">Geen uren op dit project<br/>in de gekozen periode.</div>
+          </sc-if>
+
+          <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <button onClick="{{ downloadCSV }}" style="background:var(--paper);border:1px solid var(--line);color:var(--ink);border-radius:13px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>CSV</button>
+            <button onClick="{{ printStaat }}" style="background:var(--paper);border:1px solid var(--line);color:var(--ink);border-radius:13px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>PDF / print</button>
+            <button onClick="{{ shareStaat }}" style="grid-column:1 / -1;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Mandagenregister delen</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="height:104px"></div>
+    </div>
+
+    <!-- TAB BAR -->
+    <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:9px 6px 24px;z-index:25">
+      <button onClick="{{ tabUren }}" style="{{ tabUrenStyle }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span style="font-size:10px;font-weight:600;margin-top:3px">Uren</span>
+      </button>
+      <button onClick="{{ tabProj }}" style="{{ tabProjStyle }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span style="font-size:10px;font-weight:600;margin-top:3px">Projecten</span>
+      </button>
+      <button onClick="{{ tabOver }}" style="{{ tabOverStyle }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
+        <span style="font-size:10px;font-weight:600;margin-top:3px">Overzicht</span>
+      </button>
+      <button onClick="{{ tabWeek }}" style="{{ tabWeekStyle }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        <span style="font-size:10px;font-weight:600;margin-top:3px">Register</span>
+      </button>
+    </div>
+    <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
+
+    <!-- ===== SHEET: ADD ENTRY ===== -->
+    <sc-if value="{{ isSheetAdd }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:60;background:rgba(8,12,20,.42);animation:fadeIn .18s ease" onClick="{{ closeSheet }}"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;z-index:61;max-height:90%;overflow-y:auto;background:var(--paper);border-radius:24px 24px 0 0;animation:sheetUp .26s cubic-bezier(.2,.8,.2,1)" class="noscroll">
+        <div style="position:sticky;top:0;background:var(--paper);padding:11px 0 0;z-index:2">
+          <div style="width:38px;height:5px;border-radius:99px;background:#d4d8de;margin:0 auto"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px 12px;border-bottom:1px solid var(--line)">
+            <button onClick="{{ closeSheet }}" style="background:none;border:none;color:var(--muted);font-size:14.5px;cursor:pointer;font-weight:500">Annuleer</button>
+            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">{{ entryTitle }}</span>
+            <button onClick="{{ saveEntry }}" style="{{ saveEntryStyle }}">Opslaan</button>
+          </div>
+        </div>
+        <div style="padding:18px 18px 30px">
+          <div style="display:flex;align-items:center;gap:8px;background:var(--mist);border:1px solid var(--line);border-radius:11px;padding:9px 11px;margin-bottom:18px">
+            <span style="width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;font-family:var(--disp)">{{ activeInitials }}</span>
+            <span style="font-size:13px;color:var(--muted)">Uren voor <b style="color:var(--ink)">{{ activeName }}</b></span>
+          </div>
+
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Datum</label>
+          <input type="date" value="{{ fDate }}" onChange="{{ setFDate }}" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist);font-family:var(--body)"/>
+
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Project</label>
+          <sc-if value="{{ hasSelectedProject }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:12px;background:var(--navy);border-radius:12px;padding:13px 15px">
+              <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:rgba(255,255,255,.16);border-radius:6px;padding:4px 7px;white-space:nowrap">{{ selProjNumber }}</span>
+              <span style="flex:1;min-width:0;font-size:14.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ selProjName }}</span>
+              <button onClick="{{ clearProject }}" style="background:rgba(255,255,255,.16);border:none;color:#fff;font-size:12px;font-weight:600;border-radius:8px;padding:7px 11px;cursor:pointer">Wijzig</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noSelectedProject }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ setGeneral }}" style="width:100%;margin-bottom:9px;display:flex;align-items:center;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:11px 13px;cursor:pointer;text-align:left">
+              <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;flex:none">ALG</span>
+              <span style="font-size:14px;font-weight:500;color:var(--ink)">Algemeen — niet projectgebonden</span>
+            </button>
+            <div style="position:relative">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" style="position:absolute;left:13px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+              <input value="{{ fProjQuery }}" onChange="{{ setFProjQuery }}" placeholder="Zoek project op naam of nummer…" style="width:100%;padding:13px 14px 13px 38px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist)"/>
+            </div>
+            <div style="margin-top:9px;display:flex;flex-direction:column;gap:7px">
+              <sc-for list="{{ projectMatches }}" as="m" hint-placeholder-count="3">
+                <button onClick="{{ m.onTap }}" style="width:100%;text-align:left;display:flex;align-items:center;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 13px;cursor:pointer">
+                  <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;white-space:nowrap;flex:none">{{ m.badge }}</span>
+                  <span style="font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span>
+                </button>
+              </sc-for>
+              <sc-if value="{{ noMatches }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:var(--soft);padding:4px 2px">Geen project gevonden.</div></sc-if>
+              <button onClick="{{ openNewProjectFromEntry }}" style="display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:9px 13px;border-radius:999px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer;margin-top:2px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuw project</button>
+            </div>
+          </sc-if>
+
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Werkzaamheid</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ activityChips }}" as="a" hint-placeholder-count="4">
+              <button onClick="{{ a.onTap }}" style="{{ a.style }}">{{ a.name }}</button>
+            </sc-for>
+            <button onClick="{{ toggleNewAct }}" style="display:inline-flex;align-items:center;gap:5px;padding:9px 13px;border-radius:999px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuw</button>
+          </div>
+          <sc-if value="{{ showNewAct }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <input value="{{ newActInline }}" onChange="{{ setNewActInline }}" placeholder="Bijv. Inmeten" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+              <button onClick="{{ addActInline }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 18px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
+            </div>
+          </sc-if>
+
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Aantal uren</label>
+          <div style="display:flex;align-items:center;gap:10px">
+            <input value="{{ fHours }}" onChange="{{ setFHours }}" inputmode="decimal" placeholder="0" style="width:104px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:22px;font-weight:600;font-family:var(--disp);color:var(--ink);background:var(--mist);text-align:center"/>
+            <div style="display:flex;gap:6px">
+              <sc-for list="{{ hourChips }}" as="h" hint-placeholder-count="3">
+                <button onClick="{{ h.onTap }}" style="padding:11px 15px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--disp)">{{ h.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Notitie / omschrijving</label>
+          <textarea value="{{ fNote }}" onChange="{{ setFNote }}" rows="3" placeholder="Optioneel — wat heb je gedaan?" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist);line-height:1.5"></textarea>
+
+          <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ deleteEntry }}" style="width:100%;margin-top:18px;background:none;border:1px solid #e7c9c9;color:#b4413c;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer">Verwijder deze boeking</button>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== SHEET: ADD PROJECT ===== -->
+    <sc-if value="{{ isSheetProject }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:62;background:rgba(8,12,20,.42);animation:fadeIn .18s ease" onClick="{{ closeSheet }}"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;z-index:63;max-height:90%;overflow-y:auto;background:var(--paper);border-radius:24px 24px 0 0;animation:sheetUp .26s cubic-bezier(.2,.8,.2,1)" class="noscroll">
+        <div style="position:sticky;top:0;background:var(--paper);padding:11px 0 0;z-index:2">
+          <div style="width:38px;height:5px;border-radius:99px;background:#d4d8de;margin:0 auto"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)">
+            <button onClick="{{ closeSheet }}" style="background:none;border:none;color:var(--muted);font-size:14.5px;cursor:pointer;font-weight:500">Annuleer</button>
+            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">Nieuw project</span>
+            <button onClick="{{ saveProject }}" style="{{ saveProjectStyle }}">Opslaan</button>
+          </div>
+        </div>
+        <div style="padding:18px 18px 34px">
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Projectnaam</label>
+          <input value="{{ pName }}" onChange="{{ setPName }}" placeholder="Projectnaam" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Projectnummer</label>
+          <div style="display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--mist);overflow:hidden">
+            <span style="padding:13px 2px 13px 14px;font-size:15px;font-weight:600;color:var(--ink);font-family:var(--disp)">A</span>
+            <input value="{{ pNumberDigits }}" onChange="{{ setPNumberDigits }}" inputmode="numeric" placeholder="1234" style="flex:1;padding:13px 14px 13px 0;border:none;background:transparent;font-size:15px;color:var(--ink);font-family:var(--disp);outline:none"/>
+          </div>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Locatie / plaats <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
+          <input value="{{ pLocation }}" onChange="{{ setPLocation }}" placeholder="Locatie / plaats" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Opdrachtgever <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
+          <input value="{{ pClient }}" onChange="{{ setPClient }}" placeholder="Opdrachtgever" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== SHEET: IMPORT ===== -->
+    <sc-if value="{{ isSheetImport }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:62;background:rgba(8,12,20,.42);animation:fadeIn .18s ease" onClick="{{ closeSheet }}"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;z-index:63;max-height:90%;overflow-y:auto;background:var(--paper);border-radius:24px 24px 0 0;animation:sheetUp .26s cubic-bezier(.2,.8,.2,1)" class="noscroll">
+        <div style="position:sticky;top:0;background:var(--paper);padding:11px 0 0;z-index:2">
+          <div style="width:38px;height:5px;border-radius:99px;background:#d4d8de;margin:0 auto"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)">
+            <button onClick="{{ closeSheet }}" style="background:none;border:none;color:var(--muted);font-size:14.5px;cursor:pointer;font-weight:500">Annuleer</button>
+            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">Projecten importeren</span>
+            <button onClick="{{ runImport }}" style="{{ importStyle }}">Importeer</button>
+          </div>
+        </div>
+        <div style="padding:18px 18px 34px">
+          <div style="background:var(--mist);border:1px solid var(--line);border-radius:13px;padding:13px 14px;display:flex;gap:11px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="1.8" style="flex:none;margin-top:1px"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <div style="font-size:12.5px;color:var(--muted);line-height:1.55">Plak hieronder de <b style="color:var(--ink)">mapnamen</b> uit je Google Drive — één per regel. Begint een naam met een nummer (bijv. <span style="font-family:var(--disp);color:var(--ink)">2932 Waterrijk Oesterdam</span>), dan wordt dat automatisch het projectnummer.</div>
+          </div>
+          <textarea value="{{ importText }}" onChange="{{ setImportText }}" rows="8" placeholder="2932 Waterrijk Oesterdam&#10;6615 Schaftwagen&#10;PR25240010 Kindcentrum De Vliertuin" style="width:100%;margin-top:14px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:14px;color:var(--ink);background:var(--mist);line-height:1.6;font-family:var(--disp)"></textarea>
+          <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:12px 2px 0">Bestaande projecten worden overgeslagen. Locatie vul je daarna per project aan.</p>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== SHEET: SETTINGS ===== -->
+    <sc-if value="{{ isSheetSettings }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:64;background:rgba(8,12,20,.42);animation:fadeIn .18s ease" onClick="{{ closeSheet }}"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;z-index:65;max-height:90%;overflow-y:auto;background:var(--paper);border-radius:24px 24px 0 0;animation:sheetUp .26s cubic-bezier(.2,.8,.2,1)" class="noscroll">
+        <div style="position:sticky;top:0;background:var(--paper);padding:11px 0 0;z-index:2">
+          <div style="width:38px;height:5px;border-radius:99px;background:#d4d8de;margin:0 auto"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)">
+            <span style="width:60px"></span>
+            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">Instellingen</span>
+            <button onClick="{{ closeSheet }}" style="background:none;border:none;color:var(--navy);font-size:14.5px;cursor:pointer;font-weight:600;width:60px;text-align:right">Klaar</button>
+          </div>
+        </div>
+        <div style="padding:18px 18px 34px">
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>ZZP'ers · wie boekt uren</div>
+          <sc-if value="{{ hasPerson }}" hint-placeholder-val="{{ false }}">
+            <div style="background:var(--mist);border:1px solid var(--line);border-radius:14px;overflow:hidden">
+              <sc-for list="{{ peopleList }}" as="m" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-top:1px solid var(--line)">
+                  <button onClick="{{ m.onSelect }}" style="flex:1;display:flex;align-items:center;gap:11px;background:none;border:none;cursor:pointer;text-align:left;min-width:0">
+                    <span style="width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:var(--disp);flex:none">{{ m.initials }}</span>
+                    <span style="min-width:0"><span style="display:flex;align-items:center;gap:7px"><span style="font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span><sc-if value="{{ m.active }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;font-weight:600;color:#fff;background:var(--green);border-radius:99px;padding:3px 7px;letter-spacing:.05em;flex:none">ACTIEF</span></sc-if></span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">KvK {{ m.kvk }}</span></span>
+                  </button>
+                  <button onClick="{{ m.onEdit }}" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--muted);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6c7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+                  <button onClick="{{ m.onRemove }}" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--soft);cursor:pointer;flex:none;font-size:16px;line-height:1">×</button>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <div style="background:var(--mist);border:1px solid var(--line);border-radius:13px;padding:13px;margin-top:11px">
+            <div style="font-size:11px;font-weight:600;color:var(--ink);margin-bottom:9px">Nieuwe ZZP'er toevoegen</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <input value="{{ newFirst }}" onChange="{{ setNewFirst }}" placeholder="Voornaam" style="padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:var(--paper);color:var(--ink)"/>
+              <input value="{{ newLast }}" onChange="{{ setNewLast }}" placeholder="Achternaam" style="padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:var(--paper);color:var(--ink)"/>
+            </div>
+            <input value="{{ newKvk }}" onChange="{{ setNewKvk }}" inputmode="numeric" placeholder="KvK-nummer" style="width:100%;margin-top:8px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:var(--paper);color:var(--ink);font-family:var(--disp)"/>
+            <button onClick="{{ addPerson }}" style="width:100%;margin-top:9px;background:var(--navy);color:#fff;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:600;cursor:pointer">ZZP'er toevoegen</button>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Werkzaamheden</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ activitiesList }}" as="a" hint-placeholder-count="4">
+              <span style="display:inline-flex;align-items:center;gap:7px;padding:8px 9px 8px 13px;border-radius:999px;background:var(--mist);border:1px solid var(--line);font-size:13.5px;font-weight:500;color:var(--ink)">{{ a.name }}<button onClick="{{ a.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:11px">
+            <input value="{{ newActName }}" onChange="{{ setNewAct }}" placeholder="Nieuwe werkzaamheid" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+            <button onClick="{{ addActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Onderaannemer (vast op register)</div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <input value="{{ coName }}" onChange="{{ setCoName }}" placeholder="Bedrijfsnaam" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+            <input value="{{ coAddress }}" onChange="{{ setCoAddress }}" placeholder="Adres" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+            <input value="{{ coCity }}" onChange="{{ setCoCity }}" placeholder="Postcode + plaats" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+          </div>
+
+          <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== SHEET: EDIT PERSON ===== -->
+    <sc-if value="{{ isSheetEditPerson }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:66;background:rgba(8,12,20,.42);animation:fadeIn .18s ease" onClick="{{ closeEditPerson }}"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;z-index:67;background:var(--paper);border-radius:24px 24px 0 0;animation:sheetUp .26s cubic-bezier(.2,.8,.2,1)">
+        <div style="padding:11px 0 0">
+          <div style="width:38px;height:5px;border-radius:99px;background:#d4d8de;margin:0 auto"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)">
+            <button onClick="{{ closeEditPerson }}" style="background:none;border:none;color:var(--muted);font-size:14.5px;cursor:pointer;font-weight:500">Terug</button>
+            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">ZZP'er bewerken</span>
+            <button onClick="{{ saveEditPerson }}" style="{{ saveEditPersonStyle }}">Opslaan</button>
+          </div>
+        </div>
+        <div style="padding:18px 18px 32px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div>
+              <label style="display:block;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Voornaam</label>
+              <input value="{{ epFirst }}" onChange="{{ setEpFirst }}" placeholder="Voornaam" style="width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:15px;background:var(--mist);color:var(--ink)"/>
+            </div>
+            <div>
+              <label style="display:block;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Achternaam</label>
+              <input value="{{ epLast }}" onChange="{{ setEpLast }}" placeholder="Achternaam" style="width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:15px;background:var(--mist);color:var(--ink)"/>
+            </div>
+          </div>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>KvK-nummer</label>
+          <input value="{{ epKvk }}" onChange="{{ setEpKvk }}" inputmode="numeric" placeholder="Bijv. 71239723" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist);font-family:var(--disp)"/>
+          <button onClick="{{ removeEditPerson }}" style="width:100%;margin-top:18px;background:none;border:1px solid #e7c9c9;color:#b4413c;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer">ZZP'er verwijderen</button>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <!-- PRINT AREA -->
+  <div id="printArea" style="font-family:var(--body);color:var(--ink);padding:16mm 14mm">
+    <sc-if value="{{ isPrintRegister }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
+      <img src="assets/abeco-logo.png" style="height:14mm"/>
+      <div style="text-align:right"><div style="font-family:var(--disp);font-size:17pt;font-weight:700;letter-spacing:.04em">MANDAGENREGISTER</div></div>
+    </div>
+
+    <div style="margin-top:14px;border:1px solid var(--line);border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:1fr 1fr;gap:5px 24px;font-size:9pt">
+      <div style="grid-column:1 / -1;font-family:var(--disp);font-weight:600;font-size:9.5pt;margin-bottom:3px;color:var(--navy)">Onderaannemer</div>
+      <div><span style="color:var(--muted);display:inline-block;width:22mm">Naam</span><b>{{ coName }}</b></div>
+      <div><span style="color:var(--muted);display:inline-block;width:30mm">Datum</span>{{ regDateLabel }}</div>
+      <div><span style="color:var(--muted);display:inline-block;width:22mm">Adres</span>{{ coAddress }}</div>
+      <div><span style="color:var(--muted);display:inline-block;width:30mm">Projectnaam</span>{{ regProjName }}</div>
+      <div><span style="color:var(--muted);display:inline-block;width:22mm">Plaats</span>{{ coCity }}</div>
+      <div><span style="color:var(--muted);display:inline-block;width:30mm">Projectnummer</span><span style="font-family:var(--disp)">{{ regProjNumber }}</span></div>
+    </div>
+
+    <sc-for list="{{ printWeeks }}" as="wk" hint-placeholder-count="1">
+      <div style="margin-top:13px">
+        <div style="font-family:var(--disp);font-size:10.5pt;font-weight:600;margin-bottom:3px">{{ wk.weekLabel }} <span style="color:var(--muted);font-weight:400;font-family:var(--body)">· {{ wk.range }}</span></div>
+        <table style="width:100%;border-collapse:collapse;font-size:8.5pt">
+          <thead>
+            <tr style="background:var(--navy);color:#fff">
+              <th style="text-align:left;padding:5px 7px;width:8mm">#</th>
+              <th style="text-align:left;padding:5px 7px">KvK-nummer</th>
+              <th style="text-align:left;padding:5px 7px">Naam en voorletters</th>
+              <sc-for list="{{ printDays }}" as="h" hint-placeholder-count="5"><th style="padding:5px 5px;text-align:center;font-weight:500;width:11mm">{{ h }}</th></sc-for>
+              <th style="padding:5px 7px;text-align:right;width:14mm">Tot.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ wk.rows }}" as="r" hint-placeholder-count="3">
+              <tr style="border-bottom:1px solid var(--line)">
+                <td style="padding:5px 7px;color:var(--muted)">{{ r.nr }}</td>
+                <td style="padding:5px 7px;font-family:var(--disp)">{{ r.kvk }}</td>
+                <td style="padding:5px 7px">{{ r.name }}</td>
+                <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5"><td style="padding:5px 5px;text-align:center;font-family:var(--disp)">{{ c }}</td></sc-for>
+                <td style="padding:5px 7px;text-align:right;font-family:var(--disp);font-weight:600">{{ r.total }}</td>
+              </tr>
+            </sc-for>
+            <tr style="border-top:1.5px solid var(--navy)"><td colspan="3" style="padding:6px 7px;font-weight:600">Totaal {{ wk.weekLabel }}</td><sc-for list="{{ printDays }}" as="h" hint-placeholder-count="5"><td></td></sc-for><td style="padding:6px 7px;text-align:right;font-family:var(--disp);font-weight:700">{{ wk.weekTotal }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </sc-for>
+    </sc-if>
+
+    <sc-if value="{{ isPrintOverview }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px">
+        <img src="assets/abeco-logo.png" style="height:14mm"/>
+        <div style="text-align:right"><div style="font-family:var(--disp);font-size:17pt;font-weight:700;letter-spacing:.04em">URENOVERZICHT</div></div>
+      </div>
+      <div style="margin-top:14px;border:1px solid var(--line);border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:1fr 1fr;gap:5px 24px;font-size:9pt">
+        <div style="grid-column:1 / -1;font-family:var(--disp);font-weight:600;font-size:9.5pt;margin-bottom:3px;color:var(--navy)">Medewerker</div>
+        <div><span style="color:var(--muted);display:inline-block;width:33mm">Naam</span><b>{{ printOvWho }}</b></div>
+        <div><span style="color:var(--muted);display:inline-block;width:26mm">Datum</span>{{ printOvDate }}</div>
+        <div><span style="color:var(--muted);display:inline-block;width:33mm">Onderaannemer</span>{{ coName }}</div>
+        <div><span style="color:var(--muted);display:inline-block;width:26mm">Totaal uren</span><b style="font-family:var(--disp)">{{ printOvGrand }}</b></div>
+      </div>
+      <sc-for list="{{ printOvProjects }}" as="pj" hint-placeholder-count="2">
+        <div style="margin-top:13px">
+          <div style="font-family:var(--disp);font-size:10.5pt;font-weight:600;margin-bottom:3px">{{ pj.name }} <span style="color:var(--muted);font-weight:400;font-family:var(--body)">· {{ pj.number }}</span></div>
+          <table style="width:100%;border-collapse:collapse;font-size:8.5pt">
+            <thead>
+              <tr style="background:var(--navy);color:#fff">
+                <th style="text-align:left;padding:5px 7px;width:36mm">Datum</th>
+                <th style="text-align:left;padding:5px 7px">Werkzaamheid</th>
+                <th style="text-align:right;padding:5px 7px;width:16mm">Uren</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ pj.rows }}" as="r" hint-placeholder-count="3">
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:5px 7px;font-family:var(--disp)">{{ r.date }}</td>
+                  <td style="padding:5px 7px">{{ r.activity }}</td>
+                  <td style="padding:5px 7px;text-align:right;font-family:var(--disp)">{{ r.hours }}</td>
+                </tr>
+              </sc-for>
+              <tr style="border-top:1.5px solid var(--navy)"><td colspan="2" style="padding:6px 7px;font-weight:600">Subtotaal</td><td style="padding:6px 7px;text-align:right;font-family:var(--disp);font-weight:700">{{ pj.totalLabel }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </sc-for>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;align-items:baseline;gap:12px;border-top:2px solid var(--navy);padding-top:8px">
+        <span style="font-family:var(--disp);font-weight:600;font-size:11pt">Totaal alle projecten</span>
+        <span style="font-family:var(--disp);font-weight:700;font-size:13pt">{{ printOvGrand }} uur</span>
+      </div>
+    </sc-if>
+
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.C={navy:'#1c2a3a',blue:'#1a365d',ink:'#16202b',muted:'#6c7280',soft:'#9aa0a8',line:'#e4e6e9',chip:'#f0f1f3',mist:'#f6f7f8',paper:'#fff',green:'#5BC48A'};
+    this.MS=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+    this.MF=['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+    this.WD=['zo','ma','di','wo','do','vr','za'];
+    this.WF=['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
+    this.DCOLS=['Ma','Di','Wo','Do','Vr'];
+    this.GEN='__alg__';
+    this.KEY='abeco_uren_v4';
+    this.state=this.initialState();
+  }
+  initialState(){
+    let data=null;
+    try{const raw=localStorage.getItem(this.KEY);if(raw)data=JSON.parse(raw);}catch(e){}
+    if(!data||!data.projects)data=this.seed();
+    const firstProj=(data.projects&&data.projects[0])?data.projects[0].id:'';
+    return Object.assign({tab:'uren',sheet:null,scope:'mij',omode:'dag',weekOffset:0,weeks:1,regProjectId:firstProj,printMode:'register',
+      editingId:null,projFromEntry:false,showNewAct:false,
+      f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
+      newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',
+      newFirst:'',newLast:'',newKvk:'',newActName:'',importText:'',editPersonId:'',ep_first:'',ep_last:'',ep_kvk:''},data);
+  }
+  seed(){
+    return {
+      company:{name:'ABECO Projecten BV',address:'Oude Grintweg 55',city:'5688 MA Oirschot',kvk:''},
+      people:[],
+      activePersonId:'',
+      projects:[],
+      activities:['Montage','Productie','Voorbereiding','Overleg','Reizen','Schoonmaak'],
+      entries:[]
+    };
+  }
+  persist(){ try{const s=this.state;localStorage.setItem(this.KEY,JSON.stringify({company:s.company,people:s.people,activePersonId:s.activePersonId,projects:s.projects,activities:s.activities,entries:s.entries}));}catch(e){} }
+  up(patch){ this.setState(patch,()=>this.persist()); }
+  uid(p){ return (p||'id')+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
+  toISO(d){ const z=n=>(n<10?'0':'')+n; return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
+  parseISO(s){ const p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+  addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+  getMonday(d){ const x=new Date(d); const day=(x.getDay()+6)%7; x.setHours(0,0,0,0); x.setDate(x.getDate()-day); return x; }
+  isoWeek(date){ const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate())); const dn=(d.getUTCDay()+6)%7; d.setUTCDate(d.getUTCDate()-dn+3); const ft=new Date(Date.UTC(d.getUTCFullYear(),0,4)); return 1+Math.round(((d-ft)/86400000-3+((ft.getUTCDay()+6)%7))/7); }
+  fmt(n){ if(!n)return '0'; const r=Math.round(n*100)/100; return (''+r).replace('.',','); }
+  fmt2(n){ return (n||0).toFixed(2).replace('.',','); }
+  parseHours(s){ if(typeof s==='number')return s; if(!s)return 0; const v=parseFloat((''+s).replace(',','.')); return isNaN(v)?0:v; }
+  dayLabel(iso){ const t=this.toISO(new Date()); const y=this.toISO(this.addDays(new Date(),-1)); if(iso===t)return 'Vandaag'; if(iso===y)return 'Gisteren'; const d=this.parseISO(iso); return this.WD[d.getDay()]+' '+d.getDate()+' '+this.MS[d.getMonth()]; }
+  todayLong(){ const d=new Date(); const s=this.WF[d.getDay()]+' '+d.getDate()+' '+this.MF[d.getMonth()]; return s.charAt(0).toUpperCase()+s.slice(1); }
+  dateRow(iso){ const d=this.parseISO(iso); return this.WD[d.getDay()]+' '+d.getDate()+' '+this.MS[d.getMonth()]+' '+d.getFullYear(); }
+  rangeLabel(mon){ const fri=this.addDays(mon,4); const a=mon.getDate(),b=fri.getDate(); if(mon.getMonth()===fri.getMonth())return a+'–'+b+' '+this.MS[fri.getMonth()]; return a+' '+this.MS[mon.getMonth()]+'–'+b+' '+this.MS[fri.getMonth()]; }
+  inits(f){ return f&&f.trim()?f.trim()[0].toUpperCase()+'.':''; }
+  dispApp(p){ if(!p)return '—'; return (p.first?p.first+' ':'')+(p.last||''); }
+  dispReg(p){ if(!p)return '—'; const i=this.inits(p.first); return (p.last||'')+(i?', '+i:''); }
+  av(p){ if(!p)return '+'; const a=(p.first?p.first[0]:'')||''; const b=(p.last?p.last[0]:'')||''; return ((a+b)||'?').toUpperCase(); }
+  proj(id){ if(id===this.GEN)return {id:this.GEN,name:'Algemeen',number:'—'}; return this.state.projects.find(x=>x.id===id); }
+  projName(id){ const p=this.proj(id); return p?p.name:'—'; }
+  projBadge(p){ if(p&&p.id===this.GEN)return 'ALG'; if(!p||!p.number||p.number==='—')return 'PRJ'; return p.number.replace(/^([A-Za-z]*\d{2,6}).*/,'$1').slice(0,7); }
+  person(id){ return this.state.people.find(x=>x.id===id); }
+  setTab(t){ this.setState({tab:t}); }
+  openSettings(){ this.setState({sheet:'settings'}); }
+  closeSheet(){ this.setState({sheet:null,showNewAct:false}); }
+  openAdd(){ if(!this.state.activePersonId){this.setState({sheet:'settings'});return;} this.setState({sheet:'addEntry',editingId:null,f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false}); }
+  openAddWith(pid){ if(!this.state.activePersonId){this.setState({sheet:'settings'});return;} this.setState({sheet:'addEntry',editingId:null,f_date:this.toISO(new Date()),f_projectId:pid,f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false,tab:'uren'}); }
+  openEdit(e){ this.setState({sheet:'addEntry',editingId:e.id,f_date:e.date,f_projectId:e.projectId,f_activity:e.activity,f_hours:this.fmt(e.hours),f_note:e.note||'',f_projQuery:'',showNewAct:false}); }
+  clearProject(){ this.setState({f_projectId:'',f_projQuery:''}); }
+  saveEntry(){ const s=this.state; const h=this.parseHours(s.f_hours); if(!s.f_projectId||!s.f_activity||h<=0)return; let entries=s.entries.slice(); if(s.editingId){ entries=entries.map(e=>e.id===s.editingId?Object.assign({},e,{date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}):e); } else { entries.push({id:this.uid('e'),personId:s.activePersonId,date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}); } this.up({entries,sheet:null,showNewAct:false}); }
+  deleteEntry(){ const s=this.state; this.up({entries:s.entries.filter(e=>e.id!==s.editingId),sheet:null}); }
+  deleteById(id){ this.up({entries:this.state.entries.filter(x=>x.id!==id)}); }
+  deleteProjectById(id){ const s=this.state; const projects=s.projects.filter(p=>p.id!==id); const entries=s.entries.filter(e=>e.projectId!==id); const regProjectId=s.regProjectId===id?(projects[0]?projects[0].id:''):s.regProjectId; this.up({projects,entries,regProjectId}); }
+  swipe(ev,doDelete){ const el=ev.currentTarget; const startX=ev.clientX; let dx=0,moved=false; el.style.transition='none'; const move=(me)=>{ dx=Math.min(0,(me.clientX!=null?me.clientX:startX)-startX); if(Math.abs(dx)>5)moved=true; el.style.transform='translateX('+dx+'px)'; }; const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); el.style.transition='transform .2s ease'; if(moved)this._swipeTs=Date.now(); if(dx<-80){ el.style.transform='translateX(-110%)'; el.style.opacity='0'; setTimeout(()=>doDelete(),170); } else { el.style.transform='translateX(0)'; } }; document.addEventListener('pointermove',move); document.addEventListener('pointerup',up); }
+  openNewProject(){ this.setState({sheet:'addProject',p_name:'',p_number:'',p_location:'',p_client:'',projFromEntry:false}); }
+  openNewProjectFromEntry(){ this.setState({sheet:'addProject',p_name:'',p_number:'',p_location:'',p_client:'',projFromEntry:true}); }
+  openImport(){ this.setState({sheet:'import',importText:''}); }
+  saveProject(){ const s=this.state; if(!s.p_name.trim())return; const id=this.uid('pr'); const projects=s.projects.concat([{id,name:s.p_name.trim(),number:('A'+(s.p_number||'').replace(/\D/g,'')),location:s.p_location.trim(),client:s.p_client.trim()}]); const patch={projects}; if(!s.regProjectId)patch.regProjectId=id; if(s.projFromEntry){ patch.f_projectId=id; patch.sheet='addEntry'; patch.projFromEntry=false; } else { patch.sheet=null; } this.up(patch); }
+  runImport(){ const s=this.state; const lines=s.importText.split('\n').map(l=>l.trim()).filter(Boolean); if(!lines.length){this.setState({sheet:null});return;} const have=s.projects.map(p=>p.name.toLowerCase()); let added=[]; lines.forEach(line=>{ let num='',name=line; const m=line.match(/^([A-Za-z]{0,3}\d[\w\/\.\-]*)[\s\-_:]+(.+)$/); if(m){num=m[1];name=m[2].trim();} if(have.indexOf(name.toLowerCase())>=0)return; have.push(name.toLowerCase()); added.push({id:this.uid('pr'),name,number:(num||'—'),location:'',client:''}); }); const patch={projects:s.projects.concat(added),sheet:null,importText:''}; if(!s.regProjectId&&added.length)patch.regProjectId=added[0].id; this.up(patch); if(typeof alert==='function')alert(added.length+' project'+(added.length===1?'':'en')+' geïmporteerd.'); }
+  toggleNewAct(){ this.setState(st=>({showNewAct:!st.showNewAct})); }
+  addActInline(){ const s=this.state; const v=s.newActInline.trim(); if(!v)return; const activities=s.activities.indexOf(v)>=0?s.activities:s.activities.concat([v]); this.up({activities,f_activity:v,newActInline:'',showNewAct:false}); }
+  addPerson(){ const s=this.state; const last=s.newLast.trim(); if(!last)return; const id=this.uid('p'); const people=s.people.concat([{id,first:s.newFirst.trim(),last,kvk:s.newKvk.trim()}]); const patch={people,newFirst:'',newLast:'',newKvk:''}; if(!s.activePersonId)patch.activePersonId=id; this.up(patch); }
+  selectPerson(id){ this.up({activePersonId:id}); }
+  openEditPerson(p){ this.setState({sheet:'editPerson',editPersonId:p.id,ep_first:p.first||'',ep_last:p.last||'',ep_kvk:p.kvk||''}); }
+  saveEditPerson(){ const s=this.state; if(!s.ep_last.trim())return; const people=s.people.map(p=>p.id===s.editPersonId?Object.assign({},p,{first:s.ep_first.trim(),last:s.ep_last.trim(),kvk:s.ep_kvk.trim()}):p); this.up({people,sheet:'settings'}); }
+  removeEditPerson(){ const s=this.state; const people=s.people.filter(p=>p.id!==s.editPersonId); const activePersonId=s.activePersonId===s.editPersonId?(people[0]?people[0].id:''):s.activePersonId; this.up({people,activePersonId,sheet:'settings'}); }
+  removePerson(id){ const s=this.state; const people=s.people.filter(p=>p.id!==id); const activePersonId=s.activePersonId===id?(people[0]?people[0].id:''):s.activePersonId; this.up({people,activePersonId}); }
+  addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; this.up({activities:s.activities.concat([v]),newActName:''}); }
+  removeActivity(name){ const s=this.state; this.up({activities:s.activities.filter(a=>a!==name)}); }
+  resetData(){ if(typeof confirm==='function'&&!confirm('Alle projecten, uren en ZZP\u2019ers wissen?'))return; const seed=this.seed(); this.setState(Object.assign({sheet:null,regProjectId:'',activePersonId:''},seed),()=>this.persist()); }
+  setScope(v){ this.setState({scope:v}); }
+  setOmode(v){ this.setState({omode:v}); }
+  setCompany(k,v){ this.up({company:Object.assign({},this.state.company,{[k]:v})}); }
+  prevWeek(){ this.setState(st=>({weekOffset:st.weekOffset-1})); }
+  nextWeek(){ this.setState(st=>({weekOffset:st.weekOffset+1})); }
+  incWeeks(){ this.setState(st=>({weeks:Math.min(4,st.weeks+1)})); }
+  decWeeks(){ this.setState(st=>({weeks:Math.max(1,st.weeks-1)})); }
+  setReg(pid){ this.setState({regProjectId:pid}); }
+  regData(){
+    const s=this.state; const pid=s.regProjectId; const weeks=[];
+    for(let w=0;w<s.weeks;w++){
+      const mon=this.getMonday(this.addDays(new Date(),(s.weekOffset+w)*7));
+      const dates=[]; for(let i=0;i<5;i++)dates.push(this.toISO(this.addDays(mon,i)));
+      const rows=s.people.map((p,idx)=>{
+        const cells=dates.map(d=>s.entries.filter(e=>e.personId===p.id&&e.projectId===pid&&e.date===d).reduce((a,e)=>a+e.hours,0));
+        const total=cells.reduce((a,b)=>a+b,0);
+        return {nr:idx+1,kvk:p.kvk||'—',name:this.dispReg(p),cells,total};
+      });
+      const weekTotal=rows.reduce((a,r)=>a+r.total,0);
+      weeks.push({mon,dates,weekLabel:'Week '+this.isoWeek(mon),range:this.rangeLabel(mon),rows,weekTotal});
+    }
+    return weeks;
+  }
+  buildCSV(){ const weeks=this.regData(); const days=this.DCOLS; let out=[]; const proj=this.proj(this.state.regProjectId)||{}; out.push('Mandagenregister;'+(proj.name||'')); out.push('Projectnummer;'+(proj.number||'')); out.push(''); weeks.forEach(wk=>{ out.push(wk.weekLabel+' ('+wk.range+')'); out.push('#;KvK-nummer;Naam en voorletters;'+days.join(';')+';Totaal'); wk.rows.forEach(r=>{ out.push(r.nr+';'+r.kvk+';'+r.name+';'+r.cells.map(c=>this.fmt2(c)).join(';')+';'+this.fmt2(r.total)); }); out.push('Totaal;;;'+days.map(()=>'').join(';')+';'+this.fmt2(wk.weekTotal)); out.push(''); }); return out.join('\n'); }
+  downloadCSV(){ try{ const csv=this.buildCSV(); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; const proj=this.proj(this.state.regProjectId)||{}; a.download='mandagenregister-'+((proj.number||'').replace(/[^\w]/g,'')||'export')+'.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); }catch(e){} }
+  shareStaat(){ const weeks=this.regData(); const proj=this.proj(this.state.regProjectId)||{}; let grand=0; const blocks=weeks.map(wk=>{ grand+=wk.weekTotal; const lines=wk.rows.filter(r=>r.total>0).map(r=>'  '+r.name+' (KvK '+r.kvk+'): '+this.fmt2(r.total)); return wk.weekLabel+' ('+wk.range+'):\n'+(lines.join('\n')||'  —')+'\n  Totaal: '+this.fmt2(wk.weekTotal); }); const text='MANDAGENREGISTER\n'+(proj.name||'')+' — '+(proj.number||'')+'\nOnderaannemer: '+(this.state.company.name)+'\n\n'+blocks.join('\n\n')+'\n\nEindtotaal: '+this.fmt2(grand)+' uur'; try{ if(navigator.share){navigator.share({title:'Mandagenregister '+(proj.name||''),text});return;} }catch(e){} try{ navigator.clipboard.writeText(text).then(()=>{if(typeof alert==='function')alert('Mandagenregister gekopieerd naar klembord.');}); }catch(e){ if(typeof alert==='function')alert(text); } }
+  printStaat(){ this.setState({printMode:'register'},()=>setTimeout(()=>{try{window.print();}catch(e){}},60)); }
+  printOverview(){ this.setState({printMode:'overview'},()=>setTimeout(()=>{try{window.print();}catch(e){}},60)); }
+  chipStyle(sel){ const C=this.C; return Object.assign({display:'inline-flex',alignItems:'center',gap:'6px',padding:'9px 14px',borderRadius:'999px',fontSize:'13.5px',fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}, sel?{background:C.navy,color:'#fff',border:'1px solid '+C.navy}:{background:'#fff',color:C.ink,border:'1px solid '+C.line}); }
+  tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'4px 2px',color:active?C.navy:C.soft}; }
+  segStyle(active){ const C=this.C; return {flex:1,border:'none',borderRadius:'9px',padding:'9px 6px',fontSize:'13px',fontWeight:600,cursor:'pointer',background:active?C.navy:'transparent',color:active?'#fff':C.muted,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}; }
+  primStyle(on){ const C=this.C; return {background:on?C.navy:'#c7ccd4',color:'#fff',border:'none',borderRadius:'10px',padding:'8px 16px',fontSize:'14px',fontWeight:600,cursor:on?'pointer':'default'}; }
+  renderVals(){
+    const s=this.state, C=this.C;
+    const ev=e=>e&&e.target?e.target.value:e;
+    const activeP=this.person(s.activePersonId);
+    const mine=s.entries.filter(e=>e.personId===s.activePersonId);
+    const byDate={}; mine.forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
+    const dayGroups=Object.keys(byDate).sort().reverse().map(date=>{ const list=byDate[date]; const total=list.reduce((a,e)=>a+e.hours,0); return {label:this.dayLabel(date),totalLabel:this.fmt(total),entries:list.map(e=>({projectName:this.projName(e.projectId),sub:(e.note?e.activity+' · '+e.note:e.activity),hoursLabel:this.fmt(e.hours),onTap:()=>{ if(Date.now()-(this._swipeTs||0)<350)return; this.openEdit(e); },onSwipe:(ev)=>this.swipe(ev,()=>this.deleteById(e.id))}))}; });
+    const t=this.toISO(new Date());
+    const todayTotal=mine.filter(e=>e.date===t).reduce((a,e)=>a+e.hours,0);
+    const curMon=this.getMonday(new Date()); const curDates=[]; for(let i=0;i<7;i++)curDates.push(this.toISO(this.addDays(curMon,i)));
+    const weekTotal=mine.filter(e=>curDates.indexOf(e.date)>=0).reduce((a,e)=>a+e.hours,0);
+    const projectList=s.projects.map(p=>{const es=s.entries.filter(e=>e.projectId===p.id);const tot=es.reduce((a,e)=>a+e.hours,0); const num=(p.number&&p.number!=='—')?p.number:''; const meta=(p.location?p.location+' · ':'')+es.length+' boeking'+(es.length===1?'':'en'); return {name:p.name,number:num,hasNumber:!!num,meta,totalLabel:this.fmt(tot),onTap:()=>{ if(Date.now()-(this._swipeTs||0)<350)return; this.openAddWith(p.id); },onSwipe:(ev)=>this.swipe(ev,()=>this.deleteProjectById(p.id))};});
+    const scoped=s.scope==='team'?s.entries:mine;
+    const grandTotal=scoped.reduce((a,e)=>a+e.hours,0);
+    const obyDate={}; scoped.forEach(e=>{obyDate[e.date]=(obyDate[e.date]||0)+e.hours;});
+    const dagRows=Object.keys(obyDate).sort().reverse().map(d=>({label:this.dayLabel(d),totalLabel:this.fmt(obyDate[d])}));
+    const obyWeek={}; scoped.forEach(e=>{const m=this.toISO(this.getMonday(this.parseISO(e.date)));obyWeek[m]=(obyWeek[m]||0)+e.hours;});
+    const weekRows=Object.keys(obyWeek).sort().reverse().map(m=>{const mon=this.parseISO(m);return {weekLabel:'Week '+this.isoWeek(mon),range:this.rangeLabel(mon),totalLabel:this.fmt(obyWeek[m])};});
+    const obyProj={}; scoped.forEach(e=>{obyProj[e.projectId]=(obyProj[e.projectId]||0)+e.hours;});
+    const projRows=Object.keys(obyProj).map(pid=>{const p=this.proj(pid)||{};return {name:this.projName(pid),badge:this.projBadge(p),totalLabel:this.fmt(obyProj[pid]),_v:obyProj[pid]};}).sort((a,b)=>b._v-a._v);
+    const regWeeksRaw=this.regData();
+    const regWeeks=regWeeksRaw.map(wk=>({weekLabel:wk.weekLabel,range:wk.range,totalLabel:this.fmt2(wk.weekTotal),rows:wk.rows.filter(r=>r.total>0).map(r=>({name:r.name,kvk:r.kvk,totalLabel:this.fmt2(r.total),cells:r.cells.map((c,i)=>({label:this.DCOLS[i],val:this.fmt2(c)}))}))}));
+    const hasRegRows=regWeeks.some(w=>w.rows.length>0);
+    const printWeeks=regWeeksRaw.map(wk=>({weekLabel:wk.weekLabel,range:wk.range,weekTotal:this.fmt2(wk.weekTotal),rows:wk.rows.map(r=>({nr:r.nr,kvk:r.kvk,name:r.name,total:this.fmt2(r.total),cells:r.cells.map(c=>this.fmt2(c))}))}));
+    const regProj=this.proj(s.regProjectId)||{};
+    const regProjName=regProj.name||'—';
+    const regProjChips=s.projects.map(p=>({name:p.name,badge:this.projBadge(p),style:this.chipStyle(p.id===s.regProjectId),onTap:()=>this.setReg(p.id)}));
+    const startMon=this.getMonday(this.addDays(new Date(),s.weekOffset*7));
+    const q=s.f_projQuery.trim().toLowerCase();
+    const projectMatches=s.projects.filter(p=>!q||p.name.toLowerCase().indexOf(q)>=0||(p.number||'').toLowerCase().indexOf(q)>=0).slice(0,6).map(p=>({name:p.name,badge:this.projBadge(p),onTap:()=>this.setState({f_projectId:p.id,f_projQuery:''})}));
+    const selProj=this.proj(s.f_projectId);
+    const activityChips=s.activities.map(a=>({name:a,style:this.chipStyle(a===s.f_activity),onTap:()=>this.setState({f_activity:a})}));
+    const hourChips=[4,6,8].map(h=>({label:''+h,onTap:()=>this.setState({f_hours:this.fmt(h)})}));
+    const canSave=!!s.f_projectId&&!!s.f_activity&&this.parseHours(s.f_hours)>0;
+    const peopleList=s.people.map(p=>({name:this.dispApp(p),initials:this.av(p),kvk:p.kvk||'—',active:p.id===s.activePersonId,onSelect:()=>this.selectPerson(p.id),onEdit:()=>this.openEditPerson(p),onRemove:()=>this.removePerson(p.id)}));
+    const activitiesList=s.activities.map(a=>({name:a,onRemove:()=>this.removeActivity(a)}));
+    const co=s.company||{name:'',address:'',city:'',kvk:''};
+    const ovByProj={}; mine.forEach(e=>{(ovByProj[e.projectId]=ovByProj[e.projectId]||[]).push(e);});
+    const printOvProjects=Object.keys(ovByProj).map(pid=>{const p=this.proj(pid)||{}; const list=ovByProj[pid].slice().sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0)); const tot=list.reduce((x,e)=>x+e.hours,0); return {name:this.projName(pid),number:(p.number&&p.number!=='—')?p.number:'—',rows:list.map(e=>({date:this.dateRow(e.date),activity:(e.note?e.activity+' · '+e.note:e.activity),hours:this.fmt2(e.hours)})),totalLabel:this.fmt2(tot)};});
+    const printOvGrand=this.fmt2(mine.reduce((x,e)=>x+e.hours,0));
+    return {
+      activeName:activeP?this.dispApp(activeP):"ZZP'er kiezen", activeInitials:this.av(activeP), activeFirst:activeP?(activeP.first||activeP.last):'Mij',
+      urenTitle:activeP?('Uren '+(activeP.first||activeP.last)):'Uren', hasPerson:!!activeP, noPerson:!activeP,
+      openSettings:()=>this.openSettings(),
+      isUren:s.tab==='uren', isProjecten:s.tab==='projecten', isOverzicht:s.tab==='overzicht', isWeekstaat:s.tab==='weekstaat',
+      tabUren:()=>this.setTab('uren'), tabProj:()=>this.setTab('projecten'), tabOver:()=>this.setTab('overzicht'), tabWeek:()=>this.setTab('weekstaat'),
+      tabUrenStyle:this.tabStyle(s.tab==='uren'), tabProjStyle:this.tabStyle(s.tab==='projecten'), tabOverStyle:this.tabStyle(s.tab==='overzicht'), tabWeekStyle:this.tabStyle(s.tab==='weekstaat'),
+      todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),
+      openAdd:()=>this.openAdd(), dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
+      projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(), openImport:()=>this.openImport(),
+      setMij:()=>this.setScope('mij'), setTeam:()=>this.setScope('team'),
+      scopeMijStyle:this.segStyle(s.scope==='mij'), scopeTeamStyle:this.segStyle(s.scope==='team'),
+      scopeLabel:(s.scope==='team'?"Alle ZZP'ers":this.dispApp(activeP)), grandTotalLabel:this.fmt(grandTotal),
+      setDag:()=>this.setOmode('dag'), setWeek:()=>this.setOmode('week'), setProj:()=>this.setOmode('project'),
+      omodeDagStyle:this.segStyle(s.omode==='dag'), omodeWeekStyle:this.segStyle(s.omode==='week'), omodeProjStyle:this.segStyle(s.omode==='project'),
+      isDag:s.omode==='dag', isWeek:s.omode==='week', isProj:s.omode==='project', dagRows, weekRows, projRows, noOverview:scoped.length===0,
+      regProjChips, prevWeek:()=>this.prevWeek(), nextWeek:()=>this.nextWeek(), startWeekLabel:'Week '+this.isoWeek(startMon),
+      incWeeks:()=>this.incWeeks(), decWeeks:()=>this.decWeeks(), weeksLabel:s.weeks+(s.weeks===1?' week':' weken'),
+      coName:co.name, coAddress:co.address, coCity:co.city, coKvk:co.kvk||'', hasCoKvk:!!(co.kvk&&(''+co.kvk).trim()),
+      regProjName, regProjNumber:regProj.number||'—', regDateLabel:this.todayLong(),
+      regWeeks, hasReg:hasRegRows, noReg:!hasRegRows,
+      downloadCSV:()=>this.downloadCSV(), shareStaat:()=>this.shareStaat(), printStaat:()=>this.printStaat(),
+      isSheetAdd:s.sheet==='addEntry', isSheetProject:s.sheet==='addProject', isSheetImport:s.sheet==='import', isSheetSettings:s.sheet==='settings',
+      closeSheet:()=>this.closeSheet(), entryTitle:s.editingId?'Uren bewerken':'Uren toevoegen', isEditing:!!s.editingId,
+      fDate:s.f_date, setFDate:e=>this.setState({f_date:ev(e)}),
+      hasSelectedProject:!!selProj, noSelectedProject:!selProj,
+      selProjName:selProj?selProj.name:'', selProjNumber:selProj?this.projBadge(selProj):'', clearProject:()=>this.clearProject(),
+      fProjQuery:s.f_projQuery, setFProjQuery:e=>this.setState({f_projQuery:ev(e)}),
+      projectMatches, noMatches:projectMatches.length===0, openNewProjectFromEntry:()=>this.openNewProjectFromEntry(), setGeneral:()=>this.setState({f_projectId:this.GEN,f_projQuery:''}),
+      activityChips, toggleNewAct:()=>this.toggleNewAct(), showNewAct:s.showNewAct,
+      newActInline:s.newActInline, setNewActInline:e=>this.setState({newActInline:ev(e)}), addActInline:()=>this.addActInline(),
+      fHours:s.f_hours, setFHours:e=>this.setState({f_hours:ev(e)}), hourChips,
+      fNote:s.f_note, setFNote:e=>this.setState({f_note:ev(e)}),
+      saveEntry:()=>this.saveEntry(), saveEntryStyle:this.primStyle(canSave), deleteEntry:()=>this.deleteEntry(),
+      pName:s.p_name, setPName:e=>this.setState({p_name:ev(e)}), pNumberDigits:s.p_number, setPNumberDigits:e=>this.setState({p_number:(ev(e)||'').replace(/\D/g,'')}),
+      pLocation:s.p_location, setPLocation:e=>this.setState({p_location:ev(e)}), pClient:s.p_client, setPClient:e=>this.setState({p_client:ev(e)}),
+      saveProject:()=>this.saveProject(), saveProjectStyle:this.primStyle(!!s.p_name.trim()),
+      importText:s.importText, setImportText:e=>this.setState({importText:ev(e)}), runImport:()=>this.runImport(), importStyle:this.primStyle(!!s.importText.trim()),
+      isSheetEditPerson:s.sheet==='editPerson', closeEditPerson:()=>this.setState({sheet:'settings'}), epFirst:s.ep_first, setEpFirst:e=>this.setState({ep_first:ev(e)}), epLast:s.ep_last, setEpLast:e=>this.setState({ep_last:ev(e)}), epKvk:s.ep_kvk, setEpKvk:e=>this.setState({ep_kvk:ev(e)}), saveEditPerson:()=>this.saveEditPerson(), saveEditPersonStyle:this.primStyle(!!s.ep_last.trim()), removeEditPerson:()=>this.removeEditPerson(),
+      peopleList, newFirst:s.newFirst, setNewFirst:e=>this.setState({newFirst:ev(e)}), newLast:s.newLast, setNewLast:e=>this.setState({newLast:ev(e)}),
+      newKvk:s.newKvk, setNewKvk:e=>this.setState({newKvk:ev(e)}), addPerson:()=>this.addPerson(),
+      activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
+      setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)), setCoKvk:e=>this.setCompany('kvk',ev(e)),
+      resetData:()=>this.resetData(),
+      isPrintRegister:s.printMode!=='overview', isPrintOverview:s.printMode==='overview', printOverview:()=>this.printOverview(),
+      printOvProjects, printOvGrand, printOvWho:activeP?this.dispApp(activeP):'—', printOvDate:this.todayLong(), hasOvExport:mine.length>0,
+      printDays:this.DCOLS, printWeeks
+    };
+  }
+}
+</script>
+</body>
+</html>

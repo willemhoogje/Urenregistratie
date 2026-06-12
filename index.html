@@ -221,9 +221,10 @@ if ('serviceWorker' in navigator) {
             </sc-if>
             <sc-if value="{{ isWeek }}" hint-placeholder-val="{{ false }}">
               <sc-for list="{{ weekRows }}" as="r" hint-placeholder-count="3">
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-top:1px solid var(--line)">
-                  <span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600;color:var(--ink)">{{ r.weekLabel }}</span><span style="display:block;font-size:12px;color:var(--muted)">{{ r.range }}</span></span>
-                  <span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px 10px 16px;border-top:1px solid var(--line)">
+                  <span style="min-width:0;flex:1"><span style="display:block;font-size:14px;font-weight:600;color:var(--ink)">{{ r.weekLabel }}</span><span style="display:block;font-size:12px;color:var(--muted)">{{ r.range }}</span></span>
+                  <span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink);margin-right:10px">{{ r.totalLabel }} u</span>
+                  <button onClick="{{ r.onExport }}" aria-label="PDF van deze week" style="width:36px;height:36px;border-radius:9px;border:none;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
                 </div>
               </sc-for>
             </sc-if>
@@ -240,8 +241,8 @@ if ('serviceWorker' in navigator) {
             <div style="text-align:center;padding:34px 20px;color:var(--soft);font-size:14px">Nog geen geboekte uren.</div>
           </sc-if>
           <sc-if value="{{ hasOvExport }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ printOverview }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Urenoverzicht — PDF opslaan</button>
-            <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:9px 4px 0">Al je projecten met werkzaamheden op één uitdraai.</p>
+            <button onClick="{{ printOverview }}" style="width:100%;margin-top:16px;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:13px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Volledige uitdraai (alle weken)</button>
+            <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:9px 4px 0">Tip: kies <b style="color:var(--muted)">Per week</b> hierboven en tik op het PDF-icoon naast een week voor één uitdraai per week.</p>
           </sc-if>
         </div>
       </sc-if>
@@ -274,6 +275,7 @@ if ('serviceWorker' in navigator) {
             <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-top:12px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:12.5px">
               <span style="color:var(--soft)">Projectnaam</span><span style="color:var(--ink);font-weight:500">{{ regProjName }}</span>
               <span style="color:var(--soft)">Projectnummer</span><span style="color:var(--ink);font-weight:500;font-family:var(--disp)">{{ regProjNumber }}</span>
+              <span style="color:var(--soft)">Projectplaats</span><span style="color:var(--ink);font-weight:500">{{ regProjLocation }}</span>
             </div>
 
             <div style="display:flex;gap:9px;margin-top:14px">
@@ -499,7 +501,10 @@ if ('serviceWorker' in navigator) {
             </div>
           </sc-if>
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Naam</label>
-          <input value="{{ rwName }}" onChange="{{ setRwName }}" placeholder="Naam en voorletters" autocapitalize="words" autocomplete="off" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
+          <div style="display:grid;grid-template-columns:96px 1fr;gap:9px">
+            <input value="{{ rwInit }}" onChange="{{ setRwInit }}" placeholder="Voorl." autocomplete="off" style="width:100%;padding:13px 12px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
+            <input value="{{ rwLast }}" onChange="{{ setRwLast }}" placeholder="Achternaam" autocapitalize="words" autocomplete="off" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
+          </div>
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>KvK-nummer</label>
           <input value="{{ rwKvk }}" onChange="{{ setRwKvk }}" inputmode="numeric" placeholder="Bijv. 71239723" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist);font-family:var(--disp)"/>
         </div>
@@ -553,7 +558,10 @@ if ('serviceWorker' in navigator) {
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Persoonsgegevens</div>
           <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 10px">Verschijnt als <b style="color:var(--muted)">Eigen uren</b>-regel op het register.</p>
           <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:26px">
-            <input value="{{ coMyName }}" onChange="{{ setCoMyName }}" placeholder="Mijn naam (en voorletters)" autocapitalize="words" autocomplete="off" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+            <div style="display:grid;grid-template-columns:96px 1fr;gap:9px">
+              <input value="{{ coMyInit }}" onChange="{{ setCoMyInit }}" placeholder="Voorl." autocomplete="off" style="padding:12px 12px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+              <input value="{{ coMyLast }}" onChange="{{ setCoMyLast }}" placeholder="Achternaam" autocapitalize="words" autocomplete="off" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+            </div>
             <input value="{{ coMyKvk }}" onChange="{{ setCoMyKvk }}" inputmode="numeric" placeholder="Mijn KvK-nummer" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink);font-family:var(--disp)"/>
           </div>
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Werkzaamheden</div>
@@ -705,7 +713,7 @@ class Component extends DCLogic {
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',
-      rw_name:'',rw_kvk:'',rw_query:'',rh_worker:'',rh_date:'',rh_val:''},data);
+      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
     return {
@@ -737,6 +745,8 @@ class Component extends DCLogic {
   projName(id){ const p=this.proj(id); return p?p.name:'—'; }
   projBadge(p){ if(p&&p.id===this.GEN)return 'ALG'; if(!p||!p.number||p.number==='—')return 'PRJ'; return p.number.replace(/^([A-Za-z]*\d{2,6}).*/,'$1').slice(0,7); }
   worker(id){ return this.state.regWorkers.find(w=>w.id===id); }
+  nm(last,init){ last=(last||'').trim(); init=(init||'').trim(); if(!last&&!init)return ''; return last+(init?', '+init:''); }
+  wkName(w){ if(!w)return '—'; var n=this.nm(w.last,w.init); return n||w.name||'—'; }
   // nav
   setTab(t){ this.setState({tab:t,openSwipe:''}); }
   openSettings(){ this.setState({sheet:'settings',openSwipe:''}); }
@@ -768,9 +778,9 @@ class Component extends DCLogic {
   addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; this.up({activities:s.activities.concat([v]),newActName:''}); }
   removeActivity(name){ const s=this.state; this.up({activities:s.activities.filter(a=>a!==name)}); }
   // register workers + hours
-  openAddWorker(){ if(!this.state.regProjectId)return; this.setState({sheet:'addWorker',rw_name:'',rw_kvk:'',rw_query:''}); }
-  saveWorker(){ const s=this.state; const name=s.rw_name.trim(); if(!name||!s.regProjectId)return; const id=this.uid('w'); this.up({regWorkers:s.regWorkers.concat([{id,projectId:s.regProjectId,name,kvk:s.rw_kvk.trim()}]),sheet:null}); }
-  addKnownWorker(name,kvk){ const s=this.state; if(!s.regProjectId)return; const id=this.uid('w'); this.up({regWorkers:s.regWorkers.concat([{id,projectId:s.regProjectId,name,kvk:kvk||''}]),sheet:null}); }
+  openAddWorker(){ if(!this.state.regProjectId)return; this.setState({sheet:'addWorker',rw_init:'',rw_last:'',rw_kvk:'',rw_query:''}); }
+  saveWorker(){ const s=this.state; const last=s.rw_last.trim(); if(!last||!s.regProjectId)return; const id=this.uid('w'); this.up({regWorkers:s.regWorkers.concat([{id,projectId:s.regProjectId,last,init:s.rw_init.trim(),kvk:s.rw_kvk.trim()}]),sheet:null}); }
+  addKnownWorker(w){ const s=this.state; if(!s.regProjectId)return; const id=this.uid('w'); this.up({regWorkers:s.regWorkers.concat([{id,projectId:s.regProjectId,last:w.last||'',init:w.init||'',name:w.name,kvk:w.kvk||''}]),sheet:null}); }
   deleteRegWorker(id){ const s=this.state; if(!s.regWorkers.some(w=>w.id===id))return; this._undoSnap={regWorkers:s.regWorkers.slice(),regHours:Object.assign({},s.regHours)}; const regWorkers=s.regWorkers.filter(w=>w.id!==id); const regHours=Object.assign({},s.regHours); delete regHours[id]; this.up({regWorkers,regHours}); this.flagUndo('ZZP\u2019er verwijderd'); }
   openRegCell(workerId,date){ const s=this.state; const cur=(s.regHours[workerId]&&s.regHours[workerId][date])||0; this.setState({sheet:'regHour',rh_worker:workerId,rh_date:date,rh_val:cur?this.fmt(cur):''}); }
   saveRegHour(){ const s=this.state; const h=this.parseHours(s.rh_val); const rh=Object.assign({},s.regHours); const m=Object.assign({},rh[s.rh_worker]||{}); if(h>0)m[s.rh_date]=h; else delete m[s.rh_date]; rh[s.rh_worker]=m; this.up({regHours:rh,sheet:null}); }
@@ -791,13 +801,13 @@ class Component extends DCLogic {
       const mon=this.getMonday(this.addDays(new Date(),(s.weekOffset+w)*7));
       const dates=[]; for(let i=0;i<5;i++)dates.push(this.toISO(this.addDays(mon,i)));
       const co0=s.company||{};
-      const selfName=co0.myName||co0.name||'Eigen uren';
+      const selfName=this.nm(co0.myLast,co0.myInit)||co0.myName||co0.name||'Eigen uren';
       const selfCells=dates.map(d=>({date:d,v:s.entries.filter(e=>e.projectId===pid&&e.date===d).reduce((a,e)=>a+e.hours,0)}));
       const selfRow={id:'__self__',isSelf:true,name:selfName,kvk:co0.myKvk||'—',cells:selfCells,total:selfCells.reduce((a,c)=>a+c.v,0),nr:1};
       const rows=[selfRow].concat(workers.map((wk,idx)=>{
         const cells=dates.map(d=>{ const m=s.regHours[wk.id]; return {date:d,v:(m&&m[d])||0}; });
         const total=cells.reduce((a,c)=>a+c.v,0);
-        return {id:wk.id,name:wk.name,kvk:wk.kvk||'—',cells,total,nr:idx+2};
+        return {id:wk.id,name:this.wkName(wk),kvk:wk.kvk||'—',cells,total,nr:idx+2};
       }));
       out.push({mon,dates,weekLabel:'Week '+this.isoWeek(mon),range:this.rangeLabel(mon),rows,weekTotal:rows.reduce((a,r)=>a+r.total,0)});
     }
@@ -805,8 +815,9 @@ class Component extends DCLogic {
   }
   printStaat(){ this.buildPdf('register'); }
   printOverview(){ this.buildPdf('overview'); }
+  printOverviewWeek(monKey){ this.buildPdf('overview',monKey); }
   loadLogo(){ try{ var img=document.querySelector('#printArea img'); if(img&&img.complete&&img.naturalWidth){ var c=document.createElement('canvas'); c.width=img.naturalWidth; c.height=img.naturalHeight; c.getContext('2d').drawImage(img,0,0); return {data:c.toDataURL('image/png'),w:img.naturalWidth,h:img.naturalHeight}; } }catch(e){} return null; }
-  buildPdf(kind){
+  buildPdf(kind,weekKey){
     if(!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print',kind==='overview'?'overview':'register'); window.print(); }catch(e){} return; }
     var self=this, doc=new window.jspdf.jsPDF('p','mm','a4');
     var M=14, W=210-2*M, y=M, PW=210;
@@ -833,38 +844,49 @@ class Component extends DCLogic {
     if(kind==='register'){
       header('MANDAGENREGISTER');
       var co=this.state.company||{}, rp=this.proj(this.state.regProjectId)||{};
-      infoBox('Bedrijfsgegevens',[['Naam',co.name],['Adres',co.address],['Plaats',co.city]],[['Datum',self.todayLong()],['Projectnaam',rp.name||'—'],['Projectnr.',rp.number||'—']],22);
-      var rd=this.regData();
+      infoBox('Bedrijfsgegevens',[['Naam',co.name],['Adres',co.address],['Plaats',co.city]],[['Datum',self.todayLong()],['Projectnaam',rp.name||'—'],['Projectnr.',rp.number||'—'],['Projectplaats',rp.location||'—']],26);
+      var rd=this.regData(), days=this.DCOLS;
+      var cNr=7,cKvk=25,cTot=15,cDay=13,cName=W-cNr-cKvk-cTot-cDay*5;
       rd.weeks.forEach(function(wk){
-        ensure(14);
+        ensure(22);
         doc.setFont('helvetica','bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text(wk.weekLabel,M,y);
         doc.setFont('helvetica','normal'); doc.setFontSize(9); setC('setTextColor',MUT); doc.text('· '+wk.range,M+doc.getTextWidth(wk.weekLabel)+3,y);
-        doc.setFont('helvetica','bold'); doc.setFontSize(10); setC('setTextColor',INK); doc.text(self.fmt2(wk.weekTotal)+' u',PW-M,y,{align:'right'});
-        y+=2; setC('setDrawColor',NAVY); doc.setLineWidth(0.5); doc.line(M,y,PW-M,y); y+=5;
-        wk.rows.forEach(function(r){
-          var cardH=17; ensure(cardH+3);
-          setC('setDrawColor',LINE); doc.setLineWidth(0.3); doc.roundedRect(M,y,W,cardH,2,2);
-          doc.setFont('helvetica','bold'); doc.setFontSize(10); setC('setTextColor',INK); doc.text(String(r.name||'—'),M+3,y+5.6);
-          var nw=doc.getTextWidth(String(r.name||'—'));
-          doc.setFont('helvetica','normal'); doc.setFontSize(7.5); setC('setTextColor',MUT); doc.text('KvK '+(r.kvk||'—'),M+3+nw+3,y+5.6);
-          doc.setFont('helvetica','bold'); doc.setFontSize(10); setC('setTextColor',INK); doc.text(self.fmt2(r.total)+' u',PW-M-3,y+5.6,{align:'right'});
-          var gap=2, bw=(W-6-gap*4)/5, bx=M+3, by=y+8, bh=6.6;
-          r.cells.forEach(function(c,i){
-            setC('setFillColor',MIST); setC('setDrawColor',LINE); doc.roundedRect(bx,by,bw,bh,1,1,'FD');
-            doc.setFont('helvetica','normal'); doc.setFontSize(5.6); setC('setTextColor',MUT); doc.text(self.DCOLS[i].toUpperCase(),bx+bw/2,by+2.5,{align:'center'});
-            doc.setFont('helvetica','bold'); doc.setFontSize(8); setC('setTextColor',INK); doc.text(c.v?self.fmt2(c.v):'–',bx+bw/2,by+5.4,{align:'center'});
-            bx+=bw+gap;
-          });
-          y+=cardH+3;
-        });
         y+=3;
+        var hh=7; setC('setFillColor',NAVY); doc.rect(M,y,W,hh,'F');
+        doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(7.3);
+        var hx=M;
+        doc.text('#',hx+2,y+4.6); hx+=cNr;
+        doc.text('KvK-nummer',hx+2,y+4.6); hx+=cKvk;
+        doc.text('Naam en voorletters',hx+2,y+4.6); hx+=cName;
+        days.forEach(function(d){ doc.text(d,hx+cDay/2,y+4.6,{align:'center'}); hx+=cDay; });
+        doc.text('Tot.',M+W-2,y+4.6,{align:'right'});
+        y+=hh;
+        wk.rows.forEach(function(r){
+          ensure(6.6);
+          var rx=M, rh=6.4;
+          doc.setFont('helvetica','normal'); doc.setFontSize(8); setC('setTextColor',MUT); doc.text(String(r.nr),rx+2,y+4.3); rx+=cNr;
+          setC('setTextColor',INK); doc.text(String(r.kvk||'—'),rx+2,y+4.3); rx+=cKvk;
+          var nm=doc.splitTextToSize(String(r.name||'—'),cName-4)[0]; doc.text(nm,rx+2,y+4.3); rx+=cName;
+          r.cells.forEach(function(c){ doc.text(c.v?self.fmt2(c.v):'–',rx+cDay/2,y+4.3,{align:'center'}); rx+=cDay; });
+          doc.setFont('helvetica','bold'); doc.text(self.fmt2(r.total),M+W-2,y+4.3,{align:'right'});
+          setC('setDrawColor',LINE); doc.setLineWidth(0.2); doc.line(M,y+rh,M+W,y+rh);
+          y+=rh;
+        });
+        ensure(8);
+        setC('setDrawColor',NAVY); doc.setLineWidth(0.5); doc.line(M,y,M+W,y);
+        doc.setFont('helvetica','bold'); doc.setFontSize(8.5); setC('setTextColor',INK);
+        doc.text('Totaal '+wk.weekLabel,M+2,y+5); doc.text(self.fmt2(wk.weekTotal)+' u',M+W-2,y+5,{align:'right'});
+        y+=11;
       });
       doc.save('mandagenregister.pdf'); return;
     }
     // overview
     header('URENOVERZICHT');
-    var co2=this.state.company||{}, mine=this.state.entries, grand=mine.reduce(function(a,e){return a+e.hours;},0);
-    infoBox('Overzicht',[['Onderaannemer',co2.name],['Totaal uren',self.fmt2(grand)]],[['Datum',self.todayLong()],['',''] ],30);
+    var co2=this.state.company||{}, allMine=this.state.entries;
+    var mine=weekKey?allMine.filter(function(e){return self.toISO(self.getMonday(self.parseISO(e.date)))===weekKey;}):allMine;
+    var grand=mine.reduce(function(a,e){return a+e.hours;},0);
+    var wkLabel=weekKey?('Week '+self.isoWeek(self.parseISO(weekKey))+' · '+self.rangeLabel(self.parseISO(weekKey))):'Alle weken';
+    infoBox('Overzicht',[['Onderaannemer',co2.name],['Periode',wkLabel]],[['Datum',self.todayLong()],['Totaal uren',self.fmt2(grand)]],26);
     var byProj={}; mine.forEach(function(e){(byProj[e.projectId]=byProj[e.projectId]||[]).push(e);});
     Object.keys(byProj).forEach(function(pid){
       var p=self.proj(pid)||{}, list=byProj[pid].slice().sort(function(a,b){return a.date<b.date?-1:1;});
@@ -883,7 +905,7 @@ class Component extends DCLogic {
     });
     ensure(10); setC('setDrawColor',NAVY); doc.setLineWidth(0.7); doc.line(M,y,PW-M,y); y+=6;
     doc.setFont('helvetica','bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text('Totaal alle projecten',M,y); doc.text(self.fmt2(grand)+' uur',PW-M,y,{align:'right'});
-    doc.save('urenoverzicht.pdf');
+    doc.save('urenoverzicht'+(weekKey?'-week'+self.isoWeek(self.parseISO(weekKey)):'')+'.pdf');
   }
   genPdf(id,fname){
     var node=document.getElementById(id), pa=document.getElementById('printArea');
@@ -935,7 +957,7 @@ class Component extends DCLogic {
     const obyDate={}; mine.forEach(e=>{obyDate[e.date]=(obyDate[e.date]||0)+e.hours;});
     const dagRows=Object.keys(obyDate).sort().reverse().map(d=>({label:this.dayLabel(d),totalLabel:this.fmt(obyDate[d])}));
     const obyWeek={}; mine.forEach(e=>{const m=this.toISO(this.getMonday(this.parseISO(e.date)));obyWeek[m]=(obyWeek[m]||0)+e.hours;});
-    const weekRows=Object.keys(obyWeek).sort().reverse().map(m=>{const mon=this.parseISO(m);return {weekLabel:'Week '+this.isoWeek(mon),range:this.rangeLabel(mon),totalLabel:this.fmt(obyWeek[m])};});
+    const weekRows=Object.keys(obyWeek).sort().reverse().map(m=>{const mon=this.parseISO(m);return {weekLabel:'Week '+this.isoWeek(mon),range:this.rangeLabel(mon),totalLabel:this.fmt(obyWeek[m]),onExport:()=>this.printOverviewWeek(m)};});
     const obyProj={}; mine.forEach(e=>{obyProj[e.projectId]=(obyProj[e.projectId]||0)+e.hours;});
     const projRows=Object.keys(obyProj).map(pid=>{const p=this.proj(pid)||{};return {name:this.projName(pid),badge:this.projBadge(p),totalLabel:this.fmt(obyProj[pid]),_v:obyProj[pid]};}).sort((a,b)=>b._v-a._v);
     // register
@@ -958,10 +980,10 @@ class Component extends DCLogic {
     const activitiesList=s.activities.map(a=>({name:a,onRemove:()=>this.removeActivity(a)}));
     const co=s.company||{name:'',address:'',city:''};
     const rhWorker=this.worker(s.rh_worker);
-    const onProj={}; s.regWorkers.filter(w=>w.projectId===s.regProjectId).forEach(w=>{onProj[(w.name+'|'+(w.kvk||'')).toLowerCase()]=1;});
+    const onProj={}; s.regWorkers.filter(w=>w.projectId===s.regProjectId).forEach(w=>{onProj[(this.wkName(w)+'|'+(w.kvk||'')).toLowerCase()]=1;});
     const wq=s.rw_query.trim().toLowerCase();
     const seenKnown={}; const knownWorkers=[];
-    if(wq)s.regWorkers.forEach(w=>{ const k=(w.name+'|'+(w.kvk||'')).toLowerCase(); if(seenKnown[k]||onProj[k])return; if(w.name.toLowerCase().indexOf(wq)<0&&(w.kvk||'').toLowerCase().indexOf(wq)<0)return; seenKnown[k]=1; knownWorkers.push({name:w.name,kvk:w.kvk||'',kvkLabel:w.kvk?('KvK '+w.kvk):'geen KvK',onTap:()=>this.addKnownWorker(w.name,w.kvk||'')}); });
+    if(wq)s.regWorkers.forEach(w=>{ const disp=this.wkName(w); const k=(disp+'|'+(w.kvk||'')).toLowerCase(); if(seenKnown[k]||onProj[k])return; if(disp.toLowerCase().indexOf(wq)<0&&(w.kvk||'').toLowerCase().indexOf(wq)<0)return; seenKnown[k]=1; knownWorkers.push({name:disp,kvk:w.kvk||'',kvkLabel:w.kvk?('KvK '+w.kvk):'geen KvK',onTap:()=>this.addKnownWorker(w)}); });
     // print overview
     const ovByProj={}; mine.forEach(e=>{(ovByProj[e.projectId]=ovByProj[e.projectId]||[]).push(e);});
     const printOvProjects=Object.keys(ovByProj).map(pid=>{const p=this.proj(pid)||{}; const list=ovByProj[pid].slice().sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0)); const tot=list.reduce((x,e)=>x+e.hours,0); return {name:this.projName(pid),number:(p.number&&p.number!=='—')?p.number:'—',rows:list.map(e=>({date:this.dateRow(e.date),activity:(e.note?e.activity+' · '+e.note:e.activity),hours:this.fmt2(e.hours)})),totalLabel:this.fmt2(tot)};});
@@ -982,8 +1004,8 @@ class Component extends DCLogic {
       printOverview:()=>this.printOverview(), hasOvExport:mine.length>0,
       regProjChips, prevWeek:()=>this.prevWeek(), nextWeek:()=>this.nextWeek(), startWeekLabel:'Week '+this.isoWeek(startMon),
       incWeeks:()=>this.incWeeks(), decWeeks:()=>this.decWeeks(), weeksLabel:s.weeks+' wk',
-      coName:co.name, coAddress:co.address, coCity:co.city, coMyName:co.myName||'', coMyKvk:co.myKvk||'',
-      regProjName:regProj.name||'—', regProjNumber:regProj.number||'—', regDateLabel:this.todayLong(),
+      coName:co.name, coAddress:co.address, coCity:co.city, coMyInit:co.myInit||'', coMyLast:co.myLast||'', coMyKvk:co.myKvk||'',
+      regProjName:regProj.name||'—', regProjNumber:regProj.number||'—', regProjLocation:regProj.location||'—', regDateLabel:this.todayLong(),
       regWeeks, openAddWorker:()=>this.openAddWorker(), printStaat:()=>this.printStaat(),
       isSheetAdd:s.sheet==='addEntry', isSheetProject:s.sheet==='addProject', isSheetWorker:s.sheet==='addWorker', isSheetRegHour:s.sheet==='regHour', isSheetSettings:s.sheet==='settings',
       closeSheet:()=>this.closeSheet(), entryTitle:s.editingId?'Uren bewerken':'Uren toevoegen', isEditing:!!s.editingId,
@@ -1000,11 +1022,11 @@ class Component extends DCLogic {
       pName:s.p_name, setPName:e=>this.setState({p_name:ev(e)}), pNumberDigits:s.p_number, setPNumberDigits:e=>this.setState({p_number:(ev(e)||'').replace(/\D/g,'')}),
       pLocation:s.p_location, setPLocation:e=>this.setState({p_location:ev(e)}), pClient:s.p_client, setPClient:e=>this.setState({p_client:ev(e)}),
       saveProject:()=>this.saveProject(), saveProjectStyle:this.primStyle(!!s.p_name.trim()),
-      rwName:s.rw_name, setRwName:e=>this.setState({rw_name:ev(e)}), rwKvk:s.rw_kvk, setRwKvk:e=>this.setState({rw_kvk:ev(e)}), saveWorker:()=>this.saveWorker(), saveWorkerStyle:this.primStyle(!!s.rw_name.trim()),
+      rwInit:s.rw_init, setRwInit:e=>this.setState({rw_init:ev(e)}), rwLast:s.rw_last, setRwLast:e=>this.setState({rw_last:ev(e)}), rwKvk:s.rw_kvk, setRwKvk:e=>this.setState({rw_kvk:ev(e)}), saveWorker:()=>this.saveWorker(), saveWorkerStyle:this.primStyle(!!s.rw_last.trim()),
       knownWorkers, hasKnownWorkers:knownWorkers.length>0, anyKnownWorkers:s.regWorkers.length>0, rwQuery:s.rw_query, setRwQuery:e=>this.setState({rw_query:ev(e)}),
       rhWorkerName:rhWorker?rhWorker.name:'', rhDateLabel:s.rh_date?this.dateMid(s.rh_date):'', rhVal:s.rh_val, setRhVal:e=>this.setState({rh_val:ev(e)}), rhChips, saveRegHour:()=>this.saveRegHour(), saveRegHourStyle:this.primStyle(true), clearRegHour:()=>this.clearRegHour(),
       activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
-      setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)), setCoMyName:e=>this.setCompany('myName',ev(e)), setCoMyKvk:e=>this.setCompany('myKvk',ev(e)),
+      setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)), setCoMyInit:e=>this.setCompany('myInit',ev(e)), setCoMyLast:e=>this.setCompany('myLast',ev(e)), setCoMyKvk:e=>this.setCompany('myKvk',ev(e)),
       resetData:()=>this.resetData(),
       printDays:this.DCOLS, printWeeks, printOvProjects, printOvGrand, printOvDate:this.todayLong()
     };

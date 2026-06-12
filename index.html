@@ -550,6 +550,12 @@ if ('serviceWorker' in navigator) {
           </div>
         </div>
         <div style="padding:18px 18px 34px">
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Persoonsgegevens</div>
+          <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 10px">Verschijnt als <b style="color:var(--muted)">Eigen uren</b>-regel op het register.</p>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:26px">
+            <input value="{{ coMyName }}" onChange="{{ setCoMyName }}" placeholder="Mijn naam (en voorletters)" autocapitalize="words" autocomplete="off" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+            <input value="{{ coMyKvk }}" onChange="{{ setCoMyKvk }}" inputmode="numeric" placeholder="Mijn KvK-nummer" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink);font-family:var(--disp)"/>
+          </div>
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Werkzaamheden</div>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
             <sc-for list="{{ activitiesList }}" as="a" hint-placeholder-count="4">
@@ -561,12 +567,13 @@ if ('serviceWorker' in navigator) {
             <button onClick="{{ addActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
           </div>
 
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Onderaannemer (vast op register)</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Bedrijfsgegevens</div>
           <div style="display:flex;flex-direction:column;gap:9px">
             <input value="{{ coName }}" onChange="{{ setCoName }}" placeholder="Bedrijfsnaam" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
             <input value="{{ coAddress }}" onChange="{{ setCoAddress }}" placeholder="Adres" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
             <input value="{{ coCity }}" onChange="{{ setCoCity }}" placeholder="Postcode + plaats" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
           </div>
+
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
         </div>
@@ -783,9 +790,10 @@ class Component extends DCLogic {
     for(let w=0;w<s.weeks;w++){
       const mon=this.getMonday(this.addDays(new Date(),(s.weekOffset+w)*7));
       const dates=[]; for(let i=0;i<5;i++)dates.push(this.toISO(this.addDays(mon,i)));
-      const selfName=(s.company&&s.company.name)||'Eigen uren';
+      const co0=s.company||{};
+      const selfName=co0.myName||co0.name||'Eigen uren';
       const selfCells=dates.map(d=>({date:d,v:s.entries.filter(e=>e.projectId===pid&&e.date===d).reduce((a,e)=>a+e.hours,0)}));
-      const selfRow={id:'__self__',isSelf:true,name:selfName,kvk:(s.company&&s.company.kvk)||'—',cells:selfCells,total:selfCells.reduce((a,c)=>a+c.v,0),nr:1};
+      const selfRow={id:'__self__',isSelf:true,name:selfName,kvk:co0.myKvk||'—',cells:selfCells,total:selfCells.reduce((a,c)=>a+c.v,0),nr:1};
       const rows=[selfRow].concat(workers.map((wk,idx)=>{
         const cells=dates.map(d=>{ const m=s.regHours[wk.id]; return {date:d,v:(m&&m[d])||0}; });
         const total=cells.reduce((a,c)=>a+c.v,0);
@@ -795,8 +803,88 @@ class Component extends DCLogic {
     }
     return {weeks:out,workers};
   }
-  printStaat(){ try{ document.body.setAttribute('data-print','register'); window.print(); }catch(e){} }
-  printOverview(){ try{ document.body.setAttribute('data-print','overview'); window.print(); }catch(e){} }
+  printStaat(){ this.buildPdf('register'); }
+  printOverview(){ this.buildPdf('overview'); }
+  loadLogo(){ try{ var img=document.querySelector('#printArea img'); if(img&&img.complete&&img.naturalWidth){ var c=document.createElement('canvas'); c.width=img.naturalWidth; c.height=img.naturalHeight; c.getContext('2d').drawImage(img,0,0); return {data:c.toDataURL('image/png'),w:img.naturalWidth,h:img.naturalHeight}; } }catch(e){} return null; }
+  buildPdf(kind){
+    if(!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print',kind==='overview'?'overview':'register'); window.print(); }catch(e){} return; }
+    var self=this, doc=new window.jspdf.jsPDF('p','mm','a4');
+    var M=14, W=210-2*M, y=M, PW=210;
+    var NAVY=[28,42,58],MUT=[120,126,136],LINE=[214,217,221],MIST=[244,246,248],INK=[22,32,43];
+    var logo=this.loadLogo();
+    function setC(fn,c){ doc[fn](c[0],c[1],c[2]); }
+    function ensure(h){ if(y+h>286){ doc.addPage(); y=M; } }
+    function header(title){
+      if(logo){ var hh=9, ww=hh*logo.w/logo.h; try{ doc.addImage(logo.data,'PNG',M,y,ww,hh); }catch(e){} }
+      doc.setFont('helvetica','bold'); doc.setFontSize(16); setC('setTextColor',INK); doc.text(title,PW-M,y+7,{align:'right'});
+      y+=12; setC('setDrawColor',NAVY); doc.setLineWidth(0.7); doc.line(M,y,PW-M,y); y+=7;
+    }
+    function infoBox(heading,rowsL,rowsR,labW){
+      var boxY=y, ty=y+6, leftX=M+3, rightX=M+W/2+3, lh=5;
+      doc.setFont('helvetica','bold'); doc.setFontSize(9); setC('setTextColor',NAVY); doc.text(heading,leftX,ty); ty+=5.5;
+      var tyL=ty, tyR=ty;
+      function kv(x,yy,k,v,bold){ doc.setFont('helvetica','normal'); doc.setFontSize(9); setC('setTextColor',MUT); doc.text(k,x,yy); doc.setFont('helvetica',bold?'bold':'normal'); setC('setTextColor',INK); doc.text(String(v==null||v===''?'—':v),x+labW,yy); }
+      rowsL.forEach(function(r,i){ kv(leftX,tyL,r[0],r[1],i===0); tyL+=lh; });
+      rowsR.forEach(function(r){ kv(rightX,tyR,r[0],r[1]); tyR+=lh; });
+      var boxH=Math.max(tyL,tyR)-boxY-lh+4;
+      setC('setDrawColor',LINE); doc.setLineWidth(0.3); doc.roundedRect(M,boxY,W,boxH,2,2);
+      y=boxY+boxH+8;
+    }
+    if(kind==='register'){
+      header('MANDAGENREGISTER');
+      var co=this.state.company||{}, rp=this.proj(this.state.regProjectId)||{};
+      infoBox('Bedrijfsgegevens',[['Naam',co.name],['Adres',co.address],['Plaats',co.city]],[['Datum',self.todayLong()],['Projectnaam',rp.name||'—'],['Projectnr.',rp.number||'—']],22);
+      var rd=this.regData();
+      rd.weeks.forEach(function(wk){
+        ensure(14);
+        doc.setFont('helvetica','bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text(wk.weekLabel,M,y);
+        doc.setFont('helvetica','normal'); doc.setFontSize(9); setC('setTextColor',MUT); doc.text('· '+wk.range,M+doc.getTextWidth(wk.weekLabel)+3,y);
+        doc.setFont('helvetica','bold'); doc.setFontSize(10); setC('setTextColor',INK); doc.text(self.fmt2(wk.weekTotal)+' u',PW-M,y,{align:'right'});
+        y+=2; setC('setDrawColor',NAVY); doc.setLineWidth(0.5); doc.line(M,y,PW-M,y); y+=5;
+        wk.rows.forEach(function(r){
+          var cardH=17; ensure(cardH+3);
+          setC('setDrawColor',LINE); doc.setLineWidth(0.3); doc.roundedRect(M,y,W,cardH,2,2);
+          doc.setFont('helvetica','bold'); doc.setFontSize(10); setC('setTextColor',INK); doc.text(String(r.name||'—'),M+3,y+5.6);
+          var nw=doc.getTextWidth(String(r.name||'—'));
+          doc.setFont('helvetica','normal'); doc.setFontSize(7.5); setC('setTextColor',MUT); doc.text('KvK '+(r.kvk||'—'),M+3+nw+3,y+5.6);
+          doc.setFont('helvetica','bold'); doc.setFontSize(10); setC('setTextColor',INK); doc.text(self.fmt2(r.total)+' u',PW-M-3,y+5.6,{align:'right'});
+          var gap=2, bw=(W-6-gap*4)/5, bx=M+3, by=y+8, bh=6.6;
+          r.cells.forEach(function(c,i){
+            setC('setFillColor',MIST); setC('setDrawColor',LINE); doc.roundedRect(bx,by,bw,bh,1,1,'FD');
+            doc.setFont('helvetica','normal'); doc.setFontSize(5.6); setC('setTextColor',MUT); doc.text(self.DCOLS[i].toUpperCase(),bx+bw/2,by+2.5,{align:'center'});
+            doc.setFont('helvetica','bold'); doc.setFontSize(8); setC('setTextColor',INK); doc.text(c.v?self.fmt2(c.v):'–',bx+bw/2,by+5.4,{align:'center'});
+            bx+=bw+gap;
+          });
+          y+=cardH+3;
+        });
+        y+=3;
+      });
+      doc.save('mandagenregister.pdf'); return;
+    }
+    // overview
+    header('URENOVERZICHT');
+    var co2=this.state.company||{}, mine=this.state.entries, grand=mine.reduce(function(a,e){return a+e.hours;},0);
+    infoBox('Overzicht',[['Onderaannemer',co2.name],['Totaal uren',self.fmt2(grand)]],[['Datum',self.todayLong()],['',''] ],30);
+    var byProj={}; mine.forEach(function(e){(byProj[e.projectId]=byProj[e.projectId]||[]).push(e);});
+    Object.keys(byProj).forEach(function(pid){
+      var p=self.proj(pid)||{}, list=byProj[pid].slice().sort(function(a,b){return a.date<b.date?-1:1;});
+      var tot=list.reduce(function(a,e){return a+e.hours;},0);
+      ensure(16);
+      doc.setFont('helvetica','bold'); doc.setFontSize(10.5); setC('setTextColor',INK); doc.text((p.name||'—')+'   ·   '+((p.number&&p.number!=='—')?p.number:'—'),M,y); y+=2;
+      setC('setDrawColor',NAVY); doc.setLineWidth(0.4); doc.line(M,y,PW-M,y); y+=5;
+      list.forEach(function(e){
+        ensure(7);
+        doc.setFont('helvetica','normal'); doc.setFontSize(9); setC('setTextColor',INK); doc.text(self.dateRow(e.date),M,y);
+        setC('setTextColor',MUT); var act=(e.note?e.activity+' · '+e.note:e.activity); doc.text(doc.splitTextToSize(String(act),95)[0],M+46,y);
+        doc.setFont('helvetica','bold'); setC('setTextColor',INK); doc.text(self.fmt2(e.hours),PW-M,y,{align:'right'});
+        y+=4.4; setC('setDrawColor',LINE); doc.setLineWidth(0.2); doc.line(M,y-1.6,PW-M,y-1.6);
+      });
+      doc.setFont('helvetica','bold'); doc.setFontSize(9.5); setC('setTextColor',INK); doc.text('Subtotaal',M,y+2.5); doc.text(self.fmt2(tot)+' u',PW-M,y+2.5,{align:'right'}); y+=10;
+    });
+    ensure(10); setC('setDrawColor',NAVY); doc.setLineWidth(0.7); doc.line(M,y,PW-M,y); y+=6;
+    doc.setFont('helvetica','bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text('Totaal alle projecten',M,y); doc.text(self.fmt2(grand)+' uur',PW-M,y,{align:'right'});
+    doc.save('urenoverzicht.pdf');
+  }
   genPdf(id,fname){
     var node=document.getElementById(id), pa=document.getElementById('printArea');
     if(!node||!pa||!window.html2canvas||!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print', id==='printOverview'?'overview':'register'); window.print(); }catch(e){} return; }
@@ -894,7 +982,7 @@ class Component extends DCLogic {
       printOverview:()=>this.printOverview(), hasOvExport:mine.length>0,
       regProjChips, prevWeek:()=>this.prevWeek(), nextWeek:()=>this.nextWeek(), startWeekLabel:'Week '+this.isoWeek(startMon),
       incWeeks:()=>this.incWeeks(), decWeeks:()=>this.decWeeks(), weeksLabel:s.weeks+' wk',
-      coName:co.name, coAddress:co.address, coCity:co.city,
+      coName:co.name, coAddress:co.address, coCity:co.city, coMyName:co.myName||'', coMyKvk:co.myKvk||'',
       regProjName:regProj.name||'—', regProjNumber:regProj.number||'—', regDateLabel:this.todayLong(),
       regWeeks, openAddWorker:()=>this.openAddWorker(), printStaat:()=>this.printStaat(),
       isSheetAdd:s.sheet==='addEntry', isSheetProject:s.sheet==='addProject', isSheetWorker:s.sheet==='addWorker', isSheetRegHour:s.sheet==='regHour', isSheetSettings:s.sheet==='settings',
@@ -916,7 +1004,7 @@ class Component extends DCLogic {
       knownWorkers, hasKnownWorkers:knownWorkers.length>0, anyKnownWorkers:s.regWorkers.length>0, rwQuery:s.rw_query, setRwQuery:e=>this.setState({rw_query:ev(e)}),
       rhWorkerName:rhWorker?rhWorker.name:'', rhDateLabel:s.rh_date?this.dateMid(s.rh_date):'', rhVal:s.rh_val, setRhVal:e=>this.setState({rh_val:ev(e)}), rhChips, saveRegHour:()=>this.saveRegHour(), saveRegHourStyle:this.primStyle(true), clearRegHour:()=>this.clearRegHour(),
       activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
-      setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)),
+      setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)), setCoMyName:e=>this.setCompany('myName',ev(e)), setCoMyKvk:e=>this.setCompany('myKvk',ev(e)),
       resetData:()=>this.resetData(),
       printDays:this.DCOLS, printWeeks, printOvProjects, printOvGrand, printOvDate:this.todayLong()
     };

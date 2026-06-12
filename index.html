@@ -130,7 +130,7 @@ if ('serviceWorker' in navigator) {
                 <div style="background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden">
                   <sc-for list="{{ g.entries }}" as="e" hint-placeholder-count="2">
                     <div style="position:relative;border-top:1px solid var(--line);overflow:hidden">
-                      <div style="position:absolute;top:0;right:0;bottom:0;width:72px;display:flex;align-items:center;justify-content:center;background:#f7e7e6">
+                      <div style="position:absolute;top:0;right:0;bottom:0;width:72px;display:flex;align-items:center;justify-content:center;background:transparent">
                         <button onClick="{{ e.onDelete }}" aria-label="Verwijder" style="width:42px;height:42px;border-radius:50%;background:#b4413c;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(180,65,60,.4)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
                       </div>
                       <button onClick="{{ e.onTap }}" onPointerDown="{{ e.onSwipe }}" style="{{ e.frontStyle }}">
@@ -165,7 +165,7 @@ if ('serviceWorker' in navigator) {
             <div style="margin-top:14px;display:flex;flex-direction:column;gap:11px">
               <sc-for list="{{ projectList }}" as="p" hint-placeholder-count="3">
                 <div style="position:relative;border-radius:16px;overflow:hidden">
-                  <div style="position:absolute;top:0;right:0;bottom:0;width:72px;display:flex;align-items:center;justify-content:center;background:#f7e7e6">
+                  <div style="position:absolute;top:0;right:0;bottom:0;width:72px;display:flex;align-items:center;justify-content:center;background:transparent">
                     <button onClick="{{ p.onDelete }}" aria-label="Verwijder" style="width:42px;height:42px;border-radius:50%;background:#b4413c;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(180,65,60,.4)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
                   </div>
                   <button onClick="{{ p.onTap }}" onPointerDown="{{ p.onSwipe }}" style="{{ p.frontStyle }}">
@@ -240,7 +240,7 @@ if ('serviceWorker' in navigator) {
             <div style="text-align:center;padding:34px 20px;color:var(--soft);font-size:14px">Nog geen geboekte uren.</div>
           </sc-if>
           <sc-if value="{{ hasOvExport }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ printOverview }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Urenoverzicht — download PDF</button>
+            <button onClick="{{ printOverview }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Urenoverzicht — PDF opslaan</button>
             <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:9px 4px 0">Al je projecten met werkzaamheden op één uitdraai.</p>
           </sc-if>
         </div>
@@ -300,8 +300,8 @@ if ('serviceWorker' in navigator) {
                     <sc-for list="{{ wk.rows }}" as="r" hint-placeholder-count="2">
                       <div style="background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 14px">
                         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-                          <span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">KvK {{ r.kvk }}</span></span>
-                          <span style="display:flex;align-items:center;gap:9px;flex:none"><span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span><button onClick="{{ r.onDelete }}" aria-label="Verwijder ZZP'er" style="width:30px;height:30px;border-radius:8px;border:1px solid #e7c9c9;background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b4413c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></span>
+                          <span style="min-width:0"><span style="display:flex;align-items:center;gap:6px"><span style="font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><sc-if value="{{ r.isSelf }}" hint-placeholder-val="{{ false }}"><span style="font-size:8.5px;font-weight:600;color:var(--navy);background:var(--mist);border:1px solid var(--line);border-radius:99px;padding:2px 6px;letter-spacing:.04em;flex:none;text-transform:uppercase">Eigen</span></sc-if></span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">KvK {{ r.kvk }}</span></span>
+                          <span style="display:flex;align-items:center;gap:9px;flex:none"><span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span><sc-if value="{{ r.canDelete }}" hint-placeholder-val="{{ true }}"><button onClick="{{ r.onDelete }}" aria-label="Verwijder ZZP'er" style="width:30px;height:30px;border-radius:8px;border:1px solid #e7c9c9;background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b4413c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></sc-if></span>
                         </div>
                         <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:11px">
                           <sc-for list="{{ r.cells }}" as="d" hint-placeholder-count="5">
@@ -315,15 +315,13 @@ if ('serviceWorker' in navigator) {
                     </sc-for>
                   </div>
                 </sc-if>
-                <sc-if value="{{ wk.noRows }}" hint-placeholder-val="{{ false }}">
-                  <div style="background:var(--paper);border:1px dashed #c4ccd6;border-radius:16px;padding:22px;text-align:center;color:var(--soft);font-size:13px;line-height:1.5">Nog geen ZZP'ers op dit project.<br/>Voeg er hieronder een toe.</div>
-                </sc-if>
+
               </div>
             </sc-for>
 
             <button onClick="{{ openAddWorker }}" style="width:100%;margin-top:14px;background:var(--paper);color:var(--navy);border:1.5px dashed #c4ccd6;border-radius:13px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>ZZP'er toevoegen</button>
 
-            <button onClick="{{ printStaat }}" style="width:100%;margin-top:10px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Mandagenregister — download PDF</button>
+            <button onClick="{{ printStaat }}" style="width:100%;margin-top:10px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Mandagenregister — PDF opslaan</button>
           </sc-if>
         </div>
       </sc-if>
@@ -484,6 +482,22 @@ if ('serviceWorker' in navigator) {
         </div>
         <div style="padding:18px 18px 32px">
           <div style="font-size:12.5px;color:var(--muted);line-height:1.5;margin-bottom:14px">Toevoegen aan <b style="color:var(--ink)">{{ regProjName }}</b></div>
+          <sc-if value="{{ anyKnownWorkers }}" hint-placeholder-val="{{ false }}">
+            <div style="position:relative;margin-bottom:12px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" style="position:absolute;left:13px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+              <input value="{{ rwQuery }}" onChange="{{ setRwQuery }}" placeholder="Zoek op naam of KvK-nummer…" style="width:100%;padding:13px 14px 13px 38px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist)"/>
+            </div>
+          </sc-if>
+          <sc-if value="{{ hasKnownWorkers }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:18px">
+              <sc-for list="{{ knownWorkers }}" as="k" hint-placeholder-count="2">
+                <button onClick="{{ k.onTap }}" style="width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:11px;padding:11px 13px;cursor:pointer">
+                  <span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ k.name }}</span><span style="display:block;font-size:11.5px;color:var(--soft);font-family:var(--disp)">{{ k.kvkLabel }}</span></span>
+                  <span style="display:inline-flex;align-items:center;gap:5px;color:var(--navy);font-size:12.5px;font-weight:600;flex:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Toevoegen</span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Naam</label>
           <input value="{{ rwName }}" onChange="{{ setRwName }}" placeholder="Naam en voorletters" autocapitalize="words" autocomplete="off" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>KvK-nummer</label>
@@ -586,31 +600,27 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <sc-for list="{{ printWeeks }}" as="wk" hint-placeholder-count="1">
-      <div style="margin-top:13px">
-        <div style="font-family:var(--disp);font-size:10.5pt;font-weight:600;margin-bottom:3px">{{ wk.weekLabel }} <span style="color:var(--muted);font-weight:400;font-family:var(--body)">· {{ wk.range }}</span></div>
-        <table style="width:100%;border-collapse:collapse;font-size:8.5pt">
-          <thead>
-            <tr style="background:var(--navy);color:#fff">
-              <th style="text-align:left;padding:5px 7px;width:8mm">#</th>
-              <th style="text-align:left;padding:5px 7px">KvK-nummer</th>
-              <th style="text-align:left;padding:5px 7px">Naam en voorletters</th>
-              <sc-for list="{{ printDays }}" as="h" hint-placeholder-count="5"><th style="padding:5px 5px;text-align:center;font-weight:500;width:11mm">{{ h }}</th></sc-for>
-              <th style="padding:5px 7px;text-align:right;width:14mm">Tot.</th>
-            </tr>
-          </thead>
-          <tbody>
-            <sc-for list="{{ wk.rows }}" as="r" hint-placeholder-count="3">
-              <tr style="border-bottom:1px solid var(--line)">
-                <td style="padding:5px 7px;color:var(--muted)">{{ r.nr }}</td>
-                <td style="padding:5px 7px;font-family:var(--disp)">{{ r.kvk }}</td>
-                <td style="padding:5px 7px">{{ r.name }}</td>
-                <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5"><td style="padding:5px 5px;text-align:center;font-family:var(--disp)">{{ c }}</td></sc-for>
-                <td style="padding:5px 7px;text-align:right;font-family:var(--disp);font-weight:600">{{ r.total }}</td>
-              </tr>
-            </sc-for>
-            <tr style="border-top:1.5px solid var(--navy)"><td colspan="3" style="padding:6px 7px;font-weight:600">Totaal {{ wk.weekLabel }}</td><sc-for list="{{ printDays }}" as="h" hint-placeholder-count="5"><td></td></sc-for><td style="padding:6px 7px;text-align:right;font-family:var(--disp);font-weight:700">{{ wk.weekTotal }}</td></tr>
-          </tbody>
-        </table>
+      <div style="margin-top:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:1.5px solid var(--navy);padding-bottom:5px;margin-bottom:10px">
+          <div style="font-family:var(--disp);font-size:11pt;font-weight:600">{{ wk.weekLabel }} <span style="color:var(--muted);font-weight:400;font-family:var(--body);font-size:9.5pt">· {{ wk.range }}</span></div>
+          <div style="font-family:var(--disp);font-size:10pt;font-weight:700">{{ wk.weekTotal }} u</div>
+        </div>
+        <sc-for list="{{ wk.rows }}" as="r" hint-placeholder-count="2">
+          <div style="border:1px solid var(--line);border-radius:9px;padding:10px 13px;margin-bottom:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <div><span style="font-size:10.5pt;font-weight:600">{{ r.name }}</span><span style="color:var(--soft);font-size:8.5pt;font-family:var(--disp);margin-left:8px">KvK {{ r.kvk }}</span></div>
+              <div style="font-family:var(--disp);font-size:10.5pt;font-weight:700;white-space:nowrap">{{ r.total }} u</div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:9px">
+              <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5">
+                <div style="flex:1;text-align:center;background:var(--mist);border:1px solid var(--line);border-radius:6px;padding:6px 2px">
+                  <div style="font-size:7pt;color:var(--soft);text-transform:uppercase;letter-spacing:.06em">{{ c.label }}</div>
+                  <div style="font-family:var(--disp);font-size:10pt;font-weight:600;margin-top:2px">{{ c.val }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
       </div>
     </sc-for>
     </div>
@@ -688,7 +698,7 @@ class Component extends DCLogic {
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',
-      rw_name:'',rw_kvk:'',rh_worker:'',rh_date:'',rh_val:''},data);
+      rw_name:'',rw_kvk:'',rw_query:'',rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
     return {
@@ -725,10 +735,10 @@ class Component extends DCLogic {
   openSettings(){ this.setState({sheet:'settings',openSwipe:''}); }
   closeSheet(){ this.setState({sheet:null,showNewAct:false}); }
   // swipe-to-reveal
-  swipeStart(ev,id){ const sx=ev.clientX,sy=ev.clientY; let dx=0,horiz=false; const self=this;
-    const move=(me)=>{ const mx=me.clientX!=null?me.clientX:sx, my=me.clientY!=null?me.clientY:sy; dx=mx-sx; if(!horiz&&Math.abs(dx)>8&&Math.abs(dx)>Math.abs(my-sy)+2)horiz=true; };
-    const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); if(horiz){ self._swipeTs=Date.now(); self.setState({openSwipe:dx<-30?id:''}); } };
-    document.addEventListener('pointermove',move); document.addEventListener('pointerup',up); }
+  swipeStart(ev,id){ const front=ev.currentTarget; const sx=ev.clientX,sy=ev.clientY; let dx=0,horiz=false; const self=this; front.style.transition='none';
+    const move=(me)=>{ const mx=me.clientX!=null?me.clientX:sx, my=me.clientY!=null?me.clientY:sy; const ddx=mx-sx; if(!horiz&&Math.abs(ddx)>8&&Math.abs(ddx)>Math.abs(my-sy)+2)horiz=true; if(horiz){ dx=Math.max(-88,Math.min(0,ddx)); front.style.transform='translateX('+dx+'px)'; if(me.cancelable)me.preventDefault(); } };
+    const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); front.style.transition='transform .2s ease'; if(horiz){ self._swipeTs=Date.now(); const open=dx<-44; front.style.transform=open?'translateX(-74px)':'translateX(0)'; self.setState({openSwipe:open?id:''}); } };
+    document.addEventListener('pointermove',move,{passive:false}); document.addEventListener('pointerup',up); }
   rowTap(id,action){ if(this.state.openSwipe===id){ this.setState({openSwipe:''}); return; } if(Date.now()-(this._swipeTs||0)<300)return; action(); }
   // entries
   openAdd(){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false}); }
@@ -751,8 +761,9 @@ class Component extends DCLogic {
   addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; this.up({activities:s.activities.concat([v]),newActName:''}); }
   removeActivity(name){ const s=this.state; this.up({activities:s.activities.filter(a=>a!==name)}); }
   // register workers + hours
-  openAddWorker(){ if(!this.state.regProjectId)return; this.setState({sheet:'addWorker',rw_name:'',rw_kvk:''}); }
+  openAddWorker(){ if(!this.state.regProjectId)return; this.setState({sheet:'addWorker',rw_name:'',rw_kvk:'',rw_query:''}); }
   saveWorker(){ const s=this.state; const name=s.rw_name.trim(); if(!name||!s.regProjectId)return; const id=this.uid('w'); this.up({regWorkers:s.regWorkers.concat([{id,projectId:s.regProjectId,name,kvk:s.rw_kvk.trim()}]),sheet:null}); }
+  addKnownWorker(name,kvk){ const s=this.state; if(!s.regProjectId)return; const id=this.uid('w'); this.up({regWorkers:s.regWorkers.concat([{id,projectId:s.regProjectId,name,kvk:kvk||''}]),sheet:null}); }
   deleteRegWorker(id){ const s=this.state; if(!s.regWorkers.some(w=>w.id===id))return; this._undoSnap={regWorkers:s.regWorkers.slice(),regHours:Object.assign({},s.regHours)}; const regWorkers=s.regWorkers.filter(w=>w.id!==id); const regHours=Object.assign({},s.regHours); delete regHours[id]; this.up({regWorkers,regHours}); this.flagUndo('ZZP\u2019er verwijderd'); }
   openRegCell(workerId,date){ const s=this.state; const cur=(s.regHours[workerId]&&s.regHours[workerId][date])||0; this.setState({sheet:'regHour',rh_worker:workerId,rh_date:date,rh_val:cur?this.fmt(cur):''}); }
   saveRegHour(){ const s=this.state; const h=this.parseHours(s.rh_val); const rh=Object.assign({},s.regHours); const m=Object.assign({},rh[s.rh_worker]||{}); if(h>0)m[s.rh_date]=h; else delete m[s.rh_date]; rh[s.rh_worker]=m; this.up({regHours:rh,sheet:null}); }
@@ -772,17 +783,20 @@ class Component extends DCLogic {
     for(let w=0;w<s.weeks;w++){
       const mon=this.getMonday(this.addDays(new Date(),(s.weekOffset+w)*7));
       const dates=[]; for(let i=0;i<5;i++)dates.push(this.toISO(this.addDays(mon,i)));
-      const rows=workers.map((wk,idx)=>{
+      const selfName=(s.company&&s.company.name)||'Eigen uren';
+      const selfCells=dates.map(d=>({date:d,v:s.entries.filter(e=>e.projectId===pid&&e.date===d).reduce((a,e)=>a+e.hours,0)}));
+      const selfRow={id:'__self__',isSelf:true,name:selfName,kvk:(s.company&&s.company.kvk)||'—',cells:selfCells,total:selfCells.reduce((a,c)=>a+c.v,0),nr:1};
+      const rows=[selfRow].concat(workers.map((wk,idx)=>{
         const cells=dates.map(d=>{ const m=s.regHours[wk.id]; return {date:d,v:(m&&m[d])||0}; });
         const total=cells.reduce((a,c)=>a+c.v,0);
-        return {id:wk.id,name:wk.name,kvk:wk.kvk||'—',cells,total,nr:idx+1};
-      });
+        return {id:wk.id,name:wk.name,kvk:wk.kvk||'—',cells,total,nr:idx+2};
+      }));
       out.push({mon,dates,weekLabel:'Week '+this.isoWeek(mon),range:this.rangeLabel(mon),rows,weekTotal:rows.reduce((a,r)=>a+r.total,0)});
     }
     return {weeks:out,workers};
   }
-  printStaat(){ this.genPdf('printRegister','mandagenregister'); }
-  printOverview(){ this.genPdf('printOverview','urenoverzicht'); }
+  printStaat(){ try{ document.body.setAttribute('data-print','register'); window.print(); }catch(e){} }
+  printOverview(){ try{ document.body.setAttribute('data-print','overview'); window.print(); }catch(e){} }
   genPdf(id,fname){
     var node=document.getElementById(id), pa=document.getElementById('printArea');
     if(!node||!pa||!window.html2canvas||!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print', id==='printOverview'?'overview':'register'); window.print(); }catch(e){} return; }
@@ -791,7 +805,7 @@ class Component extends DCLogic {
     kids.forEach(function(k){ k.style.display=(k===node?'block':'none'); });
     pa.style.cssText=prevPa+';display:block;position:fixed;left:-10000px;top:0;width:794px;background:#fff;padding:32px;z-index:-1';
     var restore=function(){ pa.setAttribute('style',prevPa); kids.forEach(function(k,i){ k.style.display=prevK[i]; }); };
-    window.html2canvas(node,{scale:2,backgroundColor:'#ffffff',useCORS:true,windowWidth:794}).then(function(canvas){
+    window.html2canvas(node,{scale:3,backgroundColor:'#ffffff',useCORS:true,windowWidth:794}).then(function(canvas){
       try{
         var jsPDF=window.jspdf.jsPDF, pdf=new jsPDF('p','mm','a4');
         var margin=8, iw=210-margin*2, pageH=297-margin*2;
@@ -803,7 +817,7 @@ class Component extends DCLogic {
           cx.fillStyle='#fff'; cx.fillRect(0,0,sc.width,sc.height);
           cx.drawImage(canvas,0,sy,canvas.width,hpx,0,0,canvas.width,hpx);
           if(!first)pdf.addPage();
-          pdf.addImage(sc.toDataURL('image/jpeg',0.92),'JPEG',margin,margin,iw,hpx/pxPerMm);
+          pdf.addImage(sc.toDataURL('image/png'),'PNG',margin,margin,iw,hpx/pxPerMm,undefined,'FAST');
           first=false; sy+=hpx;
         }
         pdf.save(fname+'.pdf');
@@ -816,7 +830,7 @@ class Component extends DCLogic {
   primStyle(on){ const C=this.C; return {background:on?C.navy:'#c7ccd4',color:'#fff',border:'none',borderRadius:'10px',padding:'8px 16px',fontSize:'14px',fontWeight:600,cursor:on?'pointer':'default'}; }
   entryFront(open){ const C=this.C; return {position:'relative',width:'100%',display:'flex',alignItems:'center',gap:'12px',padding:'13px 15px',background:C.paper,border:'none',cursor:'pointer',textAlign:'left',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-72px)':'translateX(0)'}; }
   projFront(open){ const C=this.C; return {position:'relative',width:'100%',textAlign:'left',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',padding:'15px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:'13px',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-72px)':'translateX(0)'}; }
-  cellStyle(filled){ const C=this.C; return {textAlign:'center',background:filled?'#eaf0f9':C.mist,border:'1px solid '+(filled?'#c3d4ec':C.line),borderRadius:'8px',padding:'6px 2px',cursor:'pointer'}; }
+  cellStyle(filled,self){ const C=this.C; return {textAlign:'center',background:filled?'#eaf0f9':C.mist,border:'1px solid '+(filled?'#c3d4ec':C.line),borderRadius:'8px',padding:'6px 2px',cursor:self?'default':'pointer',opacity:self?'.92':'1'}; }
   renderVals(){
     const s=this.state, C=this.C;
     const ev=e=>e&&e.target?e.target.value:e;
@@ -839,9 +853,9 @@ class Component extends DCLogic {
     // register
     const rd=this.regData();
     const regWeeks=rd.weeks.map(wk=>({weekLabel:wk.weekLabel,range:wk.range,totalLabel:this.fmt2(wk.weekTotal),hasRows:wk.rows.length>0,noRows:wk.rows.length===0,
-      rows:wk.rows.map(r=>({id:r.id,name:r.name,kvk:r.kvk,totalLabel:this.fmt2(r.total),onDelete:()=>this.deleteRegWorker(r.id),
-        cells:r.cells.map((c,i)=>({label:this.DCOLS[i],val:c.v?this.fmt(c.v):'·',color:c.v?C.ink:C.soft,style:this.cellStyle(c.v>0),onTap:()=>this.openRegCell(r.id,c.date)}))}))}));
-    const printWeeks=rd.weeks.map(wk=>({weekLabel:wk.weekLabel,range:wk.range,weekTotal:this.fmt2(wk.weekTotal),rows:wk.rows.map(r=>({nr:r.nr,kvk:r.kvk,name:r.name,total:this.fmt2(r.total),cells:r.cells.map(c=>this.fmt2(c.v))}))}));
+      rows:wk.rows.map(r=>({id:r.id,name:r.name,kvk:r.kvk,totalLabel:this.fmt2(r.total),isSelf:!!r.isSelf,canDelete:!r.isSelf,onDelete:()=>this.deleteRegWorker(r.id),
+        cells:r.cells.map((c,i)=>({label:this.DCOLS[i],val:c.v?this.fmt(c.v):'·',color:c.v?C.ink:C.soft,style:this.cellStyle(c.v>0,!!r.isSelf),onTap:r.isSelf?(()=>this.setState({tab:'uren'})):(()=>this.openRegCell(r.id,c.date))}))}))}));
+    const printWeeks=rd.weeks.map(wk=>({weekLabel:wk.weekLabel,range:wk.range,weekTotal:this.fmt2(wk.weekTotal),rows:wk.rows.map(r=>({nr:r.nr,kvk:r.kvk,name:r.name,total:this.fmt2(r.total),cells:r.cells.map((c,i)=>({label:this.DCOLS[i],val:c.v?this.fmt2(c.v):'–'}))}))}));
     const regProj=this.proj(s.regProjectId)||{};
     const regProjChips=s.projects.map(p=>({name:p.name,badge:this.projBadge(p),style:this.chipStyle(p.id===s.regProjectId),onTap:()=>this.setReg(p.id)}));
     const startMon=this.getMonday(this.addDays(new Date(),s.weekOffset*7));
@@ -856,6 +870,10 @@ class Component extends DCLogic {
     const activitiesList=s.activities.map(a=>({name:a,onRemove:()=>this.removeActivity(a)}));
     const co=s.company||{name:'',address:'',city:''};
     const rhWorker=this.worker(s.rh_worker);
+    const onProj={}; s.regWorkers.filter(w=>w.projectId===s.regProjectId).forEach(w=>{onProj[(w.name+'|'+(w.kvk||'')).toLowerCase()]=1;});
+    const wq=s.rw_query.trim().toLowerCase();
+    const seenKnown={}; const knownWorkers=[];
+    if(wq)s.regWorkers.forEach(w=>{ const k=(w.name+'|'+(w.kvk||'')).toLowerCase(); if(seenKnown[k]||onProj[k])return; if(w.name.toLowerCase().indexOf(wq)<0&&(w.kvk||'').toLowerCase().indexOf(wq)<0)return; seenKnown[k]=1; knownWorkers.push({name:w.name,kvk:w.kvk||'',kvkLabel:w.kvk?('KvK '+w.kvk):'geen KvK',onTap:()=>this.addKnownWorker(w.name,w.kvk||'')}); });
     // print overview
     const ovByProj={}; mine.forEach(e=>{(ovByProj[e.projectId]=ovByProj[e.projectId]||[]).push(e);});
     const printOvProjects=Object.keys(ovByProj).map(pid=>{const p=this.proj(pid)||{}; const list=ovByProj[pid].slice().sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0)); const tot=list.reduce((x,e)=>x+e.hours,0); return {name:this.projName(pid),number:(p.number&&p.number!=='—')?p.number:'—',rows:list.map(e=>({date:this.dateRow(e.date),activity:(e.note?e.activity+' · '+e.note:e.activity),hours:this.fmt2(e.hours)})),totalLabel:this.fmt2(tot)};});
@@ -895,6 +913,7 @@ class Component extends DCLogic {
       pLocation:s.p_location, setPLocation:e=>this.setState({p_location:ev(e)}), pClient:s.p_client, setPClient:e=>this.setState({p_client:ev(e)}),
       saveProject:()=>this.saveProject(), saveProjectStyle:this.primStyle(!!s.p_name.trim()),
       rwName:s.rw_name, setRwName:e=>this.setState({rw_name:ev(e)}), rwKvk:s.rw_kvk, setRwKvk:e=>this.setState({rw_kvk:ev(e)}), saveWorker:()=>this.saveWorker(), saveWorkerStyle:this.primStyle(!!s.rw_name.trim()),
+      knownWorkers, hasKnownWorkers:knownWorkers.length>0, anyKnownWorkers:s.regWorkers.length>0, rwQuery:s.rw_query, setRwQuery:e=>this.setState({rw_query:ev(e)}),
       rhWorkerName:rhWorker?rhWorker.name:'', rhDateLabel:s.rh_date?this.dateMid(s.rh_date):'', rhVal:s.rh_val, setRhVal:e=>this.setState({rh_val:ev(e)}), rhChips, saveRegHour:()=>this.saveRegHour(), saveRegHourStyle:this.primStyle(true), clearRegHour:()=>this.clearRegHour(),
       activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
       setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)),

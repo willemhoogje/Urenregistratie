@@ -897,6 +897,8 @@ class Component extends DCLogic {
     return true;
   }
   loadLogo(){ try{ var img=document.querySelector('#printArea img'); if(img&&img.complete&&img.naturalWidth){ var c=document.createElement('canvas'); c.width=img.naturalWidth; c.height=img.naturalHeight; c.getContext('2d').drawImage(img,0,0); return {data:c.toDataURL('image/png'),w:img.naturalWidth,h:img.naturalHeight}; } }catch(e){} return null; }
+  sanitizeFn(s){ return String(s==null?'':s).replace(/[\/\\:*?"<>|,]+/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-+|-+$/g,''); }
+  isoYear(date){ var d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate())); var dn=(d.getUTCDay()+6)%7; d.setUTCDate(d.getUTCDate()-dn+3); return d.getUTCFullYear(); }
   buildPdf(kind,weekKey){
     if(!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print',kind==='overview'?'overview':'register'); window.print(); }catch(e){} return; }
     var self=this, doc=new window.jspdf.jsPDF('p','mm','a4');
@@ -960,7 +962,12 @@ class Component extends DCLogic {
         doc.text('Totaal '+wk.weekLabel,M+2,y+5); doc.text(self.fmt2(wk.weekTotal)+' u',M+W-2,y+5,{align:'right'});
         y+=11;
       });
-      doc.save('mandagenregister.pdf'); return;
+      var rpNum=self.sanitizeFn((rp.number&&rp.number!=='—')?rp.number:''), rpName=self.sanitizeFn(rp.name||'');
+      var projPart=[rpNum,rpName].filter(Boolean).join('-');
+      var wkPart='';
+      if(rd.weeks.length){ var w0=rd.weeks[0].mon, wN=rd.weeks[rd.weeks.length-1].mon, n0=self.isoWeek(w0), nN=self.isoWeek(wN); wkPart='wk'+(n0===nN?n0:(n0+'-'+nN))+'-'+self.isoYear(wN); }
+      var rParts=['Mandagenregister']; if(projPart)rParts.push(projPart); if(wkPart)rParts.push(wkPart);
+      doc.save(rParts.join('_')+'.pdf'); return;
     }
     // overview
     header('URENOVERZICHT');
@@ -990,7 +997,10 @@ class Component extends DCLogic {
     });
     ensure(10); setC('setDrawColor',NAVY); doc.setLineWidth(0.7); doc.line(M,y,PW-M,y); y+=6;
     doc.setFont(DISP,'bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text('Totaal alle projecten',M,y); doc.text(self.fmt2(grand)+' uur',PW-M,y,{align:'right'});
-    doc.save('urenoverzicht'+(weekKey?'-week'+self.isoWeek(self.parseISO(weekKey)):'')+'.pdf');
+    var nm2=self.sanitizeFn(co2.myLast||'');
+    var wkPart2=weekKey?('wk'+self.isoWeek(self.parseISO(weekKey))+'-'+self.isoYear(self.parseISO(weekKey))):'alle-weken';
+    var oParts=['Urenregistratie']; if(nm2)oParts.push(nm2); oParts.push(wkPart2);
+    doc.save(oParts.join('_')+'.pdf');
   }
   genPdf(id,fname){
     var node=document.getElementById(id), pa=document.getElementById('printArea');

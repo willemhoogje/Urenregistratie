@@ -701,7 +701,7 @@ if ('serviceWorker' in navigator) {
             <button onClick="{{ exportBackup }}" style="flex:1;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Backup maken</button>
             <button onClick="{{ triggerImport }}" style="flex:1;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Terugzetten</button>
           </div>
-          <input id="backupFileInput" type="file" accept="application/json,.json" onChange="{{ importBackup }}" style="display:none"/>
+          <input id="backupFileInput" type="file" onChange="{{ importBackup }}" style="display:none"/>
           <div style="font-size:11.5px;color:var(--muted);margin:18px 2px 9px;font-weight:600">Automatische herinnering</div>
           <div style="display:flex;gap:8px">
             <button onClick="{{ setBackupOff }}" style="{{ biOffStyle }}">Uit</button>
@@ -710,7 +710,7 @@ if ('serviceWorker' in navigator) {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v57</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v58</div>
         </div>
       </div>
     </sc-if>
@@ -939,7 +939,7 @@ class Component extends DCLogic {
   snoozeBackup(){ this.setState({backupSnooze:true}); }
   exportBackup(){
     var s=this.state, self=this;
-    var payload={app:'abeco-uren',version:1,exportedAt:new Date().toISOString(),data:{company:s.company,projects:s.projects,activities:s.activities,entries:s.entries,regWorkers:s.regWorkers,regHours:s.regHours}};
+    var payload={app:'abeco-uren',version:1,exportedAt:new Date().toISOString(),data:{company:s.company,projects:s.projects,activities:s.activities,entries:s.entries,regWorkers:s.regWorkers,regHours:s.regHours,notes:s.notes,backupCfg:s.backupCfg}};
     var json=JSON.stringify(payload,null,2);
     var fname='abeco-uren-backup-'+this.toISO(new Date())+'.json';
     var blob=new Blob([json],{type:'application/json'});
@@ -954,7 +954,7 @@ class Component extends DCLogic {
       var obj=JSON.parse(reader.result); var d=(obj&&obj.data)?obj.data:obj;
       if(!d||(!d.entries&&!d.projects)){ alert('Dit lijkt geen geldig backup-bestand te zijn.'); return; }
       if(typeof confirm==='function'&&!confirm('Backup terugzetten? Dit vervangt je huidige gegevens in de app.'))return;
-      var ns={company:d.company||self.state.company,projects:d.projects||[],activities:d.activities||self.state.activities,entries:d.entries||[],regWorkers:d.regWorkers||[],regHours:d.regHours||{}};
+      var ns={company:d.company||self.state.company,projects:d.projects||[],activities:d.activities||self.state.activities,entries:d.entries||[],regWorkers:d.regWorkers||[],regHours:d.regHours||{},notes:d.notes||self.state.notes||[]};
       self.setState(Object.assign({sheet:null,regProjectId:(ns.projects[0]?ns.projects[0].id:'')},ns),function(){ self.persist(); });
       alert('Backup teruggezet.');
     }catch(err){ alert('Kon het bestand niet lezen.'); } };

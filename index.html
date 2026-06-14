@@ -22,7 +22,7 @@
   #appstatus{display:none!important}
   #apphome{display:none!important}
   #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-  #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),3px)!important}
+  #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 38px),4px)!important}
   .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
 </style>
 <script src="./support.js"></script>
@@ -90,7 +90,7 @@ if ('serviceWorker' in navigator) {
     #appstatus{display:none!important}
     #apphome{display:none!important}
     #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-    #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),3px)!important}
+    #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 38px),4px)!important}
     .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
   }
   #printArea{display:none}
@@ -388,26 +388,26 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <!-- TAB BAR -->
-    <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:9px 6px 24px;z-index:25">
+    <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:4px 6px 8px;z-index:25">
       <button onClick="{{ tabUren }}" style="{{ tabUrenStyle }}">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:1px">Uren</span>
+        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Uren</span>
       </button>
       <button onClick="{{ tabProj }}" style="{{ tabProjStyle }}">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:1px">Projecten</span>
+        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Projecten</span>
       </button>
       <button onClick="{{ tabOver }}" style="{{ tabOverStyle }}">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:1px">Overzicht</span>
+        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Overzicht</span>
       </button>
       <button onClick="{{ tabWeek }}" style="{{ tabWeekStyle }}">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:1px">Register</span>
+        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Register</span>
       </button>
       <button onClick="{{ tabNotes }}" style="{{ tabNotesStyle }}">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:1px">Notities</span>
+        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Notities</span>
       </button>
     </div>
     <div id="apphome" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
@@ -1161,7 +1161,7 @@ class Component extends DCLogic {
   }
   chipStyle(sel){ const C=this.C; return Object.assign({display:'inline-flex',alignItems:'center',gap:'6px',padding:'9px 14px',borderRadius:'999px',fontSize:'13.5px',fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}, sel?{background:C.navy,color:'#fff',border:'1px solid '+C.navy}:{background:'#fff',color:C.ink,border:'1px solid '+C.line}); }
   regChipStyle(sel){ const C=this.C; return Object.assign({display:'flex',flexDirection:'column',alignItems:'flex-start',gap:'2px',padding:'10px 13px',borderRadius:'12px',cursor:'pointer',textAlign:'left',maxWidth:'100%',minWidth:'0',whiteSpace:'normal',wordBreak:'break-word',lineHeight:'1.25'}, sel?{background:C.navy,color:'#fff',border:'1px solid '+C.navy}:{background:'#fff',color:C.ink,border:'1px solid '+C.line}); }
-  tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'4px 2px',color:active?C.navy:C.soft}; }
+  tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'2px 2px',color:active?C.navy:C.soft}; }
   segStyle(active){ const C=this.C; return {flex:1,border:'none',borderRadius:'9px',padding:'9px 6px',fontSize:'13px',fontWeight:600,cursor:'pointer',background:active?C.navy:'transparent',color:active?'#fff':C.muted,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}; }
   primStyle(on){ const C=this.C; return {background:on?C.navy:'#c7ccd4',color:'#fff',border:'none',borderRadius:'10px',padding:'8px 16px',fontSize:'14px',fontWeight:600,cursor:on?'pointer':'default'}; }
   entryFront(open){ const C=this.C; return {position:'relative',width:'100%',display:'flex',alignItems:'center',gap:'12px',padding:'15px 16px',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',cursor:'pointer',textAlign:'left',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-120px)':'translateX(0)'}; }

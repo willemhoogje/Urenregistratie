@@ -192,9 +192,7 @@ if ('serviceWorker' in navigator) {
         <div style="padding:20px 18px 0">
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Beheer</div>
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Projecten</h1>
-          <button onClick="{{ openNewProject }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuw project</button>
-
-          <button onClick="{{ openAddGeneral }}" style="width:100%;margin-top:14px;display:flex;align-items:center;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 16px;cursor:pointer;text-align:left">
+          <button onClick="{{ openAddGeneral }}" style="width:100%;margin-top:16px;display:flex;align-items:center;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 16px;cursor:pointer;text-align:left">
             <span style="width:44px;height:44px;border-radius:11px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none"><span style="font-family:var(--disp);font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em">ALG</span></span>
             <span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:600;color:var(--ink)">Algemene uren</span><span style="display:block;font-size:12px;color:var(--muted);margin-top:4px">niet-projectgebonden</span></span>
             <span style="text-align:right;flex:none"><span style="display:block;font-family:var(--disp);font-size:17px;font-weight:600;color:var(--ink)">{{ genTotalLabel }}</span><span style="display:block;font-size:10px;color:var(--soft);font-weight:500;text-transform:uppercase;letter-spacing:.08em">uur</span></span>
@@ -227,7 +225,7 @@ if ('serviceWorker' in navigator) {
             </div>
           </sc-if>
           <sc-if value="{{ noProjects }}" hint-placeholder-val="{{ true }}">
-            <div style="text-align:center;padding:40px 20px;color:var(--soft);font-size:14px;line-height:1.6">Nog geen projecten.<br/>Voeg er een toe met de knop hierboven.</div>
+            <div style="text-align:center;padding:40px 20px;color:var(--soft);font-size:14px;line-height:1.6">Nog geen projecten.<br/>Voeg er een toe met de + rechtsonder.</div>
           </sc-if>
           <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:16px 4px 0">Veeg een project naar links om te bewerken of verwijderen.</p>
         </div>
@@ -373,9 +371,8 @@ if ('serviceWorker' in navigator) {
         <div style="padding:20px 18px 0">
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Handig</div>
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Notities</h1>
-          <button onClick="{{ openNewNote }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuwe notitie</button>
           <sc-if value="{{ hasNotes }}" hint-placeholder-val="{{ false }}">
-            <div style="margin-top:14px;display:flex;flex-direction:column;gap:11px">
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:11px">
               <sc-for list="{{ noteList }}" as="n" hint-placeholder-count="3">
                 <button onClick="{{ n.onTap }}" style="width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;display:block">
                   <span style="display:block;font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.title }}</span>
@@ -385,7 +382,7 @@ if ('serviceWorker' in navigator) {
             </div>
           </sc-if>
           <sc-if value="{{ noNotes }}" hint-placeholder-val="{{ true }}">
-            <div style="text-align:center;padding:40px 20px;color:var(--soft);font-size:14px;line-height:1.6">Nog geen notities.<br/>Maak een checklist of notitie met de knop hierboven.</div>
+            <div style="text-align:center;padding:40px 20px;color:var(--soft);font-size:14px;line-height:1.6">Nog geen notities.<br/>Maak er een met de + rechtsonder.</div>
           </sc-if>
         </div>
       </sc-if>
@@ -418,7 +415,7 @@ if ('serviceWorker' in navigator) {
     </div>
     <div id="apphome" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
     <sc-if value="{{ showFab }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ openAdd }}" aria-label="Uren toevoegen" style="position:absolute;right:18px;bottom:calc(env(safe-area-inset-bottom) + 86px);width:60px;height:60px;border-radius:50%;background:var(--navy);border:none;box-shadow:0 10px 24px rgba(12,18,30,.36);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:30">
+      <button onClick="{{ fabAction }}" aria-label="{{ fabLabel }}" style="position:absolute;right:18px;bottom:calc(env(safe-area-inset-bottom) + 86px);width:60px;height:60px;border-radius:50%;background:var(--navy);border:none;box-shadow:0 10px 24px rgba(12,18,30,.36);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:30">
         <svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
       </button>
     </sc-if>
@@ -895,6 +892,7 @@ class Component extends DCLogic {
   rowTap(id,action){ if(this.state.openSwipe===id){ this.setState({openSwipe:''}); return; } if(Date.now()-(this._swipeTs||0)<300)return; action(); }
   // entries
   openAdd(){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false}); }
+  fabAction(){ var t=this.state.tab; if(t==='projecten')this.openNewProject(); else if(t==='notities')this.openNewNote(); else this.openAdd(); }
   openAddWith(pid){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:pid,f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false,tab:'uren'}); }
   openEdit(e){ this.setState({sheet:'addEntry',editingId:e.id,f_date:e.date,f_projectId:e.projectId,f_activity:e.activity,f_hours:this.fmt(e.hours),f_note:e.note||'',f_projQuery:'',showNewAct:false}); }
   openAddGeneral(){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:this.GEN,f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false}); }
@@ -1237,7 +1235,7 @@ class Component extends DCLogic {
       noteItems, hasNoteItems:(s.n_items||[]).length>0, noteProjChips,
       saveNote:()=>this.saveNote(), saveNoteStyle:this.primStyle(!!((s.n_title||'').trim()||(s.n_text||'').trim()||(s.n_items||[]).length)), deleteNote:()=>this.deleteNote(),
       todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),
-      openAdd:()=>this.openAdd(), showFab:s.tab==='uren', undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(),
+      openAdd:()=>this.openAdd(), fabAction:()=>this.fabAction(), fabLabel:(s.tab==='projecten'?'Nieuw project':(s.tab==='notities'?'Nieuwe notitie':'Uren toevoegen')), showFab:(s.tab==='uren'||s.tab==='projecten'||s.tab==='notities'), undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(),
       dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(),
       genEntries, hasGenEntries:genList.length>0, noGenEntries:genList.length===0, genTotalLabel:this.fmt(genTotal), openAddGeneral:()=>this.openAddGeneral(),

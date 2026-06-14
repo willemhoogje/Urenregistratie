@@ -64,6 +64,26 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+<script>
+/* TIJDELIJK meet-vakje voor diagnose onderbalk-strook */
+window.addEventListener('load', function () {
+  setTimeout(function () {
+    try {
+      var probe = document.createElement('div');
+      probe.style.cssText = 'position:fixed;left:0;bottom:0;width:1px;height:env(safe-area-inset-bottom);pointer-events:none';
+      document.body.appendChild(probe);
+      var sab = Math.round(probe.getBoundingClientRect().height); probe.remove();
+      var bar = document.getElementById('apptabbar');
+      var barBot = bar ? Math.round(bar.getBoundingClientRect().bottom) : '-';
+      var barH = bar ? Math.round(bar.getBoundingClientRect().height) : '-';
+      var box = document.createElement('div');
+      box.style.cssText = 'position:fixed;top:64px;left:8px;z-index:2147483647;background:#000;color:#1fdd5a;font:12px monospace;line-height:1.4;padding:7px 9px;border-radius:7px;white-space:pre;box-shadow:0 4px 14px rgba(0,0,0,.4)';
+      box.textContent = 'METING (tijdelijk)\nsafe-bottom: ' + sab + '\ninnerHeight: ' + window.innerHeight + '\nclientHeight: ' + document.documentElement.clientHeight + '\nbar onderkant: ' + barBot + '\nbar hoogte: ' + barH + '\nscherm: ' + window.screen.height + '  dpr: ' + window.devicePixelRatio;
+      document.body.appendChild(box);
+    } catch (e) {}
+  }, 1600);
+});
+</script>
 </head>
 <body>
 <x-dc>
@@ -710,7 +730,7 @@ if ('serviceWorker' in navigator) {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v52</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v53</div>
         </div>
       </div>
     </sc-if>

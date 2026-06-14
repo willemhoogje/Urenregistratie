@@ -362,6 +362,12 @@ if ('serviceWorker' in navigator) {
         <button onClick="{{ undo }}" style="background:none;border:none;color:#86b4ff;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap">Ongedaan maken</button>
       </div>
     </sc-if>
+    <sc-if value="{{ backupDue }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:14px;right:86px;bottom:calc(env(safe-area-inset-bottom) + 84px);z-index:46;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#16202b;color:#fff;border-radius:13px;padding:11px 14px;box-shadow:0 10px 26px rgba(8,12,20,.4);animation:fadeIn .2s ease">
+        <span style="font-size:13px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis">Tijd voor een backup van je uren</span>
+        <span style="display:flex;gap:12px;flex:none"><button onClick="{{ backupLater }}" style="background:none;border:none;color:#9aa6b8;font-size:13px;font-weight:600;cursor:pointer">Later</button><button onClick="{{ backupNow }}" style="background:none;border:none;color:#86b4ff;font-size:13px;font-weight:700;cursor:pointer">Nu maken</button></span>
+      </div>
+    </sc-if>
 
     <!-- ===== SHEET: ADD ENTRY ===== -->
     <sc-if value="{{ isSheetAdd }}" hint-placeholder-val="{{ false }}">
@@ -583,6 +589,20 @@ if ('serviceWorker' in navigator) {
           </div>
 
 
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Gegevens &amp; backup</div>
+          <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 12px">Sla een kopie van al je gegevens op (bijv. in Google Drive of Bestanden) en zet 'm terug op een nieuw apparaat. Laatste backup: <b style="color:var(--muted)">{{ backupLastLabel }}</b></p>
+          <div style="display:flex;gap:9px">
+            <button onClick="{{ exportBackup }}" style="flex:1;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Backup maken</button>
+            <button onClick="{{ triggerImport }}" style="flex:1;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Terugzetten</button>
+          </div>
+          <input id="backupFileInput" type="file" accept="application/json,.json" onChange="{{ importBackup }}" style="display:none"/>
+          <div style="font-size:11.5px;color:var(--muted);margin:18px 2px 9px;font-weight:600">Automatische herinnering</div>
+          <div style="display:flex;gap:8px">
+            <button onClick="{{ setBackupOff }}" style="{{ biOffStyle }}">Uit</button>
+            <button onClick="{{ setBackupWeek }}" style="{{ biWeekStyle }}">Wekelijks</button>
+            <button onClick="{{ setBackupDay }}" style="{{ biDayStyle }}">Dagelijks</button>
+          </div>
+
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
         </div>
       </div>
@@ -710,12 +730,13 @@ class Component extends DCLogic {
     if(!data.entries)data.entries=[];
     if(!data.regWorkers)data.regWorkers=[];
     if(!data.regHours)data.regHours={};
+    if(!data.backupCfg)data.backupCfg={interval:'week',last:''};
     const firstProj=(data.projects&&data.projects[0])?data.projects[0].id:'';
     return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',
-      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,rh_worker:'',rh_date:'',rh_val:''},data);
+      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,backupSnooze:false,rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
     return {
@@ -727,7 +748,7 @@ class Component extends DCLogic {
       regHours:{}
     };
   }
-  persist(){ const s=this.state; this.storeSave({company:s.company,projects:s.projects,activities:s.activities,entries:s.entries,regWorkers:s.regWorkers,regHours:s.regHours}); }
+  persist(){ const s=this.state; this.storeSave({company:s.company,projects:s.projects,activities:s.activities,entries:s.entries,regWorkers:s.regWorkers,regHours:s.regHours,backupCfg:s.backupCfg}); }
   up(patch){ this.setState(patch,()=>this.persist()); }
   uid(p){ return (p||'id')+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
   toISO(d){ const z=n=>(n<10?'0':'')+n; return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
@@ -790,6 +811,35 @@ class Component extends DCLogic {
   clearRegHour(){ const s=this.state; const rh=Object.assign({},s.regHours); const m=Object.assign({},rh[s.rh_worker]||{}); delete m[s.rh_date]; rh[s.rh_worker]=m; this.up({regHours:rh,sheet:null}); }
   // misc
   resetData(){ if(typeof confirm==='function'&&!confirm('Alle projecten, uren en ZZP\u2019ers wissen?'))return; const seed=this.seed(); this.setState(Object.assign({sheet:null,regProjectId:''},seed),()=>this.persist()); }
+  // ===== Backup: export naar bestand, terugzetten, en automatische herinnering =====
+  daysSinceISO(iso){ if(!iso)return Infinity; var a=this.parseISO(iso); a.setHours(0,0,0,0); var b=new Date(); b.setHours(0,0,0,0); return Math.round((b-a)/86400000); }
+  backupIsDue(){ var c=this.state.backupCfg||{}; if(!c.interval||c.interval==='off')return false; var need=c.interval==='day'?1:7; return this.daysSinceISO(c.last)>=need; }
+  markBackup(){ this.up({backupCfg:Object.assign({},this.state.backupCfg,{last:this.toISO(new Date())}),backupSnooze:true}); }
+  setBackupInterval(v){ this.up({backupCfg:Object.assign({},this.state.backupCfg,{interval:v})}); }
+  snoozeBackup(){ this.setState({backupSnooze:true}); }
+  exportBackup(){
+    var s=this.state, self=this;
+    var payload={app:'abeco-uren',version:1,exportedAt:new Date().toISOString(),data:{company:s.company,projects:s.projects,activities:s.activities,entries:s.entries,regWorkers:s.regWorkers,regHours:s.regHours}};
+    var json=JSON.stringify(payload,null,2);
+    var fname='abeco-uren-backup-'+this.toISO(new Date())+'.json';
+    var blob=new Blob([json],{type:'application/json'});
+    try{ if(navigator.canShare){ var file=new File([blob],fname,{type:'application/json'}); if(navigator.canShare({files:[file]})){ navigator.share({files:[file],title:'ABECO uren backup'}).then(function(){ self.markBackup(); }).catch(function(){}); return; } } }catch(e){}
+    var url=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=url; a.download=fname; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(url); },1500); this.markBackup();
+  }
+  triggerImport(){ var el=document.getElementById('backupFileInput'); if(el){ el.value=''; el.click(); } }
+  importBackup(e){
+    var self=this; var f=e&&e.target&&e.target.files&&e.target.files[0]; if(!f)return;
+    var reader=new FileReader();
+    reader.onload=function(){ try{
+      var obj=JSON.parse(reader.result); var d=(obj&&obj.data)?obj.data:obj;
+      if(!d||(!d.entries&&!d.projects)){ alert('Dit lijkt geen geldig backup-bestand te zijn.'); return; }
+      if(typeof confirm==='function'&&!confirm('Backup terugzetten? Dit vervangt je huidige gegevens in de app.'))return;
+      var ns={company:d.company||self.state.company,projects:d.projects||[],activities:d.activities||self.state.activities,entries:d.entries||[],regWorkers:d.regWorkers||[],regHours:d.regHours||{}};
+      self.setState(Object.assign({sheet:null,regProjectId:(ns.projects[0]?ns.projects[0].id:'')},ns),function(){ self.persist(); });
+      alert('Backup teruggezet.');
+    }catch(err){ alert('Kon het bestand niet lezen.'); } };
+    reader.readAsText(f);
+  }
   setOmode(v){ this.setState({omode:v}); }
   setCompany(k,v){ this.up({company:Object.assign({},this.state.company,{[k]:v})}); }
   prevWeek(){ this.setState(st=>({weekOffset:st.weekOffset-1})); }
@@ -1063,6 +1113,11 @@ class Component extends DCLogic {
       activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
       setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)), setCoMyInit:e=>this.setCompany('myInit',ev(e)), setCoMyLast:e=>this.setCompany('myLast',ev(e)), setCoMyKvk:e=>this.setCompany('myKvk',ev(e)),
       resetData:()=>this.resetData(),
+      exportBackup:()=>this.exportBackup(), triggerImport:()=>this.triggerImport(), importBackup:(e)=>this.importBackup(e),
+      backupLastLabel:(s.backupCfg&&s.backupCfg.last)?this.dateRow(s.backupCfg.last):'nog nooit',
+      setBackupOff:()=>this.setBackupInterval('off'), setBackupWeek:()=>this.setBackupInterval('week'), setBackupDay:()=>this.setBackupInterval('day'),
+      biOffStyle:this.chipStyle(((s.backupCfg&&s.backupCfg.interval)||'week')==='off'), biWeekStyle:this.chipStyle(((s.backupCfg&&s.backupCfg.interval)||'week')==='week'), biDayStyle:this.chipStyle(((s.backupCfg&&s.backupCfg.interval)||'week')==='day'),
+      backupDue:this.backupIsDue()&&!s.backupSnooze, backupNow:()=>this.exportBackup(), backupLater:()=>this.snoozeBackup(),
       printDays:this.DCOLS, printWeeks, printOvProjects, printOvGrand, printOvDate:this.todayLong()
     };
   }

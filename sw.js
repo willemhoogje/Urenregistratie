@@ -1,11 +1,15 @@
 /* ABECO Uren — service worker (relatieve paden, werkt in een submap op GitHub Pages) */
-const CACHE = 'abeco-uren-v32';
+const CACHE = 'abeco-uren-v33';
 const CORE = [
   './',
   './index.html',
   './support.js',
   './manifest.json',
   './assets/abeco-logo.png',
+  './assets/fonts/Poppins-Regular.ttf',
+  './assets/fonts/Poppins-SemiBold.ttf',
+  './assets/fonts/SpaceGrotesk-Medium.ttf',
+  './assets/fonts/SpaceGrotesk-Bold.ttf',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon-180.png',

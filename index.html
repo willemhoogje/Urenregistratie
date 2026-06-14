@@ -882,10 +882,10 @@ class Component extends DCLogic {
   openSettings(){ this.setState({sheet:'settings',openSwipe:''}); }
   closeSheet(){ this.setState({sheet:null,showNewAct:false,editingWorker:null,editingProj:null}); }
   // swipe-to-reveal
-  swipeStart(ev,id,dist){ dist=dist||74; const front=ev.currentTarget; const sx=ev.clientX,sy=ev.clientY; let dx=0,horiz=false; const self=this; front.style.transition='none';
+  swipeStart(ev,id,dist){ dist=dist||74; const front=ev.currentTarget; const sx=ev.clientX,sy=ev.clientY; let dx=0,horiz=false,ended=false; const self=this; front.style.transition='none'; front.style.willChange='transform';
     const move=(me)=>{ const mx=me.clientX!=null?me.clientX:sx, my=me.clientY!=null?me.clientY:sy; const ddx=mx-sx; if(!horiz&&Math.abs(ddx)>8&&Math.abs(ddx)>Math.abs(my-sy)+2)horiz=true; if(horiz){ dx=Math.max(-(dist+14),Math.min(0,ddx)); front.style.transform='translateX('+dx+'px)'; if(me.cancelable)me.preventDefault(); } };
-    const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); front.style.transition='transform .2s ease'; if(horiz){ self._swipeTs=Date.now(); const open=dx<-44; front.style.transform=open?('translateX(-'+dist+'px)'):'translateX(0)'; self.setState({openSwipe:open?id:''}); } };
-    document.addEventListener('pointermove',move,{passive:false}); document.addEventListener('pointerup',up); }
+    const end=()=>{ if(ended)return; ended=true; document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',end); document.removeEventListener('pointercancel',end); front.style.transition='transform .2s ease'; front.style.willChange=''; if(horiz){ self._swipeTs=Date.now(); const open=dx<-44; front.style.transform=open?('translateX(-'+dist+'px)'):'translateX(0)'; self.setState({openSwipe:open?id:''}); } };
+    document.addEventListener('pointermove',move,{passive:false}); document.addEventListener('pointerup',end); document.addEventListener('pointercancel',end); }
   rowTap(id,action){ if(this.state.openSwipe===id){ this.setState({openSwipe:''}); return; } if(Date.now()-(this._swipeTs||0)<300)return; action(); }
   // entries
   openAdd(){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false}); }

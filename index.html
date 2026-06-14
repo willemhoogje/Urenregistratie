@@ -161,7 +161,8 @@ if ('serviceWorker' in navigator) {
                 <div style="background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden">
                   <sc-for list="{{ g.entries }}" as="e" hint-placeholder-count="2">
                     <div style="position:relative;border-top:1px solid var(--line);overflow:hidden">
-                      <div style="position:absolute;top:0;right:0;bottom:0;width:72px;display:flex;align-items:center;justify-content:center;background:transparent">
+                      <div style="position:absolute;top:0;right:0;bottom:0;width:120px;display:flex;align-items:center;justify-content:center;gap:11px;background:transparent">
+                        <button onClick="{{ e.onEdit }}" aria-label="Bewerk" style="width:42px;height:42px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(12,18,30,.3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
                         <button onClick="{{ e.onDelete }}" aria-label="Verwijder" style="width:42px;height:42px;border-radius:50%;background:#b4413c;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(180,65,60,.4)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
                       </div>
                       <button onClick="{{ e.onTap }}" onPointerDown="{{ e.onSwipe }}" style="{{ e.frontStyle }}">
@@ -1075,7 +1076,7 @@ class Component extends DCLogic {
   tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'4px 2px',color:active?C.navy:C.soft}; }
   segStyle(active){ const C=this.C; return {flex:1,border:'none',borderRadius:'9px',padding:'9px 6px',fontSize:'13px',fontWeight:600,cursor:'pointer',background:active?C.navy:'transparent',color:active?'#fff':C.muted,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}; }
   primStyle(on){ const C=this.C; return {background:on?C.navy:'#c7ccd4',color:'#fff',border:'none',borderRadius:'10px',padding:'8px 16px',fontSize:'14px',fontWeight:600,cursor:on?'pointer':'default'}; }
-  entryFront(open){ const C=this.C; return {position:'relative',width:'100%',display:'flex',alignItems:'center',gap:'12px',padding:'13px 15px',background:C.paper,border:'none',cursor:'pointer',textAlign:'left',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-72px)':'translateX(0)'}; }
+  entryFront(open){ const C=this.C; return {position:'relative',width:'100%',display:'flex',alignItems:'center',gap:'12px',padding:'13px 15px',background:C.paper,border:'none',cursor:'pointer',textAlign:'left',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-120px)':'translateX(0)'}; }
   projFront(open){ const C=this.C; return {position:'relative',width:'100%',textAlign:'left',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',padding:'15px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:'13px',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-120px)':'translateX(0)'}; }
   cellStyle(filled,self){ const C=this.C; return {textAlign:'center',background:filled?'#eaf0f9':C.mist,border:'1px solid '+(filled?'#c3d4ec':C.line),borderRadius:'8px',padding:'6px 2px',cursor:self?'default':'pointer',opacity:self?'.92':'1'}; }
   renderVals(){
@@ -1083,7 +1084,7 @@ class Component extends DCLogic {
     const ev=e=>e&&e.target?e.target.value:e;
     const mine=s.entries;
     const byDate={}; mine.forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
-    const dayGroups=Object.keys(byDate).sort().reverse().map(date=>{ const list=byDate[date]; const total=list.reduce((a,e)=>a+e.hours,0); return {label:this.dayLabel(date),totalLabel:this.fmt(total),entries:list.map(e=>({projectName:this.projName(e.projectId),sub:(e.note?e.activity+' · '+e.note:e.activity),hoursLabel:this.fmt(e.hours),frontStyle:this.entryFront(s.openSwipe===e.id),onTap:()=>this.rowTap(e.id,()=>this.openEdit(e)),onSwipe:(ev)=>this.swipeStart(ev,e.id),onDelete:()=>this.deleteById(e.id)}))}; });
+    const dayGroups=Object.keys(byDate).sort().reverse().map(date=>{ const list=byDate[date]; const total=list.reduce((a,e)=>a+e.hours,0); return {label:this.dayLabel(date),totalLabel:this.fmt(total),entries:list.map(e=>({projectName:this.projName(e.projectId),sub:(e.note?e.activity+' · '+e.note:e.activity),hoursLabel:this.fmt(e.hours),frontStyle:this.entryFront(s.openSwipe===e.id),onTap:()=>this.rowTap(e.id,()=>this.openEdit(e)),onSwipe:(ev)=>this.swipeStart(ev,e.id,120),onEdit:()=>this.openEdit(e),onDelete:()=>this.deleteById(e.id)}))}; });
     const t=this.toISO(new Date());
     const todayTotal=mine.filter(e=>e.date===t).reduce((a,e)=>a+e.hours,0);
     const curMon=this.getMonday(new Date()); const curDates=[]; for(let i=0;i<7;i++)curDates.push(this.toISO(this.addDays(curMon,i)));

@@ -957,12 +957,12 @@ class Component extends DCLogic {
       y+=12; setC('setDrawColor',NAVY); doc.setLineWidth(0.7); doc.line(M,y,PW-M,y); y+=7;
     }
     function infoBox(heading,rowsL,rowsR,labW){
-      var boxY=y, ty=y+6, leftX=M+3, rightX=M+W/2+3, lh=5;
+      var boxY=y, ty=y+6, leftX=M+3, rightX=M+W/2+3, lh=5, valW=W/2-6-labW;
       doc.setFont(DISP,'bold'); doc.setFontSize(9); setC('setTextColor',NAVY); doc.text(heading,leftX,ty); ty+=5.5;
       var tyL=ty, tyR=ty;
-      function kv(x,yy,k,v,bold){ doc.setFont(BODY,'normal'); doc.setFontSize(9); setC('setTextColor',MUT); doc.text(k,x,yy); doc.setFont(BODY,bold?'bold':'normal'); setC('setTextColor',INK); doc.text(String(v==null||v===''?'—':v),x+labW,yy); }
-      rowsL.forEach(function(r,i){ kv(leftX,tyL,r[0],r[1],i===0); tyL+=lh; });
-      rowsR.forEach(function(r){ kv(rightX,tyR,r[0],r[1]); tyR+=lh; });
+      function kv(x,yy,k,v,bold){ doc.setFont(BODY,'normal'); doc.setFontSize(9); setC('setTextColor',MUT); doc.text(k,x,yy); doc.setFont(BODY,bold?'bold':'normal'); setC('setTextColor',INK); var lines=doc.splitTextToSize(String(v==null||v===''?'—':v),valW); doc.text(lines,x+labW,yy); return lines.length; }
+      rowsL.forEach(function(r,i){ var n=kv(leftX,tyL,r[0],r[1],i===0); tyL+=lh+(n-1)*3.8; });
+      rowsR.forEach(function(r){ var n=kv(rightX,tyR,r[0],r[1]); tyR+=lh+(n-1)*3.8; });
       var boxH=Math.max(tyL,tyR)-boxY-lh+4;
       setC('setDrawColor',LINE); doc.setLineWidth(0.3); doc.roundedRect(M,boxY,W,boxH,2,2);
       y=boxY+boxH+8;
@@ -970,7 +970,7 @@ class Component extends DCLogic {
     if(kind==='register'){
       header('MANDAGENREGISTER');
       var co=this.state.company||{}, rp=this.proj(this.state.regProjectId)||{};
-      infoBox('Bedrijfsgegevens',[['Naam',co.name],['Adres',co.address],['Plaats',co.city]],[['Datum',self.todayLong()],['Projectnaam',rp.name||'—'],['Projectnr.',rp.number||'—'],['Projectplaats',rp.location||'—']],30);
+      infoBox('Bedrijfsgegevens',[['Naam',co.name],['Adres',co.address],['Plaats',co.city]],[['Datum',self.todayLong()],['Projectnr.',rp.number||'—'],['Projectnaam',rp.name||'—'],['Projectplaats',rp.location||'—']],30);
       var rd=this.regData(), days=this.DCOLS;
       var cNr=7,cKvk=25,cTot=15,cDay=13,cName=W-cNr-cKvk-cTot-cDay*5;
       rd.weeks.forEach(function(wk){

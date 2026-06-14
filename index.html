@@ -22,7 +22,7 @@
   #appstatus{display:none!important}
   #apphome{display:none!important}
   #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-  #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 26px),4px)!important}
+  #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),3px)!important}
   .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
 </style>
 <script src="./support.js"></script>
@@ -59,7 +59,7 @@ if ('serviceWorker' in navigator) {
     #appstatus{display:none!important}
     #apphome{display:none!important}
     #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-    #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 26px),4px)!important}
+    #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),3px)!important}
     .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
   }
   #printArea{display:none}
@@ -230,9 +230,9 @@ if ('serviceWorker' in navigator) {
             </sc-if>
             <sc-if value="{{ isProj }}" hint-placeholder-val="{{ false }}">
               <sc-for list="{{ projRows }}" as="r" hint-placeholder-count="3">
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-top:1px solid var(--line)">
-                  <span style="min-width:0;display:flex;align-items:center;gap:10px"><span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 6px;white-space:nowrap">{{ r.badge }}</span><span style="font-size:14px;font-weight:500;color:var(--ink)">{{ r.name }}</span></span>
-                  <span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;border-top:1px solid var(--line)">
+                  <span style="min-width:0;flex:1;display:flex;align-items:center;gap:10px"><span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 6px;min-width:56px;text-align:center;white-space:nowrap;flex:none;display:inline-block;box-sizing:border-box">{{ r.badge }}</span><span style="min-width:0;flex:1;font-size:14px;font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span></span>
+                  <span style="flex:none;white-space:nowrap;font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span>
                 </div>
               </sc-for>
             </sc-if>
@@ -263,7 +263,7 @@ if ('serviceWorker' in navigator) {
           <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;flex-wrap:wrap;gap:8px">
               <sc-for list="{{ regProjChips }}" as="c" hint-placeholder-count="2">
-                <button onClick="{{ c.onTap }}" style="{{ c.style }}"><span style="font-family:var(--disp);font-size:10px;opacity:.7">{{ c.badge }}</span>{{ c.name }}</button>
+                <button onClick="{{ c.onTap }}" style="{{ c.style }}"><span style="font-family:var(--disp);font-size:10px;font-weight:600;opacity:.65;letter-spacing:.03em">{{ c.badge }}</span><span style="font-size:13px;font-weight:600">{{ c.name }}</span></button>
               </sc-for>
             </div>
           </sc-if>
@@ -332,22 +332,22 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <!-- TAB BAR -->
-    <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:2px 6px 6px;z-index:25">
+    <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:9px 6px 24px;z-index:25">
       <button onClick="{{ tabUren }}" style="{{ tabUrenStyle }}">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Uren</span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:1px">Uren</span>
       </button>
       <button onClick="{{ tabProj }}" style="{{ tabProjStyle }}">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Projecten</span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:1px">Projecten</span>
       </button>
       <button onClick="{{ tabOver }}" style="{{ tabOverStyle }}">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Overzicht</span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:1px">Overzicht</span>
       </button>
       <button onClick="{{ tabWeek }}" style="{{ tabWeekStyle }}">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Register</span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:1px">Register</span>
       </button>
     </div>
     <div id="apphome" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
@@ -1020,7 +1020,8 @@ class Component extends DCLogic {
     }).catch(function(){ restore(); try{ document.body.setAttribute('data-print', id==='printOverview'?'overview':'register'); window.print(); }catch(e){} });
   }
   chipStyle(sel){ const C=this.C; return Object.assign({display:'inline-flex',alignItems:'center',gap:'6px',padding:'9px 14px',borderRadius:'999px',fontSize:'13.5px',fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}, sel?{background:C.navy,color:'#fff',border:'1px solid '+C.navy}:{background:'#fff',color:C.ink,border:'1px solid '+C.line}); }
-  tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'2px 2px',color:active?C.navy:C.soft}; }
+  regChipStyle(sel){ const C=this.C; return Object.assign({display:'flex',flexDirection:'column',alignItems:'flex-start',gap:'2px',padding:'10px 13px',borderRadius:'12px',cursor:'pointer',textAlign:'left',maxWidth:'100%',minWidth:'0',whiteSpace:'normal',wordBreak:'break-word',lineHeight:'1.25'}, sel?{background:C.navy,color:'#fff',border:'1px solid '+C.navy}:{background:'#fff',color:C.ink,border:'1px solid '+C.line}); }
+  tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'4px 2px',color:active?C.navy:C.soft}; }
   segStyle(active){ const C=this.C; return {flex:1,border:'none',borderRadius:'9px',padding:'9px 6px',fontSize:'13px',fontWeight:600,cursor:'pointer',background:active?C.navy:'transparent',color:active?'#fff':C.muted,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}; }
   primStyle(on){ const C=this.C; return {background:on?C.navy:'#c7ccd4',color:'#fff',border:'none',borderRadius:'10px',padding:'8px 16px',fontSize:'14px',fontWeight:600,cursor:on?'pointer':'default'}; }
   entryFront(open){ const C=this.C; return {position:'relative',width:'100%',display:'flex',alignItems:'center',gap:'12px',padding:'13px 15px',background:C.paper,border:'none',cursor:'pointer',textAlign:'left',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-72px)':'translateX(0)'}; }
@@ -1052,7 +1053,7 @@ class Component extends DCLogic {
         cells:r.cells.map((c,i)=>({label:this.DCOLS[i],val:c.v?this.fmt(c.v):'·',color:c.v?C.ink:C.soft,style:this.cellStyle(c.v>0,!!r.isSelf),onTap:r.isSelf?(()=>this.setState({tab:'uren'})):(()=>this.openRegCell(r.id,c.date))}))}))}));
     const printWeeks=rd.weeks.map(wk=>({weekLabel:wk.weekLabel,range:wk.range,weekTotal:this.fmt2(wk.weekTotal),rows:wk.rows.map(r=>({nr:r.nr,kvk:r.kvk,name:r.name,total:this.fmt2(r.total),cells:r.cells.map((c,i)=>({label:this.DCOLS[i],val:c.v?this.fmt2(c.v):'–'}))}))}));
     const regProj=this.proj(s.regProjectId)||{};
-    const regProjChips=s.projects.map(p=>({name:p.name,badge:this.projBadge(p),style:this.chipStyle(p.id===s.regProjectId),onTap:()=>this.setReg(p.id)}));
+    const regProjChips=s.projects.map(p=>({name:p.name,badge:this.projBadge(p),style:this.regChipStyle(p.id===s.regProjectId),onTap:()=>this.setReg(p.id)}));
     const startMon=this.getMonday(this.addDays(new Date(),s.weekOffset*7));
     // entry sheet
     const q=s.f_projQuery.trim().toLowerCase();

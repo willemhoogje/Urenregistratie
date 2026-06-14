@@ -22,7 +22,7 @@
   #appstatus{display:none!important}
   #apphome{display:none!important}
   #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-  #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),3px)!important}
+  #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 26px),4px)!important}
   .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
 </style>
 <script src="./support.js"></script>
@@ -59,7 +59,7 @@ if ('serviceWorker' in navigator) {
     #appstatus{display:none!important}
     #apphome{display:none!important}
     #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-    #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),3px)!important}
+    #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 26px),4px)!important}
     .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
   }
   #printArea{display:none}
@@ -303,7 +303,7 @@ if ('serviceWorker' in navigator) {
                       <div style="background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 14px">
                         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
                           <span style="min-width:0"><span style="display:flex;align-items:center;gap:6px"><span style="font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><sc-if value="{{ r.isSelf }}" hint-placeholder-val="{{ false }}"><span style="font-size:8.5px;font-weight:600;color:var(--navy);background:var(--mist);border:1px solid var(--line);border-radius:99px;padding:2px 6px;letter-spacing:.04em;flex:none;text-transform:uppercase">Eigen</span></sc-if></span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">KvK {{ r.kvk }}</span></span>
-                          <span style="display:flex;align-items:center;gap:9px;flex:none"><span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span><sc-if value="{{ r.canDelete }}" hint-placeholder-val="{{ true }}"><button onClick="{{ r.onDelete }}" aria-label="Verwijder ZZP'er" style="width:30px;height:30px;border-radius:8px;border:1px solid #e7c9c9;background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b4413c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></sc-if></span>
+                          <span style="display:flex;align-items:center;gap:9px;flex:none"><span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ r.totalLabel }} u</span><sc-if value="{{ r.canDelete }}" hint-placeholder-val="{{ true }}"><button onClick="{{ r.onEdit }}" aria-label="ZZP'er wijzigen" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></sc-if><sc-if value="{{ r.canDelete }}" hint-placeholder-val="{{ true }}"><button onClick="{{ r.onDelete }}" aria-label="Verwijder ZZP'er" style="width:30px;height:30px;border-radius:8px;border:1px solid #e7c9c9;background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b4413c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></sc-if></span>
                         </div>
                         <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:11px">
                           <sc-for list="{{ r.cells }}" as="d" hint-placeholder-count="5">
@@ -332,22 +332,22 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <!-- TAB BAR -->
-    <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:9px 6px 24px;z-index:25">
+    <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:2px 6px 6px;z-index:25">
       <button onClick="{{ tabUren }}" style="{{ tabUrenStyle }}">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:1px">Uren</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Uren</span>
       </button>
       <button onClick="{{ tabProj }}" style="{{ tabProjStyle }}">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:1px">Projecten</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Projecten</span>
       </button>
       <button onClick="{{ tabOver }}" style="{{ tabOverStyle }}">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:1px">Overzicht</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Overzicht</span>
       </button>
       <button onClick="{{ tabWeek }}" style="{{ tabWeekStyle }}">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:1px">Register</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Register</span>
       </button>
     </div>
     <div id="apphome" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
@@ -478,12 +478,12 @@ if ('serviceWorker' in navigator) {
           <div style="width:38px;height:5px;border-radius:99px;background:#d4d8de;margin:0 auto"></div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)">
             <button onClick="{{ closeSheet }}" style="background:none;border:none;color:var(--muted);font-size:14.5px;cursor:pointer;font-weight:500">Annuleer</button>
-            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">ZZP'er toevoegen</span>
+            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">{{ workerSheetTitle }}</span>
             <button onClick="{{ saveWorker }}" style="{{ saveWorkerStyle }}">Opslaan</button>
           </div>
         </div>
         <div style="padding:18px 18px 32px">
-          <div style="font-size:12.5px;color:var(--muted);line-height:1.5;margin-bottom:14px">Toevoegen aan <b style="color:var(--ink)">{{ regProjName }}</b></div>
+          <div style="font-size:12.5px;color:var(--muted);line-height:1.5;margin-bottom:14px">{{ workerSheetHint }}</div>
           <sc-if value="{{ anyKnownWorkers }}" hint-placeholder-val="{{ false }}">
             <div style="position:relative;margin-bottom:12px">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" style="position:absolute;left:13px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
@@ -699,9 +699,11 @@ class Component extends DCLogic {
     this.KEY='abeco_uren_v4';
     this.state=this.initialState();
   }
+  // ===== Opslag-laag (1 centrale plek; straks om te zetten naar online database) =====
+  storeLoad(){ try{const raw=localStorage.getItem(this.KEY);return raw?JSON.parse(raw):null;}catch(e){return null;} }
+  storeSave(data){ try{localStorage.setItem(this.KEY,JSON.stringify(data));}catch(e){} }
   initialState(){
-    let data=null;
-    try{const raw=localStorage.getItem(this.KEY);if(raw)data=JSON.parse(raw);}catch(e){}
+    let data=this.storeLoad();
     if(!data||!data.projects)data=this.seed();
     if(!data.company)data.company={name:'ABECO Projecten BV',address:'Oude Grintweg 55',city:'5688 MA Oirschot'};
     if(!data.activities)data.activities=['Montage','Productie','Voorbereiding','Overleg','Reizen','Schoonmaak'];
@@ -713,7 +715,7 @@ class Component extends DCLogic {
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',
-      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',rh_worker:'',rh_date:'',rh_val:''},data);
+      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
     return {
@@ -725,7 +727,7 @@ class Component extends DCLogic {
       regHours:{}
     };
   }
-  persist(){ try{const s=this.state;localStorage.setItem(this.KEY,JSON.stringify({company:s.company,projects:s.projects,activities:s.activities,entries:s.entries,regWorkers:s.regWorkers,regHours:s.regHours}));}catch(e){} }
+  persist(){ const s=this.state; this.storeSave({company:s.company,projects:s.projects,activities:s.activities,entries:s.entries,regWorkers:s.regWorkers,regHours:s.regHours}); }
   up(patch){ this.setState(patch,()=>this.persist()); }
   uid(p){ return (p||'id')+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
   toISO(d){ const z=n=>(n<10?'0':'')+n; return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
@@ -750,7 +752,7 @@ class Component extends DCLogic {
   // nav
   setTab(t){ this.setState({tab:t,openSwipe:''}); }
   openSettings(){ this.setState({sheet:'settings',openSwipe:''}); }
-  closeSheet(){ this.setState({sheet:null,showNewAct:false}); }
+  closeSheet(){ this.setState({sheet:null,showNewAct:false,editingWorker:null}); }
   // swipe-to-reveal
   swipeStart(ev,id){ const front=ev.currentTarget; const sx=ev.clientX,sy=ev.clientY; let dx=0,horiz=false; const self=this; front.style.transition='none';
     const move=(me)=>{ const mx=me.clientX!=null?me.clientX:sx, my=me.clientY!=null?me.clientY:sy; const ddx=mx-sx; if(!horiz&&Math.abs(ddx)>8&&Math.abs(ddx)>Math.abs(my-sy)+2)horiz=true; if(horiz){ dx=Math.max(-88,Math.min(0,ddx)); front.style.transform='translateX('+dx+'px)'; if(me.cancelable)me.preventDefault(); } };
@@ -778,8 +780,9 @@ class Component extends DCLogic {
   addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; this.up({activities:s.activities.concat([v]),newActName:''}); }
   removeActivity(name){ const s=this.state; this.up({activities:s.activities.filter(a=>a!==name)}); }
   // register workers + hours
-  openAddWorker(){ if(!this.state.regProjectId)return; this.setState({sheet:'addWorker',rw_init:'',rw_last:'',rw_kvk:'',rw_query:''}); }
-  saveWorker(){ const s=this.state; const last=s.rw_last.trim(); if(!last||!s.regProjectId)return; const id=this.uid('w'); this.up({regWorkers:s.regWorkers.concat([{id,projectId:s.regProjectId,last,init:s.rw_init.trim(),kvk:s.rw_kvk.trim()}]),sheet:null}); }
+  openAddWorker(){ if(!this.state.regProjectId)return; this.setState({sheet:'addWorker',editingWorker:null,rw_init:'',rw_last:'',rw_kvk:'',rw_query:''}); }
+  openEditWorker(id){ const w=this.worker(id); if(!w)return; this.setState({sheet:'addWorker',editingWorker:id,rw_init:w.init||'',rw_last:w.last||w.name||'',rw_kvk:w.kvk||'',rw_query:''}); }
+  saveWorker(){ const s=this.state; const last=s.rw_last.trim(); if(!last)return; if(s.editingWorker){ const regWorkers=s.regWorkers.map(w=>w.id===s.editingWorker?Object.assign({},w,{last,init:s.rw_init.trim(),kvk:s.rw_kvk.trim(),name:undefined}):w); this.up({regWorkers,sheet:null,editingWorker:null}); return; } if(!s.regProjectId)return; const id=this.uid('w'); this.up({regWorkers:s.regWorkers.concat([{id,projectId:s.regProjectId,last,init:s.rw_init.trim(),kvk:s.rw_kvk.trim()}]),sheet:null}); }
   addKnownWorker(w){ const s=this.state; if(!s.regProjectId)return; const id=this.uid('w'); this.up({regWorkers:s.regWorkers.concat([{id,projectId:s.regProjectId,last:w.last||'',init:w.init||'',name:w.name,kvk:w.kvk||''}]),sheet:null}); }
   deleteRegWorker(id){ const s=this.state; if(!s.regWorkers.some(w=>w.id===id))return; this._undoSnap={regWorkers:s.regWorkers.slice(),regHours:Object.assign({},s.regHours)}; const regWorkers=s.regWorkers.filter(w=>w.id!==id); const regHours=Object.assign({},s.regHours); delete regHours[id]; this.up({regWorkers,regHours}); this.flagUndo('ZZP\u2019er verwijderd'); }
   openRegCell(workerId,date){ const s=this.state; const cur=(s.regHours[workerId]&&s.regHours[workerId][date])||0; this.setState({sheet:'regHour',rh_worker:workerId,rh_date:date,rh_val:cur?this.fmt(cur):''}); }
@@ -813,13 +816,42 @@ class Component extends DCLogic {
     }
     return {weeks:out,workers};
   }
-  printStaat(){ this.buildPdf('register'); }
-  printOverview(){ this.buildPdf('overview'); }
-  printOverviewWeek(monKey){ this.buildPdf('overview',monKey); }
+  printStaat(){ var self=this; this.ensureFonts(function(){ self.buildPdf('register'); }); }
+  printOverview(){ var self=this; this.ensureFonts(function(){ self.buildPdf('overview'); }); }
+  printOverviewWeek(monKey){ var self=this; this.ensureFonts(function(){ self.buildPdf('overview',monKey); }); }
+  // ===== PDF-lettertypes: zelfde als de app (Poppins = tekst, Space Grotesk = koppen/getallen) =====
+  pdfFontList(){ return [
+    {file:'Poppins-Regular.ttf',     fam:'Poppins',      style:'normal', url:'assets/fonts/Poppins-Regular.ttf'},
+    {file:'Poppins-SemiBold.ttf',    fam:'Poppins',      style:'bold',   url:'assets/fonts/Poppins-SemiBold.ttf'},
+    {file:'SpaceGrotesk-Medium.ttf', fam:'SpaceGrotesk', style:'normal', url:'assets/fonts/SpaceGrotesk-Medium.ttf'},
+    {file:'SpaceGrotesk-Bold.ttf',   fam:'SpaceGrotesk', style:'bold',   url:'assets/fonts/SpaceGrotesk-Bold.ttf'}
+  ]; }
+  abToB64(buf){ var b=new Uint8Array(buf),s='',c=0x8000; for(var i=0;i<b.length;i+=c){ s+=String.fromCharCode.apply(null,b.subarray(i,i+c)); } return btoa(s); }
+  ensureFonts(cb){
+    var self=this;
+    if(this._pdfFonts!==undefined){ cb(); return; }
+    if(this._fontCbs){ this._fontCbs.push(cb); return; }
+    this._fontCbs=[cb];
+    var list=this.pdfFontList(), got={}, done=0, anyFail=false;
+    function step(){ done++; if(done===list.length){ self._pdfFonts=anyFail?null:got; var cbs=self._fontCbs; self._fontCbs=null; cbs.forEach(function(f){ f(); }); } }
+    list.forEach(function(it){
+      fetch(it.url).then(function(r){ if(!r.ok)throw 0; return r.arrayBuffer(); })
+        .then(function(buf){ got[it.file]=self.abToB64(buf); step(); })
+        .catch(function(){ anyFail=true; step(); });
+    });
+  }
+  regFonts(doc){
+    if(!this._pdfFonts)return false;
+    var f=this._pdfFonts;
+    try{ this.pdfFontList().forEach(function(it){ doc.addFileToVFS(it.file,f[it.file]); doc.addFont(it.file,it.fam,it.style); }); }catch(e){ return false; }
+    return true;
+  }
   loadLogo(){ try{ var img=document.querySelector('#printArea img'); if(img&&img.complete&&img.naturalWidth){ var c=document.createElement('canvas'); c.width=img.naturalWidth; c.height=img.naturalHeight; c.getContext('2d').drawImage(img,0,0); return {data:c.toDataURL('image/png'),w:img.naturalWidth,h:img.naturalHeight}; } }catch(e){} return null; }
   buildPdf(kind,weekKey){
     if(!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print',kind==='overview'?'overview':'register'); window.print(); }catch(e){} return; }
     var self=this, doc=new window.jspdf.jsPDF('p','mm','a4');
+    var FOK=this.regFonts(doc);
+    var BODY=FOK?'Poppins':'helvetica', DISP=FOK?'SpaceGrotesk':'helvetica';
     var M=14, W=210-2*M, y=M, PW=210;
     var NAVY=[28,42,58],MUT=[120,126,136],LINE=[214,217,221],MIST=[244,246,248],INK=[22,32,43];
     var logo=this.loadLogo();
@@ -827,14 +859,14 @@ class Component extends DCLogic {
     function ensure(h){ if(y+h>286){ doc.addPage(); y=M; } }
     function header(title){
       if(logo){ var hh=9, ww=hh*logo.w/logo.h; try{ doc.addImage(logo.data,'PNG',M,y,ww,hh); }catch(e){} }
-      doc.setFont('helvetica','bold'); doc.setFontSize(16); setC('setTextColor',INK); doc.text(title,PW-M,y+7,{align:'right'});
+      doc.setFont(DISP,'bold'); doc.setFontSize(16); setC('setTextColor',INK); doc.text(title,PW-M,y+7,{align:'right'});
       y+=12; setC('setDrawColor',NAVY); doc.setLineWidth(0.7); doc.line(M,y,PW-M,y); y+=7;
     }
     function infoBox(heading,rowsL,rowsR,labW){
       var boxY=y, ty=y+6, leftX=M+3, rightX=M+W/2+3, lh=5;
-      doc.setFont('helvetica','bold'); doc.setFontSize(9); setC('setTextColor',NAVY); doc.text(heading,leftX,ty); ty+=5.5;
+      doc.setFont(DISP,'bold'); doc.setFontSize(9); setC('setTextColor',NAVY); doc.text(heading,leftX,ty); ty+=5.5;
       var tyL=ty, tyR=ty;
-      function kv(x,yy,k,v,bold){ doc.setFont('helvetica','normal'); doc.setFontSize(9); setC('setTextColor',MUT); doc.text(k,x,yy); doc.setFont('helvetica',bold?'bold':'normal'); setC('setTextColor',INK); doc.text(String(v==null||v===''?'—':v),x+labW,yy); }
+      function kv(x,yy,k,v,bold){ doc.setFont(BODY,'normal'); doc.setFontSize(9); setC('setTextColor',MUT); doc.text(k,x,yy); doc.setFont(BODY,bold?'bold':'normal'); setC('setTextColor',INK); doc.text(String(v==null||v===''?'—':v),x+labW,yy); }
       rowsL.forEach(function(r,i){ kv(leftX,tyL,r[0],r[1],i===0); tyL+=lh; });
       rowsR.forEach(function(r){ kv(rightX,tyR,r[0],r[1]); tyR+=lh; });
       var boxH=Math.max(tyL,tyR)-boxY-lh+4;
@@ -844,16 +876,16 @@ class Component extends DCLogic {
     if(kind==='register'){
       header('MANDAGENREGISTER');
       var co=this.state.company||{}, rp=this.proj(this.state.regProjectId)||{};
-      infoBox('Bedrijfsgegevens',[['Naam',co.name],['Adres',co.address],['Plaats',co.city]],[['Datum',self.todayLong()],['Projectnaam',rp.name||'—'],['Projectnr.',rp.number||'—'],['Projectplaats',rp.location||'—']],26);
+      infoBox('Bedrijfsgegevens',[['Naam',co.name],['Adres',co.address],['Plaats',co.city]],[['Datum',self.todayLong()],['Projectnaam',rp.name||'—'],['Projectnr.',rp.number||'—'],['Projectplaats',rp.location||'—']],30);
       var rd=this.regData(), days=this.DCOLS;
       var cNr=7,cKvk=25,cTot=15,cDay=13,cName=W-cNr-cKvk-cTot-cDay*5;
       rd.weeks.forEach(function(wk){
         ensure(22);
-        doc.setFont('helvetica','bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text(wk.weekLabel,M,y);
-        doc.setFont('helvetica','normal'); doc.setFontSize(9); setC('setTextColor',MUT); doc.text('· '+wk.range,M+doc.getTextWidth(wk.weekLabel)+3,y);
+        doc.setFont(DISP,'bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text(wk.weekLabel,M,y);
+        doc.setFont(BODY,'normal'); doc.setFontSize(9); setC('setTextColor',MUT); doc.text('· '+wk.range,M+doc.getTextWidth(wk.weekLabel)+3,y);
         y+=3;
         var hh=7; setC('setFillColor',NAVY); doc.rect(M,y,W,hh,'F');
-        doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(7.3);
+        doc.setTextColor(255,255,255); doc.setFont(DISP,'bold'); doc.setFontSize(7.3);
         var hx=M;
         doc.text('#',hx+2,y+4.6); hx+=cNr;
         doc.text('KvK-nummer',hx+2,y+4.6); hx+=cKvk;
@@ -864,17 +896,17 @@ class Component extends DCLogic {
         wk.rows.forEach(function(r){
           ensure(6.6);
           var rx=M, rh=6.4;
-          doc.setFont('helvetica','normal'); doc.setFontSize(8); setC('setTextColor',MUT); doc.text(String(r.nr),rx+2,y+4.3); rx+=cNr;
+          doc.setFont(BODY,'normal'); doc.setFontSize(8); setC('setTextColor',MUT); doc.text(String(r.nr),rx+2,y+4.3); rx+=cNr;
           setC('setTextColor',INK); doc.text(String(r.kvk||'—'),rx+2,y+4.3); rx+=cKvk;
           var nm=doc.splitTextToSize(String(r.name||'—'),cName-4)[0]; doc.text(nm,rx+2,y+4.3); rx+=cName;
           r.cells.forEach(function(c){ doc.text(c.v?self.fmt2(c.v):'–',rx+cDay/2,y+4.3,{align:'center'}); rx+=cDay; });
-          doc.setFont('helvetica','bold'); doc.text(self.fmt2(r.total),M+W-2,y+4.3,{align:'right'});
+          doc.setFont(DISP,'bold'); doc.text(self.fmt2(r.total),M+W-2,y+4.3,{align:'right'});
           setC('setDrawColor',LINE); doc.setLineWidth(0.2); doc.line(M,y+rh,M+W,y+rh);
           y+=rh;
         });
         ensure(8);
         setC('setDrawColor',NAVY); doc.setLineWidth(0.5); doc.line(M,y,M+W,y);
-        doc.setFont('helvetica','bold'); doc.setFontSize(8.5); setC('setTextColor',INK);
+        doc.setFont(DISP,'bold'); doc.setFontSize(8.5); setC('setTextColor',INK);
         doc.text('Totaal '+wk.weekLabel,M+2,y+5); doc.text(self.fmt2(wk.weekTotal)+' u',M+W-2,y+5,{align:'right'});
         y+=11;
       });
@@ -886,25 +918,28 @@ class Component extends DCLogic {
     var mine=weekKey?allMine.filter(function(e){return self.toISO(self.getMonday(self.parseISO(e.date)))===weekKey;}):allMine;
     var grand=mine.reduce(function(a,e){return a+e.hours;},0);
     var wkLabel=weekKey?('Week '+self.isoWeek(self.parseISO(weekKey))+' · '+self.rangeLabel(self.parseISO(weekKey))):'Alle weken';
-    infoBox('Overzicht',[['Onderaannemer',co2.name],['Periode',wkLabel]],[['Datum',self.todayLong()],['Totaal uren',self.fmt2(grand)]],26);
+    var myName=self.nm(co2.myLast,co2.myInit);
+    infoBox('Overzicht',[['Werknemer',myName],['KvK',co2.myKvk],['Onderaannemer',co2.name]],[['Datum',self.todayLong()],['Periode',wkLabel],['Totaal uren',self.fmt2(grand)]],30);
     var byProj={}; mine.forEach(function(e){(byProj[e.projectId]=byProj[e.projectId]||[]).push(e);});
     Object.keys(byProj).forEach(function(pid){
       var p=self.proj(pid)||{}, list=byProj[pid].slice().sort(function(a,b){return a.date<b.date?-1:1;});
       var tot=list.reduce(function(a,e){return a+e.hours;},0);
       ensure(16);
-      doc.setFont('helvetica','bold'); doc.setFontSize(10.5); setC('setTextColor',INK); doc.text((p.name||'—')+'   ·   '+((p.number&&p.number!=='—')?p.number:'—'),M,y); y+=2;
+      doc.setFont(DISP,'bold'); doc.setFontSize(10.5); setC('setTextColor',INK); doc.text(((p.number&&p.number!=='—')?p.number:'—')+'   ·   '+(p.name||'—'),M,y); y+=2;
       setC('setDrawColor',NAVY); doc.setLineWidth(0.4); doc.line(M,y,PW-M,y); y+=5;
+      var rowH=6.4;
       list.forEach(function(e){
-        ensure(7);
-        doc.setFont('helvetica','normal'); doc.setFontSize(9); setC('setTextColor',INK); doc.text(self.dateRow(e.date),M,y);
+        ensure(rowH+2);
+        doc.setFont(BODY,'normal'); doc.setFontSize(8.5); setC('setTextColor',INK); doc.text(self.dateRow(e.date),M,y);
         setC('setTextColor',MUT); var act=(e.note?e.activity+' · '+e.note:e.activity); doc.text(doc.splitTextToSize(String(act),95)[0],M+46,y);
-        doc.setFont('helvetica','bold'); setC('setTextColor',INK); doc.text(self.fmt2(e.hours),PW-M,y,{align:'right'});
-        y+=4.4; setC('setDrawColor',LINE); doc.setLineWidth(0.2); doc.line(M,y-1.6,PW-M,y-1.6);
+        doc.setFont(DISP,'bold'); setC('setTextColor',INK); doc.text(self.fmt2(e.hours),PW-M,y,{align:'right'});
+        setC('setDrawColor',LINE); doc.setLineWidth(0.2); doc.line(M,y+2.1,PW-M,y+2.1);
+        y+=rowH;
       });
-      doc.setFont('helvetica','bold'); doc.setFontSize(9.5); setC('setTextColor',INK); doc.text('Subtotaal',M,y+2.5); doc.text(self.fmt2(tot)+' u',PW-M,y+2.5,{align:'right'}); y+=10;
+      doc.setFont(DISP,'bold'); doc.setFontSize(9.5); setC('setTextColor',INK); doc.text('Subtotaal',M,y+2.5); doc.text(self.fmt2(tot)+' u',PW-M,y+2.5,{align:'right'}); y+=10;
     });
     ensure(10); setC('setDrawColor',NAVY); doc.setLineWidth(0.7); doc.line(M,y,PW-M,y); y+=6;
-    doc.setFont('helvetica','bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text('Totaal alle projecten',M,y); doc.text(self.fmt2(grand)+' uur',PW-M,y,{align:'right'});
+    doc.setFont(DISP,'bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text('Totaal alle projecten',M,y); doc.text(self.fmt2(grand)+' uur',PW-M,y,{align:'right'});
     doc.save('urenoverzicht'+(weekKey?'-week'+self.isoWeek(self.parseISO(weekKey)):'')+'.pdf');
   }
   genPdf(id,fname){
@@ -935,7 +970,7 @@ class Component extends DCLogic {
     }).catch(function(){ restore(); try{ document.body.setAttribute('data-print', id==='printOverview'?'overview':'register'); window.print(); }catch(e){} });
   }
   chipStyle(sel){ const C=this.C; return Object.assign({display:'inline-flex',alignItems:'center',gap:'6px',padding:'9px 14px',borderRadius:'999px',fontSize:'13.5px',fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}, sel?{background:C.navy,color:'#fff',border:'1px solid '+C.navy}:{background:'#fff',color:C.ink,border:'1px solid '+C.line}); }
-  tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'4px 2px',color:active?C.navy:C.soft}; }
+  tabStyle(active){ const C=this.C; return {flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'none',border:'none',cursor:'pointer',padding:'2px 2px',color:active?C.navy:C.soft}; }
   segStyle(active){ const C=this.C; return {flex:1,border:'none',borderRadius:'9px',padding:'9px 6px',fontSize:'13px',fontWeight:600,cursor:'pointer',background:active?C.navy:'transparent',color:active?'#fff':C.muted,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}; }
   primStyle(on){ const C=this.C; return {background:on?C.navy:'#c7ccd4',color:'#fff',border:'none',borderRadius:'10px',padding:'8px 16px',fontSize:'14px',fontWeight:600,cursor:on?'pointer':'default'}; }
   entryFront(open){ const C=this.C; return {position:'relative',width:'100%',display:'flex',alignItems:'center',gap:'12px',padding:'13px 15px',background:C.paper,border:'none',cursor:'pointer',textAlign:'left',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-72px)':'translateX(0)'}; }
@@ -963,7 +998,7 @@ class Component extends DCLogic {
     // register
     const rd=this.regData();
     const regWeeks=rd.weeks.map(wk=>({weekLabel:wk.weekLabel,range:wk.range,totalLabel:this.fmt2(wk.weekTotal),hasRows:wk.rows.length>0,noRows:wk.rows.length===0,
-      rows:wk.rows.map(r=>({id:r.id,name:r.name,kvk:r.kvk,totalLabel:this.fmt2(r.total),isSelf:!!r.isSelf,canDelete:!r.isSelf,onDelete:()=>this.deleteRegWorker(r.id),
+      rows:wk.rows.map(r=>({id:r.id,name:r.name,kvk:r.kvk,totalLabel:this.fmt2(r.total),isSelf:!!r.isSelf,canDelete:!r.isSelf,onDelete:()=>this.deleteRegWorker(r.id),onEdit:()=>this.openEditWorker(r.id),
         cells:r.cells.map((c,i)=>({label:this.DCOLS[i],val:c.v?this.fmt(c.v):'·',color:c.v?C.ink:C.soft,style:this.cellStyle(c.v>0,!!r.isSelf),onTap:r.isSelf?(()=>this.setState({tab:'uren'})):(()=>this.openRegCell(r.id,c.date))}))}))}));
     const printWeeks=rd.weeks.map(wk=>({weekLabel:wk.weekLabel,range:wk.range,weekTotal:this.fmt2(wk.weekTotal),rows:wk.rows.map(r=>({nr:r.nr,kvk:r.kvk,name:r.name,total:this.fmt2(r.total),cells:r.cells.map((c,i)=>({label:this.DCOLS[i],val:c.v?this.fmt2(c.v):'–'}))}))}));
     const regProj=this.proj(s.regProjectId)||{};
@@ -1023,7 +1058,7 @@ class Component extends DCLogic {
       pLocation:s.p_location, setPLocation:e=>this.setState({p_location:ev(e)}), pClient:s.p_client, setPClient:e=>this.setState({p_client:ev(e)}),
       saveProject:()=>this.saveProject(), saveProjectStyle:this.primStyle(!!s.p_name.trim()),
       rwInit:s.rw_init, setRwInit:e=>this.setState({rw_init:ev(e)}), rwLast:s.rw_last, setRwLast:e=>this.setState({rw_last:ev(e)}), rwKvk:s.rw_kvk, setRwKvk:e=>this.setState({rw_kvk:ev(e)}), saveWorker:()=>this.saveWorker(), saveWorkerStyle:this.primStyle(!!s.rw_last.trim()),
-      knownWorkers, hasKnownWorkers:knownWorkers.length>0, anyKnownWorkers:s.regWorkers.length>0, rwQuery:s.rw_query, setRwQuery:e=>this.setState({rw_query:ev(e)}),
+      knownWorkers, hasKnownWorkers:!s.editingWorker&&knownWorkers.length>0, anyKnownWorkers:!s.editingWorker&&s.regWorkers.length>0, workerSheetTitle:s.editingWorker?'ZZP’er wijzigen':'ZZP’er toevoegen', workerSheetHint:s.editingWorker?'Pas naam en KvK-nummer aan':('Toevoegen aan '+this.projName(s.regProjectId)), rwQuery:s.rw_query, setRwQuery:e=>this.setState({rw_query:ev(e)}),
       rhWorkerName:rhWorker?rhWorker.name:'', rhDateLabel:s.rh_date?this.dateMid(s.rh_date):'', rhVal:s.rh_val, setRhVal:e=>this.setState({rh_val:ev(e)}), rhChips, saveRegHour:()=>this.saveRegHour(), saveRegHourStyle:this.primStyle(true), clearRegHour:()=>this.clearRegHour(),
       activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
       setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)), setCoMyInit:e=>this.setCompany('myInit',ev(e)), setCoMyLast:e=>this.setCompany('myLast',ev(e)), setCoMyKvk:e=>this.setCompany('myKvk',ev(e)),

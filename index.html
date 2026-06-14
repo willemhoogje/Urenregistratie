@@ -1023,7 +1023,7 @@ class Component extends DCLogic {
       var p=self.proj(pid)||{}, list=byProj[pid].slice().sort(function(a,b){return a.date<b.date?-1:1;});
       var tot=list.reduce(function(a,e){return a+e.hours;},0);
       ensure(16);
-      doc.setFont(DISP,'bold'); doc.setFontSize(10.5); setC('setTextColor',INK); doc.text(((p.number&&p.number!=='—')?p.number:'—')+'   ·   '+(p.name||'—'),M,y); y+=2;
+      doc.setFont(DISP,'bold'); doc.setFontSize(10.5); setC('setTextColor',INK); var pHead=(pid===self.GEN)?'Algemene uren   ·   niet-projectgebonden':(((p.number&&p.number!=='—')?p.number:'—')+'   ·   '+(p.name||'—')); doc.text(pHead,M,y); y+=2;
       setC('setDrawColor',NAVY); doc.setLineWidth(0.4); doc.line(M,y,PW-M,y); y+=5;
       var rowH=6.4;
       list.forEach(function(e){

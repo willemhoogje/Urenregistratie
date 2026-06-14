@@ -125,7 +125,8 @@ if ('serviceWorker' in navigator) {
 
     <!-- BRAND HEADER -->
     <div id="appbrand" style="display:flex;align-items:center;justify-content:space-between;padding:4px 18px 11px;background:var(--paper);border-bottom:1px solid var(--line);flex:none;z-index:5">
-      <img src="assets/abeco-logo.png" alt="ABECO" style="height:20px;width:auto;display:block"/>
+      <img src="assets/abeco-logo.png" alt="ABECO" style="height:20px;width:auto;display:block;flex:none"/>
+      <span style="flex:1;min-width:0;text-align:center;padding:0 12px;font-family:var(--disp);font-size:12.5px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ todayLong }}</span>
       <button onClick="{{ openSettings }}" style="width:34px;height:34px;border-radius:50%;background:var(--mist);border:1px solid var(--line);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></svg>
       </button>
@@ -137,7 +138,6 @@ if ('serviceWorker' in navigator) {
       <!-- ===== UREN ===== -->
       <sc-if value="{{ isUren }}" hint-placeholder-val="{{ true }}">
         <div style="padding:20px 18px 0">
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>{{ todayLong }}</div>
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Mijn uren</h1>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px">
@@ -190,7 +190,6 @@ if ('serviceWorker' in navigator) {
       <!-- ===== PROJECTEN ===== -->
       <sc-if value="{{ isProjecten }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px 18px 0">
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Beheer</div>
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Projecten</h1>
           <button onClick="{{ openAddGeneral }}" style="width:100%;margin-top:16px;display:flex;align-items:center;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 16px;cursor:pointer;text-align:left">
             <span style="width:44px;height:44px;border-radius:11px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none"><span style="font-family:var(--disp);font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em">ALG</span></span>
@@ -234,7 +233,6 @@ if ('serviceWorker' in navigator) {
       <!-- ===== OVERZICHT ===== -->
       <sc-if value="{{ isOverzicht }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px 18px 0">
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Mijn totalen</div>
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Overzicht</h1>
 
           <div style="background:var(--navy);border-radius:18px;padding:17px 18px;color:#fff;margin-top:16px">
@@ -369,7 +367,6 @@ if ('serviceWorker' in navigator) {
       <!-- ===== NOTITIES ===== -->
       <sc-if value="{{ isNotities }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px 18px 0">
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Handig</div>
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Notities</h1>
           <sc-if value="{{ hasNotes }}" hint-placeholder-val="{{ false }}">
             <div style="margin-top:16px;display:flex;flex-direction:column;gap:11px">

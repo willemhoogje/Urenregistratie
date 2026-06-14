@@ -161,6 +161,26 @@ if ('serviceWorker' in navigator) {
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>Beheer</div>
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Projecten</h1>
           <button onClick="{{ openNewProject }}" style="width:100%;margin-top:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuw project</button>
+
+          <div style="margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;background:var(--mist);border-bottom:1px solid var(--line)">
+              <span style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:40px;height:40px;border-radius:11px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none"><span style="font-family:var(--disp);font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em">ALG</span></span><span style="min-width:0"><span style="display:block;font-size:15px;font-weight:600;color:var(--ink)">Algemene uren</span><span style="display:block;font-size:11.5px;color:var(--muted)">niet-projectgebonden</span></span></span>
+              <span style="text-align:right;flex:none"><span style="display:block;font-family:var(--disp);font-size:17px;font-weight:600;color:var(--ink)">{{ genTotalLabel }}</span><span style="display:block;font-size:10px;color:var(--soft);font-weight:500;text-transform:uppercase;letter-spacing:.08em">uur</span></span>
+            </div>
+            <sc-if value="{{ hasGenEntries }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ genEntries }}" as="g" hint-placeholder-count="2">
+                <button onClick="{{ g.onTap }}" style="width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:none;border-top:1px solid var(--line);padding:12px 16px;cursor:pointer">
+                  <span style="min-width:0"><span style="display:block;font-size:13.5px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.actLabel }}</span><span style="display:block;font-size:11.5px;color:var(--muted)">{{ g.dateLabel }}</span></span>
+                  <span style="flex:none;white-space:nowrap;font-family:var(--disp);font-size:14px;font-weight:600;color:var(--ink)">{{ g.hoursLabel }} u</span>
+                </button>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ noGenEntries }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:14px 16px;font-size:12.5px;color:var(--soft);border-top:1px solid var(--line)">Nog geen algemene uren geboekt.</div>
+            </sc-if>
+            <button onClick="{{ openAddGeneral }}" style="width:100%;background:var(--paper);border:none;border-top:1px solid var(--line);padding:12px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Algemene uren boeken</button>
+          </div>
+
           <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
             <div style="margin-top:14px;display:flex;flex-direction:column;gap:11px">
               <sc-for list="{{ projectList }}" as="p" hint-placeholder-count="3">
@@ -784,6 +804,7 @@ class Component extends DCLogic {
   openAdd(){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false}); }
   openAddWith(pid){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:pid,f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false,tab:'uren'}); }
   openEdit(e){ this.setState({sheet:'addEntry',editingId:e.id,f_date:e.date,f_projectId:e.projectId,f_activity:e.activity,f_hours:this.fmt(e.hours),f_note:e.note||'',f_projQuery:'',showNewAct:false}); }
+  openAddGeneral(){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:this.GEN,f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false}); }
   clearProject(){ this.setState({f_projectId:'',f_projQuery:''}); }
   saveEntry(){ const s=this.state; const h=this.parseHours(s.f_hours); if(!s.f_projectId||!s.f_activity||h<=0)return; let entries=s.entries.slice(); if(s.editingId){ entries=entries.map(e=>e.id===s.editingId?Object.assign({},e,{date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}):e); } else { entries.push({id:this.uid('e'),date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}); } this.up({entries,sheet:null,showNewAct:false}); }
   deleteEntry(){ const s=this.state; this.up({entries:s.entries.filter(e=>e.id!==s.editingId),sheet:null}); }
@@ -1048,6 +1069,9 @@ class Component extends DCLogic {
     const curMon=this.getMonday(new Date()); const curDates=[]; for(let i=0;i<7;i++)curDates.push(this.toISO(this.addDays(curMon,i)));
     const weekTotal=mine.filter(e=>curDates.indexOf(e.date)>=0).reduce((a,e)=>a+e.hours,0);
     const projectList=s.projects.map(p=>{const es=s.entries.filter(e=>e.projectId===p.id);const tot=es.reduce((a,e)=>a+e.hours,0); const num=(p.number&&p.number!=='—')?p.number:''; const meta=(p.location?p.location+' · ':'')+es.length+' boeking'+(es.length===1?'':'en'); return {name:p.name,number:num,hasNumber:!!num,meta,totalLabel:this.fmt(tot),frontStyle:this.projFront(s.openSwipe===p.id),onTap:()=>this.rowTap(p.id,()=>this.openAddWith(p.id)),onSwipe:(ev)=>this.swipeStart(ev,p.id),onDelete:()=>this.deleteProjectById(p.id)};});
+    const genList=s.entries.filter(e=>e.projectId===this.GEN).slice().sort((a,b)=>a.date<b.date?1:(a.date>b.date?-1:0));
+    const genEntries=genList.map(e=>({actLabel:(e.note?e.activity+' · '+e.note:e.activity),dateLabel:this.dateRow(e.date),hoursLabel:this.fmt(e.hours),onTap:()=>this.openEdit(e)}));
+    const genTotal=genList.reduce((a,e)=>a+e.hours,0);
     // overview (mine only)
     const grandTotal=mine.reduce((a,e)=>a+e.hours,0);
     const obyDate={}; mine.forEach(e=>{obyDate[e.date]=(obyDate[e.date]||0)+e.hours;});
@@ -1093,6 +1117,7 @@ class Component extends DCLogic {
       openAdd:()=>this.openAdd(), showFab:s.tab==='uren', undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(),
       dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(),
+      genEntries, hasGenEntries:genList.length>0, noGenEntries:genList.length===0, genTotalLabel:this.fmt(genTotal), openAddGeneral:()=>this.openAddGeneral(),
       grandTotalLabel:this.fmt(grandTotal),
       setDag:()=>this.setOmode('dag'), setWeek:()=>this.setOmode('week'), setProj:()=>this.setOmode('project'),
       omodeDagStyle:this.segStyle(s.omode==='dag'), omodeWeekStyle:this.segStyle(s.omode==='week'), omodeProjStyle:this.segStyle(s.omode==='project'),

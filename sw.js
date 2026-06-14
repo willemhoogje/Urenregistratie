@@ -1,5 +1,5 @@
 /* ABECO Uren — service worker (relatieve paden, werkt in een submap op GitHub Pages) */
-const CACHE = 'abeco-uren-v42';
+const CACHE = 'abeco-uren-v43';
 const CORE = [
   './',
   './index.html',
@@ -19,9 +19,14 @@ const CORE = [
 
 self.addEventListener('install', (e) => {
   // NIET automatisch skipWaiting: de nieuwe versie wacht tot de gebruiker op "Verversen" tikt.
+  // Eigen bestanden ALTIJD vers van de server halen (cache:'reload'), zodat we nooit een oude
+  // versie uit het HTTP-cachegeheugen van de browser opslaan.
   e.waitUntil(
     caches.open(CACHE)
-      .then((c) => Promise.allSettled(CORE.map((u) => c.add(u))))
+      .then((c) => Promise.allSettled(CORE.map((u) => {
+        var req = (u.charAt(0) === '.') ? new Request(u, { cache: 'reload' }) : u;
+        return c.add(req);
+      })))
   );
 });
 

@@ -22,7 +22,7 @@
   #appstatus{display:none!important}
   #apphome{display:none!important}
   #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-  #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 38px),4px)!important}
+  #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),8px)!important}
   .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
 </style>
 <script src="./support.js"></script>
@@ -90,7 +90,7 @@ if ('serviceWorker' in navigator) {
     #appstatus{display:none!important}
     #apphome{display:none!important}
     #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
-    #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 38px),4px)!important}
+    #apptabbar{padding-top:2px!important;padding-bottom:max(calc(env(safe-area-inset-bottom) - 22px),8px)!important}
     .noscroll{overflow-x:hidden!important;overscroll-behavior:contain!important}
   }
   #printArea{display:none}
@@ -388,7 +388,7 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <!-- TAB BAR -->
-    <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:4px 6px 8px;z-index:25">
+    <div id="apptabbar" style="flex:none;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:4px 6px 8px;z-index:25">
       <button onClick="{{ tabUren }}" style="{{ tabUrenStyle }}">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Uren</span>

@@ -941,6 +941,17 @@ class Component extends DCLogic {
   loadLogo(){ try{ var img=document.querySelector('#printArea img'); if(img&&img.complete&&img.naturalWidth){ var c=document.createElement('canvas'); c.width=img.naturalWidth; c.height=img.naturalHeight; c.getContext('2d').drawImage(img,0,0); return {data:c.toDataURL('image/png'),w:img.naturalWidth,h:img.naturalHeight}; } }catch(e){} return null; }
   sanitizeFn(s){ return String(s==null?'':s).replace(/[\/\\:*?"<>|,]+/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-+|-+$/g,''); }
   isoYear(date){ var d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate())); var dn=(d.getUTCDay()+6)%7; d.setUTCDate(d.getUTCDate()-dn+3); return d.getUTCFullYear(); }
+  savePdf(doc,fname){
+    // Probeer het deel-menu (zoals bij de backup) zodat de gebruiker de locatie kiest (Drive/Bestanden); val anders terug op downloaden.
+    try{
+      if(navigator.canShare){
+        var blob=doc.output('blob');
+        var file=new File([blob],fname,{type:'application/pdf'});
+        if(navigator.canShare({files:[file]})){ navigator.share({files:[file],title:fname}).catch(function(){}); return; }
+      }
+    }catch(e){}
+    doc.save(fname);
+  }
   buildPdf(kind,weekKey){
     if(!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print',kind==='overview'?'overview':'register'); window.print(); }catch(e){} return; }
     var self=this, doc=new window.jspdf.jsPDF('p','mm','a4');
@@ -1009,7 +1020,7 @@ class Component extends DCLogic {
       var wkPart='';
       if(rd.weeks.length){ var w0=rd.weeks[0].mon, wN=rd.weeks[rd.weeks.length-1].mon, n0=self.isoWeek(w0), nN=self.isoWeek(wN); wkPart='wk'+(n0===nN?n0:(n0+'-'+nN))+'-'+self.isoYear(wN); }
       var rParts=['Mandagenregister']; if(projPart)rParts.push(projPart); if(wkPart)rParts.push(wkPart);
-      doc.save(rParts.join('_')+'.pdf'); return;
+      self.savePdf(doc,rParts.join('_')+'.pdf'); return;
     }
     // overview
     header('URENOVERZICHT');
@@ -1042,7 +1053,7 @@ class Component extends DCLogic {
     var nm2=self.sanitizeFn(co2.myLast||'');
     var wkPart2=weekKey?('wk'+self.isoWeek(self.parseISO(weekKey))+'-'+self.isoYear(self.parseISO(weekKey))):'alle-weken';
     var oParts=['Urenregistratie']; if(nm2)oParts.push(nm2); oParts.push(wkPart2);
-    doc.save(oParts.join('_')+'.pdf');
+    self.savePdf(doc,oParts.join('_')+'.pdf');
   }
   genPdf(id,fname){
     var node=document.getElementById(id), pa=document.getElementById('printArea');

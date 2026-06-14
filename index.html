@@ -17,8 +17,8 @@
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
 <style>
   html,body{background:#fff!important;overflow:hidden!important;overscroll-behavior:none!important;position:fixed;width:100%;height:100%}
-  #appstage{padding:0!important;height:100dvh!important;display:block!important;overflow:hidden!important}
-  #appphone{width:100%!important;max-width:560px!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important;margin:0 auto!important;overflow:hidden!important}
+  #appstage{padding:0!important;height:100lvh!important;display:block!important;overflow:hidden!important}
+  #appphone{width:100%!important;max-width:560px!important;height:100lvh!important;border-radius:0!important;box-shadow:none!important;margin:0 auto!important;overflow:hidden!important}
   #appstatus{display:none!important}
   #apphome{display:none!important}
   #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
@@ -69,8 +69,6 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('load', function () {
   setTimeout(function () {
     try {
-      document.documentElement.style.setProperty('background', '#ff00ff', 'important');
-      document.body.style.setProperty('background', '#ff00ff', 'important');
       var probe = document.createElement('div');
       probe.style.cssText = 'position:fixed;left:0;bottom:0;width:1px;height:env(safe-area-inset-bottom);pointer-events:none';
       document.body.appendChild(probe);
@@ -107,8 +105,8 @@ window.addEventListener('load', function () {
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   @media (display-mode: standalone), (display-mode: fullscreen){
     html,body{background:#fff!important;overflow:hidden!important;overscroll-behavior:none!important;position:fixed;width:100%;height:100%}
-    #appstage{padding:0!important;height:100dvh!important;display:block!important;overflow:hidden!important}
-    #appphone{width:100%!important;max-width:560px!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important;margin:0 auto!important;overflow:hidden!important}
+    #appstage{padding:0!important;height:100lvh!important;display:block!important;overflow:hidden!important}
+    #appphone{width:100%!important;max-width:560px!important;height:100lvh!important;border-radius:0!important;box-shadow:none!important;margin:0 auto!important;overflow:hidden!important}
     #appstatus{display:none!important}
     #apphome{display:none!important}
     #appbrand{padding-top:calc(env(safe-area-inset-top) + 10px)!important}
@@ -410,7 +408,7 @@ window.addEventListener('load', function () {
     </div>
 
     <!-- TAB BAR -->
-    <div id="apptabbar" style="position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:4px 6px calc(env(safe-area-inset-bottom) * 0.5 + 6px);z-index:25">
+    <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:4px 6px calc(env(safe-area-inset-bottom) * 0.5 + 6px);z-index:25">
       <button onClick="{{ tabUren }}" style="{{ tabUrenStyle }}">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Uren</span>
@@ -732,7 +730,7 @@ window.addEventListener('load', function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v54</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v55</div>
         </div>
       </div>
     </sc-if>

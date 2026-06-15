@@ -497,10 +497,6 @@ window.__checkPendingBackup = function () {
             </div>
           </sc-if>
           <sc-if value="{{ noSelectedProject }}" hint-placeholder-val="{{ true }}">
-            <button onClick="{{ setGeneral }}" style="width:100%;margin-bottom:9px;display:flex;align-items:center;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:11px 13px;cursor:pointer;text-align:left">
-              <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;flex:none">ALG</span>
-              <span style="font-size:14px;font-weight:500;color:var(--ink)">Algemeen — niet projectgebonden</span>
-            </button>
             <div style="position:relative">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" style="position:absolute;left:13px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
               <input value="{{ fProjQuery }}" onChange="{{ setFProjQuery }}" placeholder="Zoek project op naam of nummer…" style="width:100%;padding:13px 14px 13px 38px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist)"/>
@@ -515,8 +511,13 @@ window.__checkPendingBackup = function () {
               <sc-if value="{{ noMatches }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:var(--soft);padding:4px 2px">Geen project gevonden.</div></sc-if>
               <button onClick="{{ openNewProjectFromEntry }}" style="display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:9px 13px;border-radius:999px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer;margin-top:2px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuw project</button>
             </div>
+            <button onClick="{{ setGeneral }}" style="width:100%;margin-top:12px;display:flex;align-items:center;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:11px 13px;cursor:pointer;text-align:left">
+              <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;flex:none">ALG</span>
+              <span style="font-size:14px;font-weight:500;color:var(--ink)">Algemeen — niet projectgebonden</span>
+            </button>
           </sc-if>
 
+          <sc-if value="{{ hasSelectedProject }}" hint-placeholder-val="{{ false }}">
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>{{ activityLabel }}</label>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
             <sc-for list="{{ activityChips }}" as="a" hint-placeholder-count="4">
@@ -529,6 +530,7 @@ window.__checkPendingBackup = function () {
               <input value="{{ newActInline }}" onChange="{{ setNewActInline }}" placeholder="{{ actInlinePlaceholder }}" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
               <button onClick="{{ addActInline }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 18px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
             </div>
+          </sc-if>
           </sc-if>
 
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Aantal uren</label>
@@ -658,37 +660,7 @@ window.__checkPendingBackup = function () {
             </div>
           </sc-if>
 
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 9px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Categorieën</div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px">
-            <sc-for list="{{ genCatChips }}" as="c" hint-placeholder-count="3">
-              <span style="display:inline-flex;align-items:center;gap:7px;padding:8px 9px 8px 13px;border-radius:999px;background:var(--mist);border:1px solid var(--line);font-size:13.5px;font-weight:500;color:var(--ink)">{{ c.name }}<button onClick="{{ c.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
-            </sc-for>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:11px">
-            <input value="{{ newGenCat }}" onChange="{{ setNewGenCat }}" placeholder="Nieuwe categorie (bijv. Verlof)" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
-            <button onClick="{{ addGenCat }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
-          </div>
-
-          <sc-if value="{{ genHasBookings }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 9px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Boekingen</div>
-            <div style="display:flex;flex-direction:column;gap:9px">
-              <sc-for list="{{ genBookings }}" as="b" hint-placeholder-count="2">
-                <div style="position:relative;border-radius:16px;overflow:hidden">
-                  <div style="position:absolute;top:0;right:0;bottom:0;width:120px;display:flex;align-items:center;justify-content:center;gap:11px;background:transparent">
-                    <button onClick="{{ b.onEdit }}" aria-label="Bewerk" style="width:42px;height:42px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(12,18,30,.3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
-                    <button onClick="{{ b.onDelete }}" aria-label="Verwijder" style="width:42px;height:42px;border-radius:50%;background:#b4413c;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(180,65,60,.4)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
-                  </div>
-                  <button onClick="{{ b.onTap }}" onPointerDown="{{ b.onSwipe }}" style="{{ b.frontStyle }}">
-                    <span style="flex:1;min-width:0"><span style="display:block;font-size:14.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.sub }}</span><span style="display:block;font-size:12.5px;color:var(--muted);margin-top:2px">{{ b.dateLabel }}</span></span>
-                    <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink);flex:none">{{ b.hoursLabel }}<span style="font-size:11px;color:var(--soft);font-weight:500"> u</span></span>
-                  </button>
-                </div>
-              </sc-for>
-            </div>
-            <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:12px 4px 0">Veeg een boeking naar links om te bewerken of verwijderen.</p>
-          </sc-if>
-
-          <button onClick="{{ openAddGeneral }}" style="width:100%;margin-top:20px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Algemene uren boeken</button>
+          <button onClick="{{ openAddGeneral }}" style="width:100%;margin-top:22px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Algemene uren boeken</button>
         </div>
       </div>
     </sc-if>
@@ -736,23 +708,28 @@ window.__checkPendingBackup = function () {
           </div>
           <sc-if value="{{ showReminderHint }}" hint-placeholder-val="{{ false }}"><p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:7px 4px 0">Je ontvangt een melding op {{ nReminderDate }} om {{ nReminderTime }} als de app open staat.</p></sc-if>
 
-          <!-- To-do -->
-          <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px">To-do</div>
-          <sc-if value="{{ hasNoteItems }}" hint-placeholder-val="{{ true }}">
-            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
-              <sc-for list="{{ noteItems }}" as="it" hint-placeholder-count="2">
-                <div style="display:flex;align-items:center;gap:11px">
-                  <button onClick="{{ it.onToggle }}" style="{{ it.boxStyle }}"><sc-if value="{{ it.done }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></button>
-                  <span style="{{ it.textStyle }}">{{ it.text }}</span>
-                  <button onClick="{{ it.onRemove }}" aria-label="Verwijder" style="width:26px;height:26px;border-radius:7px;border:none;background:var(--mist);color:var(--muted);cursor:pointer;font-size:15px;line-height:1;flex:none">×</button>
-                </div>
-              </sc-for>
+          <!-- Checkboxes (optioneel) -->
+          <sc-if value="{{ noteCheckVisible }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px">Checklist</div>
+            <sc-if value="{{ hasNoteItems }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+                <sc-for list="{{ noteItems }}" as="it" hint-placeholder-count="2">
+                  <div style="display:flex;align-items:center;gap:11px">
+                    <button onClick="{{ it.onToggle }}" style="{{ it.boxStyle }}"><sc-if value="{{ it.done }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></button>
+                    <span style="{{ it.textStyle }}">{{ it.text }}</span>
+                    <button onClick="{{ it.onRemove }}" aria-label="Verwijder" style="width:26px;height:26px;border-radius:7px;border:none;background:var(--mist);color:var(--muted);cursor:pointer;font-size:15px;line-height:1;flex:none">×</button>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div style="display:flex;gap:8px">
+              <input id="noteItemInput" value="{{ nNewItem }}" onChange="{{ setNNewItem }}" placeholder="Afvinkpunt toevoegen" style="flex:1;padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+              <button onClick="{{ addNoteItem }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
             </div>
           </sc-if>
-          <div style="display:flex;gap:8px">
-            <input id="noteItemInput" value="{{ nNewItem }}" onChange="{{ setNNewItem }}" placeholder="Nieuw punt toevoegen" style="flex:1;padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
-            <button onClick="{{ addNoteItem }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
-          </div>
+          <sc-if value="{{ noteCheckHidden }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ showNoteCheck }}" style="width:100%;margin-top:20px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:12px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:14px;font-weight:600;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12l3 3 5-6"/></svg>Checkboxes toevoegen</button>
+          </sc-if>
 
           <!-- Koppel aan project -->
           <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px">Koppel aan project <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></div>
@@ -906,7 +883,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v75</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v76</div>
         </div>
       </div>
     </sc-if>
@@ -1076,7 +1053,7 @@ class Component extends DCLogic {
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',newGenCat:'',
-      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',rh_worker:'',rh_date:'',rh_val:''},data);
+      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false,rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
     return {
@@ -1130,8 +1107,9 @@ class Component extends DCLogic {
   addGenCat(){ const s=this.state; const v=(s.newGenCat||'').trim(); if(!v||(s.genCats||[]).indexOf(v)>=0)return; this.up({genCats:(s.genCats||[]).concat([v]),newGenCat:''}); }
   removeGenCat(name){ const s=this.state; this.up({genCats:(s.genCats||[]).filter(c=>c!==name)}); }
   // ===== Notities & checklists =====
-  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:''}); }
-  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_text:n.text||'',n_items:(n.items||[]).map(function(it){return {id:it.id,text:it.text,done:!!it.done};}),n_newItem:'',n_reminderDate:n.reminderDate||'',n_reminderTime:n.reminderTime||''}); }
+  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false}); }
+  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_text:n.text||'',n_items:(n.items||[]).map(function(it){return {id:it.id,text:it.text,done:!!it.done};}),n_newItem:'',n_reminderDate:n.reminderDate||'',n_reminderTime:n.reminderTime||'',n_showCheck:false}); }
+  showNoteCheck(){ this.setState({n_showCheck:true},function(){ var inp=document.getElementById('noteItemInput'); if(inp)inp.focus(); }); }
   setNoteProject(pid){ this.setState({n_projectId:pid}); }
   addNoteItem(){ var v=(this.state.n_newItem||'').trim(); if(!v)return; this.setState({n_items:this.state.n_items.concat([{id:this.uid('ni'),text:v,done:false}]),n_newItem:''},function(){ var inp=document.getElementById('noteItemInput'); if(inp)inp.focus(); }); }
   toggleNoteItem(id){ this.setState({n_items:this.state.n_items.map(function(it){return it.id===id?{id:it.id,text:it.text,done:!it.done}:it;})}); }
@@ -1546,7 +1524,7 @@ class Component extends DCLogic {
       nNewItem:s.n_newItem, setNNewItem:e=>this.setState({n_newItem:ev(e)}), addNoteItem:()=>this.addNoteItem(),
       nReminderDate:s.n_reminderDate, setNReminderDate:e=>this.setState({n_reminderDate:ev(e)}), nReminderTime:s.n_reminderTime, setNReminderTime:e=>this.setState({n_reminderTime:ev(e)}), showReminderHint:!!(s.n_reminderDate&&s.n_reminderTime),
       nDateOn:!!s.n_reminderDate, nTimeOn:!!s.n_reminderTime, toggleNDate:()=>this.toggleNDate(), toggleNTime:()=>this.toggleNTime(), nDateToggleStyle:this.toggleTrack(!!s.n_reminderDate), nDateKnobStyle:this.toggleKnob(!!s.n_reminderDate), nTimeToggleStyle:this.toggleTrack(!!s.n_reminderTime), nTimeKnobStyle:this.toggleKnob(!!s.n_reminderTime),
-      noteItems, hasNoteItems:(s.n_items||[]).length>0, noteProjChips,
+      noteItems, hasNoteItems:(s.n_items||[]).length>0, noteProjChips, noteCheckVisible:((s.n_items||[]).length>0||!!s.n_showCheck), noteCheckHidden:!((s.n_items||[]).length>0||!!s.n_showCheck), showNoteCheck:()=>this.showNoteCheck(),
       saveNote:()=>this.saveNote(), saveNoteStyle:this.primStyle(!!((s.n_title||'').trim()||(s.n_text||'').trim()||(s.n_items||[]).length)), deleteNote:()=>this.deleteNote(),
       todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),
       openAdd:()=>this.openAdd(), fabAction:()=>this.fabAction(), fabLabel:(s.tab==='projecten'?'Nieuw project':(s.tab==='notities'?'Nieuwe notitie':'Uren toevoegen')), showFab:(s.tab==='uren'||s.tab==='projecten'||s.tab==='notities'), undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(),

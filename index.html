@@ -527,7 +527,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v88</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v89</div>
         </div>
       </sc-if>
 
@@ -601,10 +601,6 @@ window.__checkPendingBackup = function () {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" style="position:absolute;left:13px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
               <input value="{{ fProjQuery }}" onChange="{{ setFProjQuery }}" placeholder="Zoek op naam, nummer of plaats…" style="width:100%;padding:13px 14px 13px 38px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist)"/>
             </div>
-            <button onClick="{{ setGeneral }}" style="width:100%;margin-top:9px;display:flex;align-items:center;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:11px 13px;cursor:pointer;text-align:left">
-              <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;flex:none">ALG</span>
-              <span style="font-size:14px;font-weight:500;color:var(--ink)">Algemeen — niet projectgebonden</span>
-            </button>
             <div style="margin-top:9px;display:flex;flex-direction:column;gap:7px">
               <sc-if value="{{ projMatchesRecent }}" hint-placeholder-val="{{ true }}"><div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin:2px 2px -1px">Recent gebruikt</div></sc-if>
               <sc-for list="{{ projectMatches }}" as="m" hint-placeholder-count="3">
@@ -834,7 +830,6 @@ window.__checkPendingBackup = function () {
               </sc-for>
               <sc-if value="{{ noteNoMatches }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:var(--soft);padding:4px 2px">Geen project gevonden.</div></sc-if>
             </div>
-            <p style="font-size:11px;color:var(--soft);line-height:1.5;margin:8px 2px 0">Niet gekoppeld = algemene notitie.</p>
           </sc-if>
 
           <sc-if value="{{ isNoteEditing }}" hint-placeholder-val="{{ false }}">
@@ -1550,7 +1545,13 @@ class Component extends DCLogic {
     const startMon=this.getMonday(this.addDays(new Date(),s.weekOffset*7));
     // entry sheet
     const q=s.f_projQuery.trim().toLowerCase();
-    const projectMatches=matchProjects(s.f_projQuery).map(p=>({name:p.name,badge:this.projBadge(p),sub:p.location||'',hasSub:!!p.location,onTap:()=>this.setState({f_projectId:p.id,f_projQuery:''})}));
+    const genLast=s.entries.reduce((m,e)=>(e.projectId===this.GEN&&e.date>m)?e.date:m,'');
+    const genCand={id:this.GEN,name:'Algemeen',badge:'ALG',sub:'niet-projectgebonden',hasSub:true,sName:'algemeen',sNum:'alg',sLoc:'niet projectgebonden'};
+    const projCands=s.projects.map((p,i)=>({id:p.id,name:p.name,badge:this.projBadge(p),sub:p.location||'',hasSub:!!p.location,sName:(p.name||'').toLowerCase(),sNum:(p.number||'').toLowerCase(),sLoc:(p.location||'').toLowerCase(),last:projLastUse[p.id]||'',idx:i}));
+    let entryProjList;
+    if(q){ entryProjList=[genCand].concat(projCands).filter(c=>c.sName.indexOf(q)>=0||c.sNum.indexOf(q)>=0||c.sLoc.indexOf(q)>=0).slice(0,6); }
+    else { const cands=projCands.slice(); if(genLast)cands.push(Object.assign({},genCand,{last:genLast,idx:9999})); cands.sort((a,b)=>{ if((a.last||'')!==(b.last||''))return (a.last||'')<(b.last||'')?1:-1; return b.idx-a.idx; }); entryProjList=cands.slice(0,3); }
+    const projectMatches=entryProjList.map(c=>({name:c.name,badge:c.badge,sub:c.sub,hasSub:c.hasSub,onTap:()=>this.setState({f_projectId:c.id,f_projQuery:''})}));
     const selProj=this.proj(s.f_projectId);
     const isGenEntry=s.f_projectId===this.GEN; const actSource=isGenEntry?(s.genCats||[]):s.activities;
     const activityChips=actSource.map(a=>({name:a,style:this.chipStyle(a===s.f_activity),onTap:()=>this.setState({f_activity:a})}));

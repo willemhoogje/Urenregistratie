@@ -172,10 +172,13 @@ window.__checkPendingBackup = function () {
                 <button onClick="{{ blockExport }}" aria-label="PDF uitdraai" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.16);border:none;cursor:pointer;flex:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
               </div>
             </div>
-            <div style="background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:15px 16px">
-              <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">Vandaag</div>
+            <button onClick="{{ goNow }}" style="background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:15px 16px;cursor:pointer;text-align:left;width:100%;display:block">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+                <span style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">Vandaag</span>
+                <span style="display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);background:var(--mist);border:1px solid var(--line);border-radius:99px;padding:3px 7px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Nu</span>
+              </div>
               <div style="font-family:var(--disp);font-size:32px;font-weight:600;line-height:1;margin-top:10px;color:var(--ink)">{{ todayTotal }}<span style="font-size:14px;font-weight:500;color:var(--muted);margin-left:4px">uur</span></div>
-            </div>
+            </button>
           </div>
 
           <div style="display:flex;gap:6px;margin-top:14px">
@@ -189,9 +192,14 @@ window.__checkPendingBackup = function () {
               <div style="flex:1;text-align:center"><div style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ urenWeekLabel }}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">{{ urenWeekRange }}</div></div>
               <button onClick="{{ nextUrenWeek }}" aria-label="Volgende week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
             </div>
-            <sc-if value="{{ showThisWeekBtn }}" hint-placeholder-val="{{ false }}">
-              <button onClick="{{ goThisWeek }}" style="width:100%;margin-top:8px;background:none;border:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;padding:4px">Terug naar deze week</button>
-            </sc-if>
+          </sc-if>
+
+          <sc-if value="{{ showYearPicker }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:10px;display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:8px 10px">
+              <button onClick="{{ prevUrenYear }}" aria-label="Vorig jaar" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5l-6 6 6 6"/></svg></button>
+              <div style="flex:1;text-align:center"><div style="font-family:var(--disp);font-size:17px;font-weight:600;color:var(--ink)">{{ urenYearLabel }}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">volledig jaar</div></div>
+              <button onClick="{{ nextUrenYear }}" aria-label="Volgend jaar" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
+            </div>
           </sc-if>
 
           <sc-if value="{{ hasEntries }}" hint-placeholder-val="{{ true }}">
@@ -557,7 +565,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v85</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v86</div>
         </div>
       </sc-if>
 
@@ -795,32 +803,6 @@ window.__checkPendingBackup = function () {
           </sc-if>
 
           <button onClick="{{ openAddGeneral }}" style="width:100%;margin-top:22px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Algemene uren boeken</button>
-        </div>
-      </div>
-    </sc-if>
-
-    <!-- ===== SHEET: JAAR-KIEZER ===== -->
-    <sc-if value="{{ isSheetYearPick }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute;inset:0;z-index:62;background:rgba(8,12,20,.42);animation:fadeIn .18s ease" onClick="{{ closeSheet }}"></div>
-      <div style="position:absolute;left:0;right:0;bottom:0;z-index:63;background:var(--paper);border-radius:24px 24px 0 0;animation:sheetUp .26s cubic-bezier(.2,.8,.2,1)">
-        <div style="padding:11px 0 0">
-          <div style="width:38px;height:5px;border-radius:99px;background:#d4d8de;margin:0 auto"></div>
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)">
-            <button onClick="{{ closeSheet }}" style="background:none;border:none;color:var(--muted);font-size:14.5px;cursor:pointer;font-weight:500">Annuleer</button>
-            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">Kies een jaar</span>
-            <span style="width:54px"></span>
-          </div>
-        </div>
-        <div style="padding:14px 18px calc(env(safe-area-inset-bottom) + 24px)">
-          <p style="font-size:12px;color:var(--soft);line-height:1.5;margin:0 2px 12px">Maak een volledige uitdraai van alle uren in het gekozen jaar.</p>
-          <div style="display:flex;flex-direction:column;gap:9px">
-            <sc-for list="{{ yearList }}" as="y" hint-placeholder-count="2">
-              <button onClick="{{ y.onTap }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;background:var(--mist);border:1px solid var(--line);border-radius:13px;padding:14px 16px;cursor:pointer">
-                <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">{{ y.label }}</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-              </button>
-            </sc-for>
-          </div>
         </div>
       </div>
     </sc-if>
@@ -1118,7 +1100,7 @@ class Component extends DCLogic {
     if(!data.notes)data.notes=[];
     if(!data.genCats)data.genCats=['Verlof','Vakantie','Vrije dag','Ziek','Feestdag'];
     const firstProj=(data.projects&&data.projects[0])?data.projects[0].id:'';
-    return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,urenWeek:0,urenAll:false,regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
+    return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,urenWeek:0,urenAll:false,urenYear:new Date().getFullYear(),regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
@@ -1312,12 +1294,12 @@ class Component extends DCLogic {
   setCompany(k,v){ this.up({company:Object.assign({},this.state.company,{[k]:v})}); }
   prevUrenWeek(){ this.setState(st=>({urenWeek:st.urenWeek-1})); }
   nextUrenWeek(){ this.setState(st=>({urenWeek:st.urenWeek+1})); }
-  goThisWeek(){ this.setState({urenWeek:0}); }
+  prevUrenYear(){ this.setState(st=>({urenYear:st.urenYear-1})); }
+  nextUrenYear(){ this.setState(st=>({urenYear:st.urenYear+1})); }
+  goNow(){ this.setState({urenAll:false,urenWeek:0}); }
   setUrenAll(v){ this.setState({urenAll:v}); }
   exportUrenWeek(){ var mon=this.getMonday(this.addDays(new Date(),this.state.urenWeek*7)); this.printOverviewWeek(this.toISO(mon)); }
   printOverviewYear(year){ var self=this; this.ensureFonts(function(){ self.buildPdf('overview',null,year); }); }
-  openYearPick(){ this.setState({sheet:'yearPick'}); }
-  printYear(year){ this.setState({sheet:null}); this.printOverviewYear(year); }
   prevWeek(){ this.setState(st=>({weekOffset:st.weekOffset-1})); }
   nextWeek(){ this.setState(st=>({weekOffset:st.weekOffset+1})); }
   incWeeks(){ this.setState(st=>({weeks:Math.min(4,st.weeks+1)})); }
@@ -1536,13 +1518,15 @@ class Component extends DCLogic {
     const urenMon=this.getMonday(this.addDays(new Date(),(s.urenWeek||0)*7));
     const urenDateSet={}; for(let i=0;i<7;i++)urenDateSet[this.toISO(this.addDays(urenMon,i))]=1;
     const weekMine=mine.filter(e=>urenDateSet[e.date]);
-    const srcEntries=s.urenAll?mine:weekMine;
+    const urenYear=s.urenYear||new Date().getFullYear();
+    const yearMine=mine.filter(e=>(e.date||'').slice(0,4)===String(urenYear));
+    const srcEntries=s.urenAll?yearMine:weekMine;
     const byDate={}; srcEntries.forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
     const dayGroups=Object.keys(byDate).sort().reverse().map(date=>{ const list=byDate[date]; const total=list.reduce((a,e)=>a+e.hours,0); return {label:this.dayLabel(date),totalLabel:this.fmt(total),entries:list.map(e=>({projectName:this.projName(e.projectId),sub:(e.note?e.activity+' · '+e.note:e.activity),hoursLabel:this.fmt(e.hours),frontStyle:this.entryFront(s.openSwipe===e.id),onTap:()=>this.rowTap(e.id,()=>this.openEdit(e)),onSwipe:(ev)=>this.swipeStart(ev,e.id,120),onEdit:()=>this.openEdit(e),onDelete:()=>this.deleteById(e.id)}))}; });
     const urenWeekTotal=weekMine.reduce((a,e)=>a+e.hours,0);
     const urenWeekEnd=this.addDays(urenMon,6);
     const urenWeekRange=urenMon.getDate()+(urenMon.getMonth()===urenWeekEnd.getMonth()?'':(' '+this.MS[urenMon.getMonth()]))+'–'+urenWeekEnd.getDate()+' '+this.MS[urenWeekEnd.getMonth()]+' '+urenWeekEnd.getFullYear();
-    const urenAllTotal=mine.reduce((a,e)=>a+e.hours,0);
+    const urenYearTotal=yearMine.reduce((a,e)=>a+e.hours,0);
     const segStyle=(a)=>'flex:1;padding:9px;border-radius:11px;border:1px solid '+(a?C.navy:C.line)+';background:'+(a?C.navy:C.paper)+';color:'+(a?'#fff':C.muted)+';font-size:13px;font-weight:600;cursor:pointer';
     const t=this.toISO(new Date());
     const todayTotal=mine.filter(e=>e.date===t).reduce((a,e)=>a+e.hours,0);
@@ -1616,9 +1600,9 @@ class Component extends DCLogic {
       todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),
       urenWeekLabel:'Week '+this.isoWeek(urenMon), urenWeekRange, urenWeekTotal:this.fmt(urenWeekTotal), prevUrenWeek:()=>this.prevUrenWeek(), nextUrenWeek:()=>this.nextUrenWeek(), exportUrenWeek:()=>this.exportUrenWeek(),
       urenAll:s.urenAll, setUrenWeekMode:()=>this.setUrenAll(false), setUrenAllMode:()=>this.setUrenAll(true), urenWeekModeStyle:segStyle(!s.urenAll), urenAllModeStyle:segStyle(s.urenAll),
-      blockLabel:s.urenAll?'Totaal':'Deze week', blockTotal:this.fmt(s.urenAll?urenAllTotal:urenWeekTotal), blockExport:s.urenAll?(()=>this.openYearPick()):(()=>this.exportUrenWeek()),
-      isSheetYearPick:s.sheet==='yearPick', yearList:(()=>{var ys={};mine.forEach(e=>{var y=(e.date||'').slice(0,4);if(y)ys[y]=1;});ys[String(new Date().getFullYear())]=1;return Object.keys(ys).sort().reverse().map(y=>({label:y,onTap:()=>this.printYear(y)}));})(),
-      showWeekPicker:!s.urenAll, showThisWeekBtn:(!s.urenAll&&s.urenWeek!==0), goThisWeek:()=>this.goThisWeek(), urenEmptyText:(s.urenAll?'Nog geen uren geboekt':'Geen uren in deze week'),
+      blockLabel:s.urenAll?'Totaal':'Deze week', blockTotal:this.fmt(s.urenAll?urenYearTotal:urenWeekTotal), blockExport:s.urenAll?(()=>this.printOverviewYear(urenYear)):(()=>this.exportUrenWeek()),
+      showWeekPicker:!s.urenAll, showYearPicker:s.urenAll, urenYearLabel:String(urenYear), prevUrenYear:()=>this.prevUrenYear(), nextUrenYear:()=>this.nextUrenYear(), goNow:()=>this.goNow(),
+      urenEmptyText:(s.urenAll?('Geen uren in '+urenYear):'Geen uren in deze week'),
       openAdd:()=>this.openAdd(), fabAction:()=>this.fabAction(), fabLabel:(s.tab==='projecten'?'Nieuw project':(s.tab==='notities'?'Nieuwe notitie':'Uren toevoegen')), showFab:(s.tab==='uren'||s.tab==='projecten'||s.tab==='notities'), undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(),
       dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(),

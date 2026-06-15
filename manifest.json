@@ -1,6 +1,6 @@
 {
-  "name": "Urenregistratie ABECO Projecten",
-  "short_name": "Uren",
+  "name": "ABECO Projecten",
+  "short_name": "ABECO Projecten",
   "description": "Urenregistratie en mandagenregister voor ABECO Projecten.",
   "start_url": ".",
   "scope": ".",

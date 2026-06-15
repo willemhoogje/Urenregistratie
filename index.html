@@ -166,10 +166,10 @@ window.__checkPendingBackup = function () {
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px">
             <div style="background:var(--navy);border-radius:18px;padding:15px 16px;color:#fff">
-              <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)">Deze week</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)">{{ blockLabel }}</div>
               <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px">
-                <div style="font-family:var(--disp);font-size:32px;font-weight:600;line-height:1">{{ urenWeekTotal }}<span style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-left:4px">uur</span></div>
-                <button onClick="{{ exportUrenWeek }}" aria-label="PDF van deze week" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.16);border:none;cursor:pointer;flex:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
+                <div style="font-family:var(--disp);font-size:32px;font-weight:600;line-height:1">{{ blockTotal }}<span style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-left:4px">uur</span></div>
+                <button onClick="{{ blockExport }}" aria-label="PDF uitdraai" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.16);border:none;cursor:pointer;flex:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
               </div>
             </div>
             <div style="background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:15px 16px">
@@ -178,11 +178,21 @@ window.__checkPendingBackup = function () {
             </div>
           </div>
 
-          <div style="margin-top:14px;display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:8px 10px">
-            <button onClick="{{ prevUrenWeek }}" aria-label="Vorige week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5l-6 6 6 6"/></svg></button>
-            <div style="flex:1;text-align:center"><div style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ urenWeekLabel }}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">{{ urenWeekRange }}</div></div>
-            <button onClick="{{ nextUrenWeek }}" aria-label="Volgende week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
+          <div style="display:flex;gap:6px;margin-top:14px">
+            <button onClick="{{ setUrenWeekMode }}" style="{{ urenWeekModeStyle }}">Per week</button>
+            <button onClick="{{ setUrenAllMode }}" style="{{ urenAllModeStyle }}">Alle uren</button>
           </div>
+
+          <sc-if value="{{ showWeekPicker }}" hint-placeholder-val="{{ true }}">
+            <div style="margin-top:10px;display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:8px 10px">
+              <button onClick="{{ prevUrenWeek }}" aria-label="Vorige week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5l-6 6 6 6"/></svg></button>
+              <div style="flex:1;text-align:center"><div style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ urenWeekLabel }}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">{{ urenWeekRange }}</div></div>
+              <button onClick="{{ nextUrenWeek }}" aria-label="Volgende week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
+            </div>
+            <sc-if value="{{ showThisWeekBtn }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ goThisWeek }}" style="width:100%;margin-top:8px;background:none;border:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;padding:4px">Terug naar deze week</button>
+            </sc-if>
+          </sc-if>
 
           <sc-if value="{{ hasEntries }}" hint-placeholder-val="{{ true }}">
             <sc-for list="{{ dayGroups }}" as="g" hint-placeholder-count="2">
@@ -214,8 +224,8 @@ window.__checkPendingBackup = function () {
           </sc-if>
           <sc-if value="{{ noEntries }}" hint-placeholder-val="{{ false }}">
             <div style="text-align:center;padding:40px 20px;color:var(--soft)">
-              <div style="font-size:15px;font-weight:600;color:var(--muted)">Geen uren in deze week</div>
-              <div style="font-size:13.5px;line-height:1.6;margin-top:6px">Tik op de <b style="color:var(--navy)">+</b> rechtsonder of kies een andere week.</div>
+              <div style="font-size:15px;font-weight:600;color:var(--muted)">{{ urenEmptyText }}</div>
+              <div style="font-size:13.5px;line-height:1.6;margin-top:6px">Tik op de <b style="color:var(--navy)">+</b> rechtsonder om te starten.</div>
             </div>
           </sc-if>
         </div>
@@ -547,7 +557,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v83</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v84</div>
         </div>
       </sc-if>
 
@@ -1082,7 +1092,7 @@ class Component extends DCLogic {
     if(!data.notes)data.notes=[];
     if(!data.genCats)data.genCats=['Verlof','Vakantie','Vrije dag','Ziek','Feestdag'];
     const firstProj=(data.projects&&data.projects[0])?data.projects[0].id:'';
-    return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,urenWeek:0,regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
+    return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,urenWeek:0,urenAll:false,regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
@@ -1276,7 +1286,11 @@ class Component extends DCLogic {
   setCompany(k,v){ this.up({company:Object.assign({},this.state.company,{[k]:v})}); }
   prevUrenWeek(){ this.setState(st=>({urenWeek:st.urenWeek-1})); }
   nextUrenWeek(){ this.setState(st=>({urenWeek:st.urenWeek+1})); }
+  goThisWeek(){ this.setState({urenWeek:0}); }
+  setUrenAll(v){ this.setState({urenAll:v}); }
   exportUrenWeek(){ var mon=this.getMonday(this.addDays(new Date(),this.state.urenWeek*7)); this.printOverviewWeek(this.toISO(mon)); }
+  printOverviewYear(year){ var self=this; this.ensureFonts(function(){ self.buildPdf('overview',null,year); }); }
+  exportUrenYear(){ this.printOverviewYear(new Date().getFullYear()); }
   prevWeek(){ this.setState(st=>({weekOffset:st.weekOffset-1})); }
   nextWeek(){ this.setState(st=>({weekOffset:st.weekOffset+1})); }
   incWeeks(){ this.setState(st=>({weeks:Math.min(4,st.weeks+1)})); }
@@ -1345,7 +1359,7 @@ class Component extends DCLogic {
     }catch(e){}
     doc.save(fname);
   }
-  buildPdf(kind,weekKey){
+  buildPdf(kind,weekKey,year){
     if(!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print',kind==='overview'?'overview':'register'); window.print(); }catch(e){} return; }
     var self=this, doc=new window.jspdf.jsPDF('p','mm','a4');
     var FOK=this.regFonts(doc);
@@ -1418,9 +1432,9 @@ class Component extends DCLogic {
     // overview
     header('URENOVERZICHT');
     var co2=this.state.company||{}, allMine=this.state.entries;
-    var mine=weekKey?allMine.filter(function(e){return self.toISO(self.getMonday(self.parseISO(e.date)))===weekKey;}):allMine;
+    var mine=weekKey?allMine.filter(function(e){return self.toISO(self.getMonday(self.parseISO(e.date)))===weekKey;}):(year?allMine.filter(function(e){return (e.date||'').slice(0,4)===String(year);}):allMine);
     var grand=mine.reduce(function(a,e){return a+e.hours;},0);
-    var wkLabel=weekKey?('Week '+self.isoWeek(self.parseISO(weekKey))+' · '+self.rangeLabel(self.parseISO(weekKey))):'Alle weken';
+    var wkLabel=weekKey?('Week '+self.isoWeek(self.parseISO(weekKey))+' · '+self.rangeLabel(self.parseISO(weekKey))):(year?('Jaar '+year):'Alle weken');
     var myName=self.nm(co2.myLast,co2.myInit);
     infoBox('Overzicht',[['Werknemer',myName],['KvK',co2.myKvk],['Onderaannemer',co2.name]],[['Datum',self.todayLong()],['Periode',wkLabel],['Totaal uren',self.fmt2(grand)]],30);
     var byProj={}; mine.forEach(function(e){(byProj[e.projectId]=byProj[e.projectId]||[]).push(e);});
@@ -1444,7 +1458,7 @@ class Component extends DCLogic {
     ensure(10); setC('setDrawColor',NAVY); doc.setLineWidth(0.7); doc.line(M,y,PW-M,y); y+=6;
     doc.setFont(DISP,'bold'); doc.setFontSize(11); setC('setTextColor',INK); doc.text('Totaal alle projecten',M,y); doc.text(self.fmt2(grand)+' uur',PW-M,y,{align:'right'});
     var nm2=self.sanitizeFn(co2.myLast||'');
-    var wkPart2=weekKey?('wk'+self.isoWeek(self.parseISO(weekKey))+'-'+self.isoYear(self.parseISO(weekKey))):'alle-weken';
+    var wkPart2=weekKey?('wk'+self.isoWeek(self.parseISO(weekKey))+'-'+self.isoYear(self.parseISO(weekKey))):(year?('jaar-'+year):'alle-weken');
     var oParts=['Urenregistratie']; if(nm2)oParts.push(nm2); oParts.push(wkPart2);
     self.savePdf(doc,oParts.join('_')+'.pdf');
   }
@@ -1495,11 +1509,14 @@ class Component extends DCLogic {
     const urenMon=this.getMonday(this.addDays(new Date(),(s.urenWeek||0)*7));
     const urenDateSet={}; for(let i=0;i<7;i++)urenDateSet[this.toISO(this.addDays(urenMon,i))]=1;
     const weekMine=mine.filter(e=>urenDateSet[e.date]);
-    const byDate={}; weekMine.forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
+    const srcEntries=s.urenAll?mine:weekMine;
+    const byDate={}; srcEntries.forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
     const dayGroups=Object.keys(byDate).sort().reverse().map(date=>{ const list=byDate[date]; const total=list.reduce((a,e)=>a+e.hours,0); return {label:this.dayLabel(date),totalLabel:this.fmt(total),entries:list.map(e=>({projectName:this.projName(e.projectId),sub:(e.note?e.activity+' · '+e.note:e.activity),hoursLabel:this.fmt(e.hours),frontStyle:this.entryFront(s.openSwipe===e.id),onTap:()=>this.rowTap(e.id,()=>this.openEdit(e)),onSwipe:(ev)=>this.swipeStart(ev,e.id,120),onEdit:()=>this.openEdit(e),onDelete:()=>this.deleteById(e.id)}))}; });
     const urenWeekTotal=weekMine.reduce((a,e)=>a+e.hours,0);
     const urenWeekEnd=this.addDays(urenMon,6);
     const urenWeekRange=urenMon.getDate()+(urenMon.getMonth()===urenWeekEnd.getMonth()?'':(' '+this.MS[urenMon.getMonth()]))+'–'+urenWeekEnd.getDate()+' '+this.MS[urenWeekEnd.getMonth()]+' '+urenWeekEnd.getFullYear();
+    const urenAllTotal=mine.reduce((a,e)=>a+e.hours,0);
+    const segStyle=(a)=>'flex:1;padding:9px;border-radius:11px;border:1px solid '+(a?C.navy:C.line)+';background:'+(a?C.navy:C.paper)+';color:'+(a?'#fff':C.muted)+';font-size:13px;font-weight:600;cursor:pointer';
     const t=this.toISO(new Date());
     const todayTotal=mine.filter(e=>e.date===t).reduce((a,e)=>a+e.hours,0);
     const curMon=this.getMonday(new Date()); const curDates=[]; for(let i=0;i<7;i++)curDates.push(this.toISO(this.addDays(curMon,i)));
@@ -1570,7 +1587,10 @@ class Component extends DCLogic {
       nDateOn:!!s.n_reminderDate, nTimeOn:!!s.n_reminderTime, toggleNDate:()=>this.toggleNDate(), toggleNTime:()=>this.toggleNTime(), nDateToggleStyle:this.toggleTrack(!!s.n_reminderDate), nDateKnobStyle:this.toggleKnob(!!s.n_reminderDate), nTimeToggleStyle:this.toggleTrack(!!s.n_reminderTime), nTimeKnobStyle:this.toggleKnob(!!s.n_reminderTime),
       saveNote:()=>this.saveNote(), saveNoteStyle:this.primStyle(!!((s.n_title||'').trim()||(s.n_text||'').trim())), deleteNote:()=>this.deleteNote(),
       todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),
-      urenWeekLabel:'Week '+this.isoWeek(urenMon), urenWeekRange, urenWeekTotal:this.fmt(urenWeekTotal), prevUrenWeek:()=>this.prevUrenWeek(), nextUrenWeek:()=>this.nextUrenWeek(), exportUrenWeek:()=>this.exportUrenWeek(), hasWeekEntries:weekMine.length>0,
+      urenWeekLabel:'Week '+this.isoWeek(urenMon), urenWeekRange, urenWeekTotal:this.fmt(urenWeekTotal), prevUrenWeek:()=>this.prevUrenWeek(), nextUrenWeek:()=>this.nextUrenWeek(), exportUrenWeek:()=>this.exportUrenWeek(),
+      urenAll:s.urenAll, setUrenWeekMode:()=>this.setUrenAll(false), setUrenAllMode:()=>this.setUrenAll(true), urenWeekModeStyle:segStyle(!s.urenAll), urenAllModeStyle:segStyle(s.urenAll),
+      blockLabel:s.urenAll?'Totaal':'Deze week', blockTotal:this.fmt(s.urenAll?urenAllTotal:urenWeekTotal), blockExport:s.urenAll?(()=>this.exportUrenYear()):(()=>this.exportUrenWeek()),
+      showWeekPicker:!s.urenAll, showThisWeekBtn:(!s.urenAll&&s.urenWeek!==0), goThisWeek:()=>this.goThisWeek(), urenEmptyText:(s.urenAll?'Nog geen uren geboekt':'Geen uren in deze week'),
       openAdd:()=>this.openAdd(), fabAction:()=>this.fabAction(), fabLabel:(s.tab==='projecten'?'Nieuw project':(s.tab==='notities'?'Nieuwe notitie':'Uren toevoegen')), showFab:(s.tab==='uren'||s.tab==='projecten'||s.tab==='notities'), undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(),
       dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(),

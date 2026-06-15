@@ -565,7 +565,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v86</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v87</div>
         </div>
       </sc-if>
 
@@ -641,17 +641,18 @@ window.__checkPendingBackup = function () {
           <sc-if value="{{ noSelectedProject }}" hint-placeholder-val="{{ true }}">
             <div style="position:relative">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" style="position:absolute;left:13px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
-              <input value="{{ fProjQuery }}" onChange="{{ setFProjQuery }}" placeholder="Zoek project op naam of nummer…" style="width:100%;padding:13px 14px 13px 38px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist)"/>
+              <input value="{{ fProjQuery }}" onChange="{{ setFProjQuery }}" placeholder="Zoek op naam, nummer of plaats…" style="width:100%;padding:13px 14px 13px 38px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist)"/>
             </div>
             <button onClick="{{ setGeneral }}" style="width:100%;margin-top:9px;display:flex;align-items:center;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:11px 13px;cursor:pointer;text-align:left">
               <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;flex:none">ALG</span>
               <span style="font-size:14px;font-weight:500;color:var(--ink)">Algemeen — niet projectgebonden</span>
             </button>
             <div style="margin-top:9px;display:flex;flex-direction:column;gap:7px">
+              <sc-if value="{{ projMatchesRecent }}" hint-placeholder-val="{{ true }}"><div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin:2px 2px -1px">Recent gebruikt</div></sc-if>
               <sc-for list="{{ projectMatches }}" as="m" hint-placeholder-count="3">
                 <button onClick="{{ m.onTap }}" style="width:100%;text-align:left;display:flex;align-items:center;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 13px;cursor:pointer">
                   <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;white-space:nowrap;flex:none">{{ m.badge }}</span>
-                  <span style="font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span>
+                  <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span><sc-if value="{{ m.hasSub }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.sub }}</span></sc-if></span>
                 </button>
               </sc-for>
               <sc-if value="{{ noMatches }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:var(--soft);padding:4px 2px">Geen project gevonden.</div></sc-if>
@@ -853,11 +854,30 @@ window.__checkPendingBackup = function () {
 
           <!-- Koppel aan project -->
           <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px">Koppel aan project <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px">
-            <sc-for list="{{ noteProjChips }}" as="c" hint-placeholder-count="2">
-              <button onClick="{{ c.onTap }}" style="{{ c.style }}">{{ c.label }}</button>
-            </sc-for>
-          </div>
+          <sc-if value="{{ noteHasProj }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:12px;background:var(--navy);border-radius:12px;padding:13px 15px">
+              <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:rgba(255,255,255,.16);border-radius:6px;padding:4px 7px;white-space:nowrap">{{ noteSelProjBadge }}</span>
+              <span style="flex:1;min-width:0;font-size:14.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ noteSelProjName }}</span>
+              <button onClick="{{ clearNoteProj }}" style="background:rgba(255,255,255,.16);border:none;color:#fff;font-size:12px;font-weight:600;border-radius:8px;padding:7px 11px;cursor:pointer">Algemeen</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noteNotHasProj }}" hint-placeholder-val="{{ true }}">
+            <div style="position:relative">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" style="position:absolute;left:13px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+              <input value="{{ nProjQuery }}" onChange="{{ setNProjQuery }}" placeholder="Zoek op naam, nummer of plaats…" style="width:100%;padding:13px 14px 13px 38px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist)"/>
+            </div>
+            <div style="margin-top:9px;display:flex;flex-direction:column;gap:7px">
+              <sc-if value="{{ noteProjMatchesRecent }}" hint-placeholder-val="{{ true }}"><div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin:2px 2px -1px">Recent gebruikt</div></sc-if>
+              <sc-for list="{{ noteProjMatches }}" as="m" hint-placeholder-count="3">
+                <button onClick="{{ m.onTap }}" style="width:100%;text-align:left;display:flex;align-items:center;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 13px;cursor:pointer">
+                  <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;white-space:nowrap;flex:none">{{ m.badge }}</span>
+                  <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span><sc-if value="{{ m.hasSub }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.sub }}</span></sc-if></span>
+                </button>
+              </sc-for>
+              <sc-if value="{{ noteNoMatches }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:var(--soft);padding:4px 2px">Geen project gevonden.</div></sc-if>
+            </div>
+            <p style="font-size:11px;color:var(--soft);line-height:1.5;margin:8px 2px 0">Niet gekoppeld = algemene notitie.</p>
+          </sc-if>
 
           <sc-if value="{{ isNoteEditing }}" hint-placeholder-val="{{ false }}">
             <button onClick="{{ deleteNote }}" style="width:100%;margin-top:24px;background:none;border:1px solid #e7c9c9;color:#b4413c;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer">Verwijder notitie</button>
@@ -1104,7 +1124,7 @@ class Component extends DCLogic {
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
-      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false,n_blocks:[],rh_worker:'',rh_date:'',rh_val:''},data);
+      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_projQuery:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false,n_blocks:[],rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
     return {
@@ -1162,9 +1182,9 @@ class Component extends DCLogic {
   cancelEditGenCat(){ this.setState({editingGenCat:'',editGenCatVal:''}); }
   saveEditGenCat(){ const s=this.state; const oldN=s.editingGenCat; const v=(s.editGenCatVal||'').trim(); if(!oldN)return; if(!v||v===oldN){ this.setState({editingGenCat:'',editGenCatVal:''}); return; } let genCats=(s.genCats||[]).map(c=>c===oldN?v:c); genCats=genCats.filter((c,i)=>genCats.indexOf(c)===i); const entries=s.entries.map(e=>(e.projectId===this.GEN&&e.activity===oldN)?Object.assign({},e,{activity:v}):e); const patch={genCats,entries,editingGenCat:'',editGenCatVal:''}; if(s.f_projectId===this.GEN&&s.f_activity===oldN)patch.f_activity=v; this.up(patch); }
   // ===== Notities =====
-  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_text:'',n_reminderDate:'',n_reminderTime:''}); }
-  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; var t=n.text||''; if(n.items&&n.items.length){ t+=(t?'\n':'')+n.items.map(function(it){return (it.done?'✓ ':'• ')+it.text;}).join('\n'); } this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_text:t,n_reminderDate:n.reminderDate||'',n_reminderTime:n.reminderTime||''}); }
-  setNoteProject(pid){ this.setState({n_projectId:pid}); }
+  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_projQuery:'',n_text:'',n_reminderDate:'',n_reminderTime:''}); }
+  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; var t=n.text||''; if(n.items&&n.items.length){ t+=(t?'\n':'')+n.items.map(function(it){return (it.done?'✓ ':'• ')+it.text;}).join('\n'); } this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_projQuery:'',n_text:t,n_reminderDate:n.reminderDate||'',n_reminderTime:n.reminderTime||''}); }
+  setNoteProject(pid){ this.setState({n_projectId:pid,n_projQuery:''}); }
   saveNote(){ var s=this.state; var title=(s.n_title||'').trim(); var text=(s.n_text||'').trim(); if(!title&&!text)return; var note={id:s.n_id||this.uid('n'),title:title||'Notitie',projectId:s.n_projectId||'',text:text,items:[],reminderDate:s.n_reminderDate||'',reminderTime:s.n_reminderTime||'',updatedAt:this.toISO(new Date())}; var notes; if(s.n_id){ notes=s.notes.map(function(n){return n.id===s.n_id?note:n;}); } else { notes=[note].concat(s.notes); } this.scheduleReminders(notes); this.up({notes:notes,sheet:null}); }
   scheduleReminders(notesList){ var self=this; var list=notesList||(self.state.notes||[]); if(!window.Notification)return; if(Notification.permission==='default')Notification.requestPermission(); list.forEach(function(n){ if(!n.reminderDate||!n.reminderTime)return; var dt=new Date(n.reminderDate+'T'+n.reminderTime+':00'); var ms=dt-Date.now(); if(ms>0&&ms<48*3600*1000){ setTimeout(function(){ if(Notification.permission==='granted'){ try{ new Notification('ABECO Herinnering',{body:n.title||'Notitie',icon:'icons/icon-192.png'}); }catch(e){} } },ms); } }); }
   deleteNote(){ var s=this.state; if(!s.n_id)return; this.up({notes:s.notes.filter(function(n){return n.id!==s.n_id;}),sheet:null}); }
@@ -1545,7 +1565,12 @@ class Component extends DCLogic {
     const notesByProj={}; (s.notes||[]).forEach(n=>{ const pid=n.projectId||''; (notesByProj[pid]=notesByProj[pid]||[]).push(n); });
     const sortNotes=arr=>arr.slice().sort((a,b)=>(a.updatedAt||'')<(b.updatedAt||'')?1:(a.updatedAt||'')>(b.updatedAt||'')?-1:0);
     const noteGroups=[]; s.projects.forEach(p=>{ const list=sortNotes(notesByProj[p.id]||[]); if(list.length)noteGroups.push({label:p.name,notes:list.map(noteMap)}); }); const unlinked=sortNotes(notesByProj['']||[]); if(unlinked.length)noteGroups.push({label:'Algemeen',notes:unlinked.map(noteMap)});
-    const noteProjChips=[{label:'Algemeen',sel:!s.n_projectId,onTap:()=>this.setNoteProject(''),style:this.chipStyle(!s.n_projectId)}].concat(s.projects.map(p=>({label:p.name,sel:s.n_projectId===p.id,onTap:()=>this.setNoteProject(p.id),style:this.chipStyle(s.n_projectId===p.id)})));
+    const projLastUse={}; s.entries.forEach(e=>{ if(e.projectId&&e.projectId!==this.GEN){ if(!projLastUse[e.projectId]||e.date>projLastUse[e.projectId])projLastUse[e.projectId]=e.date; } });
+    const recentProjects=s.projects.slice().sort((a,b)=>{ var da=projLastUse[a.id]||'', db=projLastUse[b.id]||''; if(da!==db)return da<db?1:-1; return s.projects.indexOf(b)-s.projects.indexOf(a); }).slice(0,3);
+    const matchProjects=(query)=>{ const qq=(query||'').trim().toLowerCase(); if(!qq)return recentProjects; return s.projects.filter(p=>p.name.toLowerCase().indexOf(qq)>=0||(p.number||'').toLowerCase().indexOf(qq)>=0||(p.location||'').toLowerCase().indexOf(qq)>=0).slice(0,6); };
+    const nq=(s.n_projQuery||'').trim();
+    const noteSelProj=s.n_projectId?this.proj(s.n_projectId):null;
+    const noteProjMatches=matchProjects(s.n_projQuery).map(p=>({name:p.name,badge:this.projBadge(p),sub:p.location||'',hasSub:!!p.location,onTap:()=>this.setNoteProject(p.id)}));
     // overview (mine only)
     const grandTotal=mine.reduce((a,e)=>a+e.hours,0);
     const obyDate={}; mine.forEach(e=>{obyDate[e.date]=(obyDate[e.date]||0)+e.hours;});
@@ -1565,7 +1590,7 @@ class Component extends DCLogic {
     const startMon=this.getMonday(this.addDays(new Date(),s.weekOffset*7));
     // entry sheet
     const q=s.f_projQuery.trim().toLowerCase();
-    const projectMatches=s.projects.filter(p=>!q||p.name.toLowerCase().indexOf(q)>=0||(p.number||'').toLowerCase().indexOf(q)>=0).slice(0,6).map(p=>({name:p.name,badge:this.projBadge(p),onTap:()=>this.setState({f_projectId:p.id,f_projQuery:''})}));
+    const projectMatches=matchProjects(s.f_projQuery).map(p=>({name:p.name,badge:this.projBadge(p),sub:p.location||'',hasSub:!!p.location,onTap:()=>this.setState({f_projectId:p.id,f_projQuery:''})}));
     const selProj=this.proj(s.f_projectId);
     const isGenEntry=s.f_projectId===this.GEN; const actSource=isGenEntry?(s.genCats||[]):s.activities;
     const activityChips=actSource.map(a=>({name:a,style:this.chipStyle(a===s.f_activity),onTap:()=>this.setState({f_activity:a})}));
@@ -1593,7 +1618,8 @@ class Component extends DCLogic {
       tabUrenStyle:this.tabStyle(s.tab==='uren'), tabProjStyle:this.tabStyle(s.tab==='projecten'), tabOverStyle:this.tabStyle(s.tab==='overzicht'), tabWeekStyle:this.tabStyle(s.tab==='weekstaat'), tabNotesStyle:this.tabStyle(s.tab==='notities'),
       noteGroups, hasNotes:(s.notes||[]).length>0, noNotes:(s.notes||[]).length===0, openNewNote:()=>this.openNewNote(),
       isSheetNote:s.sheet==='note', noteSheetTitle:s.n_id?'Notitie bewerken':'Nieuwe notitie', isNoteEditing:!!s.n_id,
-      nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}), nText:s.n_text, setNText:e=>this.setState({n_text:ev(e)}), noteProjChips,
+      nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}), nText:s.n_text, setNText:e=>this.setState({n_text:ev(e)}),
+      noteHasProj:!!s.n_projectId, noteNotHasProj:!s.n_projectId, noteSelProjName:noteSelProj?noteSelProj.name:'', noteSelProjBadge:noteSelProj?this.projBadge(noteSelProj):'', clearNoteProj:()=>this.setNoteProject(''), nProjQuery:s.n_projQuery||'', setNProjQuery:e=>this.setState({n_projQuery:ev(e)}), noteProjMatches, noteProjMatchesRecent:!nq, noteNoMatches:noteProjMatches.length===0,
       nReminderDate:s.n_reminderDate, setNReminderDate:e=>this.setState({n_reminderDate:ev(e)}), nReminderTime:s.n_reminderTime, setNReminderTime:e=>this.setState({n_reminderTime:ev(e)}), showReminderHint:!!(s.n_reminderDate&&s.n_reminderTime),
       nDateOn:!!s.n_reminderDate, nTimeOn:!!s.n_reminderTime, toggleNDate:()=>this.toggleNDate(), toggleNTime:()=>this.toggleNTime(), nDateToggleStyle:this.toggleTrack(!!s.n_reminderDate), nDateKnobStyle:this.toggleKnob(!!s.n_reminderDate), nTimeToggleStyle:this.toggleTrack(!!s.n_reminderTime), nTimeKnobStyle:this.toggleKnob(!!s.n_reminderTime),
       saveNote:()=>this.saveNote(), saveNoteStyle:this.primStyle(!!((s.n_title||'').trim()||(s.n_text||'').trim())), deleteNote:()=>this.deleteNote(),
@@ -1626,7 +1652,7 @@ class Component extends DCLogic {
       hasSelectedProject:!!selProj, noSelectedProject:!selProj,
       selProjName:selProj?selProj.name:'', selProjNumber:selProj?this.projBadge(selProj):'', clearProject:()=>this.clearProject(),
       fProjQuery:s.f_projQuery, setFProjQuery:e=>this.setState({f_projQuery:ev(e)}),
-      projectMatches, noMatches:projectMatches.length===0, openNewProjectFromEntry:()=>this.openNewProjectFromEntry(), setGeneral:()=>this.setState({f_projectId:this.GEN,f_projQuery:''}),
+      projectMatches, projMatchesRecent:!q, noMatches:projectMatches.length===0, openNewProjectFromEntry:()=>this.openNewProjectFromEntry(), setGeneral:()=>this.setState({f_projectId:this.GEN,f_projQuery:''}),
       activityChips, toggleNewAct:()=>this.toggleNewAct(), showNewAct:s.showNewAct, activityLabel:isGenEntry?'Categorie':'Activiteit', actInlinePlaceholder:isGenEntry?'Bijv. Verlof':'Bijv. Inmeten', addInlineLabel:isGenEntry?'Nieuwe categorie':'Nieuw',
       newActInline:s.newActInline, setNewActInline:e=>this.setState({newActInline:ev(e)}), addActInline:()=>this.addActInline(),
       fHours:s.f_hours, setFHours:e=>this.setState({f_hours:ev(e)}), hourChips,

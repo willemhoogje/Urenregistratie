@@ -1,5 +1,6 @@
 /* ABECO Uren — service worker (relatieve paden, werkt in een submap op GitHub Pages) */
-const CACHE = 'abeco-uren-v66';
+const CACHE = 'abeco-uren-v67';
+const PENDING = 'abeco-pending-backup';
 const CORE = [
   './',
   './index.html',
@@ -18,9 +19,6 @@ const CORE = [
 ];
 
 self.addEventListener('install', (e) => {
-  // NIET automatisch skipWaiting: de nieuwe versie wacht tot de gebruiker op "Verversen" tikt.
-  // Eigen bestanden ALTIJD vers van de server halen (cache:'reload'), zodat we nooit een oude
-  // versie uit het HTTP-cachegeheugen van de browser opslaan.
   e.waitUntil(
     caches.open(CACHE)
       .then((c) => Promise.allSettled(CORE.map((u) => {
@@ -37,13 +35,39 @@ self.addEventListener('message', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(
+        keys.filter((k) => k !== CACHE && k !== PENDING).map((k) => caches.delete(k))
+      ))
       .then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (e) => {
   const req = e.request;
+  const url = new URL(req.url);
+
+  // Share Target: iOS stuurt een POST met het backup-bestand
+  if (req.method === 'POST' && url.pathname.endsWith('/import-backup')) {
+    e.respondWith((async () => {
+      try {
+        const fd = await req.formData();
+        const file = fd.get('backup');
+        if (file) {
+          const text = await file.text();
+          const c = await caches.open(PENDING);
+          await c.put('/__backup__', new Response(text, {
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          }));
+          // Stuur bericht naar geopende app-vensters
+          const clients = await self.clients.matchAll({ type: 'window' });
+          clients.forEach((cl) => cl.postMessage({ type: 'PENDING_BACKUP', text }));
+        }
+      } catch (_) {}
+      return Response.redirect('./', 303);
+    })());
+    return;
+  }
+
   if (req.method !== 'GET') return;
   e.respondWith(
     caches.match(req).then((cached) => {
@@ -57,7 +81,6 @@ self.addEventListener('fetch', (e) => {
         } catch (_) {}
         return res;
       }).catch(() => {
-        // offline fallback voor paginanavigatie
         if (req.mode === 'navigate') return caches.match('./index.html');
         return new Response('', { status: 504, statusText: 'offline' });
       });

@@ -62,8 +62,31 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.addEventListener('controllerchange', function () {
       if (refreshing) return; refreshing = true; window.location.reload();
     });
+    // Ontvang backup die via iOS "Openen in..." / share sheet is meegegeven
+    navigator.serviceWorker.addEventListener('message', function (e) {
+      if (e.data && e.data.type === 'PENDING_BACKUP' && e.data.text) {
+        window.__pendingBackup = e.data.text;
+        if (window.__dcApp) window.__dcApp.applyPendingBackup();
+      }
+    });
   });
 }
+// Controleer bij opstarten of er een backup klaarstaat (na share-target redirect)
+window.__checkPendingBackup = function () {
+  if (!window.caches) return;
+  caches.open('abeco-pending-backup').then(function (c) {
+    return c.match('/__backup__').then(function (r) {
+      if (!r) return;
+      c.delete('/__backup__');
+      r.text().then(function (text) {
+        if (text && text.trim()) {
+          window.__pendingBackup = text.trim();
+          if (window.__dcApp) window.__dcApp.applyPendingBackup();
+        }
+      });
+    });
+  }).catch(function () {});
+};
 </script>
 </head>
 <body>
@@ -724,7 +747,7 @@ if ('serviceWorker' in navigator) {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v66</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v67</div>
         </div>
       </div>
     </sc-if>
@@ -847,6 +870,17 @@ class Component extends DCLogic {
         var f=t.files&&t.files[0]; if(f){ _self.readBackupFile(f); } try{t.value='';}catch(e){}
       }
     },true);
+    // Registreer als globale app-instantie voor share-target afhandeling
+    window.__dcApp=this;
+    setTimeout(function(){ if(window.__checkPendingBackup)window.__checkPendingBackup(); },800);
+  }
+  applyPendingBackup(){
+    var text=window.__pendingBackup;
+    if(!text)return;
+    window.__pendingBackup=null;
+    var self=this;
+    self.showFlash('Backup gevonden — bezig met terugzetten…');
+    setTimeout(function(){ self.readBackupText(text); },600);
   }
   // ===== Opslag-laag (1 centrale plek; straks om te zetten naar online database) =====
   storeLoad(){ try{const raw=localStorage.getItem(this.KEY);return raw?JSON.parse(raw):null;}catch(e){return null;} }

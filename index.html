@@ -287,7 +287,6 @@ if ('serviceWorker' in navigator) {
       <sc-if value="{{ isWeekstaat }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px 18px 0">
           <h1 style="font-family:var(--disp);font-size:29px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:4px 0 0">Mandagenregister</h1>
-          <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin:6px 0 0">Houd per project de uren van ingehuurde ZZP'ers bij.</p>
 
           <div style="background:var(--navy);border-radius:16px;padding:15px 16px;margin-top:14px;color:#fff">
             <div style="display:flex;align-items:center;gap:7px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:11px"><span style="width:6px;height:6px;background:#fff;border-radius:1.5px"></span>Onderaannemer</div>
@@ -369,12 +368,19 @@ if ('serviceWorker' in navigator) {
         <div style="padding:20px 18px 0">
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Notities</h1>
           <sc-if value="{{ hasNotes }}" hint-placeholder-val="{{ false }}">
-            <div style="margin-top:16px;display:flex;flex-direction:column;gap:11px">
-              <sc-for list="{{ noteList }}" as="n" hint-placeholder-count="3">
-                <button onClick="{{ n.onTap }}" style="width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;display:block">
-                  <span style="display:block;font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.title }}</span>
-                  <span style="display:block;font-size:12.5px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.summary }}</span>
-                </button>
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:20px">
+              <sc-for list="{{ noteGroups }}" as="g" hint-placeholder-count="2">
+                <div>
+                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>{{ g.label }}</div>
+                  <div style="display:flex;flex-direction:column;gap:9px">
+                    <sc-for list="{{ g.notes }}" as="n" hint-placeholder-count="2">
+                      <button onClick="{{ n.onTap }}" style="width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;display:block">
+                        <span style="display:block;font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.title }}</span>
+                        <span style="display:block;font-size:12.5px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.summary }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
               </sc-for>
             </div>
           </sc-if>
@@ -390,29 +396,29 @@ if ('serviceWorker' in navigator) {
     <!-- TAB BAR -->
     <div id="apptabbar" style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;padding:4px 6px 8px;z-index:25">
       <button onClick="{{ tabUren }}" style="{{ tabUrenStyle }}">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Uren</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span style="font-size:10px;font-weight:600;margin-top:1px;line-height:1">Uren</span>
       </button>
       <button onClick="{{ tabProj }}" style="{{ tabProjStyle }}">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Projecten</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span style="font-size:10px;font-weight:600;margin-top:1px;line-height:1">Projecten</span>
       </button>
       <button onClick="{{ tabOver }}" style="{{ tabOverStyle }}">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Overzicht</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M7 21V11M12 21V5M17 21v-7"/></svg>
+        <span style="font-size:10px;font-weight:600;margin-top:1px;line-height:1">Overzicht</span>
       </button>
       <button onClick="{{ tabWeek }}" style="{{ tabWeekStyle }}">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Register</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        <span style="font-size:10px;font-weight:600;margin-top:1px;line-height:1">Register</span>
       </button>
       <button onClick="{{ tabNotes }}" style="{{ tabNotesStyle }}">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>
-        <span style="font-size:9px;font-weight:600;margin-top:0;line-height:1">Notities</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>
+        <span style="font-size:10px;font-weight:600;margin-top:1px;line-height:1">Notities</span>
       </button>
     </div>
     <div id="apphome" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:99px;background:#0c0f14;opacity:.32;z-index:40;pointer-events:none"></div>
     <sc-if value="{{ showFab }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ fabAction }}" aria-label="{{ fabLabel }}" style="position:absolute;right:18px;bottom:calc(env(safe-area-inset-bottom) + 86px);width:60px;height:60px;border-radius:50%;background:var(--navy);border:none;box-shadow:0 10px 24px rgba(12,18,30,.36);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:30">
+      <button onClick="{{ fabAction }}" aria-label="{{ fabLabel }}" style="position:absolute;right:18px;bottom:calc(env(safe-area-inset-bottom) + 72px);width:60px;height:60px;border-radius:50%;background:var(--navy);border:none;box-shadow:0 10px 24px rgba(12,18,30,.36);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:30">
         <svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
       </button>
     </sc-if>
@@ -549,8 +555,8 @@ if ('serviceWorker' in navigator) {
           </div>
         </div>
         <div style="padding:18px 18px 32px">
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Titel</label>
-          <input value="{{ nTitle }}" onChange="{{ setNTitle }}" placeholder="Bijv. Materiaallijst gevel" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Onderwerp</label>
+          <input value="{{ nTitle }}" onChange="{{ setNTitle }}" placeholder="Geef je notitie een onderwerp" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Koppel aan project <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
             <sc-for list="{{ noteProjChips }}" as="c" hint-placeholder-count="2">
@@ -559,7 +565,13 @@ if ('serviceWorker' in navigator) {
           </div>
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Notitie</label>
           <textarea value="{{ nText }}" onChange="{{ setNText }}" rows="3" placeholder="Vrije tekst (optioneel)" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist);line-height:1.5"></textarea>
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Checklist</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Herinnering <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
+          <div style="display:flex;gap:8px">
+            <input type="date" value="{{ nReminderDate }}" onChange="{{ setNReminderDate }}" style="flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-size:14px;color:var(--ink);background:var(--mist);font-family:var(--body)"/>
+            <input type="time" value="{{ nReminderTime }}" onChange="{{ setNReminderTime }}" style="width:110px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-size:14px;color:var(--ink);background:var(--mist);font-family:var(--body)"/>
+          </div>
+          <sc-if value="{{ showReminderHint }}" hint-placeholder-val="{{ false }}"><p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:6px 4px 0">Je ontvangt een melding op {{ nReminderDate }} om {{ nReminderTime }} als de app open staat.</p></sc-if>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>To-do</label>
           <sc-if value="{{ hasNoteItems }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
               <sc-for list="{{ noteItems }}" as="it" hint-placeholder-count="2">
@@ -572,7 +584,7 @@ if ('serviceWorker' in navigator) {
             </div>
           </sc-if>
           <div style="display:flex;gap:8px">
-            <input value="{{ nNewItem }}" onChange="{{ setNNewItem }}" placeholder="Nieuw punt toevoegen" style="flex:1;padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+            <input id="noteItemInput" value="{{ nNewItem }}" onChange="{{ setNNewItem }}" placeholder="Nieuw punt toevoegen" style="flex:1;padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
             <button onClick="{{ addNoteItem }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
           </div>
           <sc-if value="{{ isNoteEditing }}" hint-placeholder-val="{{ false }}">
@@ -699,9 +711,8 @@ if ('serviceWorker' in navigator) {
           <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 12px">Sla een kopie van al je gegevens op (bijv. in Google Drive of Bestanden) en zet 'm terug op een nieuw apparaat. Laatste backup: <b style="color:var(--muted)">{{ backupLastLabel }}</b></p>
           <div style="display:flex;gap:9px">
             <button onClick="{{ exportBackup }}" style="flex:1;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Backup maken</button>
-            <button onClick="{{ triggerImport }}" style="flex:1;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Terugzetten</button>
+            <label style="flex:1;position:relative;overflow:hidden;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><input type="file" onChange="{{ importBackup }}" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer"/><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Terugzetten</label>
           </div>
-          <input id="backupFileInput" type="file" onChange="{{ importBackup }}" style="display:none"/>
           <button onClick="{{ pasteBackup }}" style="width:100%;margin-top:9px;background:none;border:none;color:var(--soft);font-size:11.5px;cursor:pointer;text-decoration:underline;padding:5px">Lukt terugzetten niet? Plak hier de backup-tekst</button>
           <div style="font-size:11.5px;color:var(--muted);margin:18px 2px 9px;font-weight:600">Automatische herinnering</div>
           <div style="display:flex;gap:8px">
@@ -711,7 +722,7 @@ if ('serviceWorker' in navigator) {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v60</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v61</div>
         </div>
       </div>
     </sc-if>
@@ -826,6 +837,7 @@ class Component extends DCLogic {
     this.GEN='__alg__';
     this.KEY='abeco_uren_v4';
     this.state=this.initialState();
+    var _self=this; setTimeout(function(){ _self.scheduleReminders(); },1500);
   }
   // ===== Opslag-laag (1 centrale plek; straks om te zetten naar online database) =====
   storeLoad(){ try{const raw=localStorage.getItem(this.KEY);return raw?JSON.parse(raw):null;}catch(e){return null;} }
@@ -845,7 +857,7 @@ class Component extends DCLogic {
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',
-      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',rh_worker:'',rh_date:'',rh_val:''},data);
+      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
     return {
@@ -896,13 +908,14 @@ class Component extends DCLogic {
   openEdit(e){ this.setState({sheet:'addEntry',editingId:e.id,f_date:e.date,f_projectId:e.projectId,f_activity:e.activity,f_hours:this.fmt(e.hours),f_note:e.note||'',f_projQuery:'',showNewAct:false}); }
   openAddGeneral(){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:this.GEN,f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false}); }
   // ===== Notities & checklists =====
-  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:''}); }
-  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_text:n.text||'',n_items:(n.items||[]).map(function(it){return {id:it.id,text:it.text,done:!!it.done};}),n_newItem:''}); }
+  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:''}); }
+  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_text:n.text||'',n_items:(n.items||[]).map(function(it){return {id:it.id,text:it.text,done:!!it.done};}),n_newItem:'',n_reminderDate:n.reminderDate||'',n_reminderTime:n.reminderTime||''}); }
   setNoteProject(pid){ this.setState({n_projectId:pid}); }
-  addNoteItem(){ var v=(this.state.n_newItem||'').trim(); if(!v)return; this.setState({n_items:this.state.n_items.concat([{id:this.uid('ni'),text:v,done:false}]),n_newItem:''}); }
+  addNoteItem(){ var v=(this.state.n_newItem||'').trim(); if(!v)return; this.setState({n_items:this.state.n_items.concat([{id:this.uid('ni'),text:v,done:false}]),n_newItem:''},function(){ var inp=document.getElementById('noteItemInput'); if(inp)inp.focus(); }); }
   toggleNoteItem(id){ this.setState({n_items:this.state.n_items.map(function(it){return it.id===id?{id:it.id,text:it.text,done:!it.done}:it;})}); }
   removeNoteItem(id){ this.setState({n_items:this.state.n_items.filter(function(it){return it.id!==id;})}); }
-  saveNote(){ var s=this.state; var title=(s.n_title||'').trim(); if(!title&&!(s.n_text||'').trim()&&!s.n_items.length)return; var note={id:s.n_id||this.uid('n'),title:title||'Notitie',projectId:s.n_projectId||'',text:s.n_text||'',items:s.n_items,updatedAt:this.toISO(new Date())}; var notes; if(s.n_id){ notes=s.notes.map(function(n){return n.id===s.n_id?note:n;}); } else { notes=[note].concat(s.notes); } this.up({notes:notes,sheet:null}); }
+  saveNote(){ var s=this.state; var title=(s.n_title||'').trim(); if(!title&&!(s.n_text||'').trim()&&!s.n_items.length)return; var note={id:s.n_id||this.uid('n'),title:title||'Notitie',projectId:s.n_projectId||'',text:s.n_text||'',items:s.n_items,reminderDate:s.n_reminderDate||'',reminderTime:s.n_reminderTime||'',updatedAt:this.toISO(new Date())}; var notes; if(s.n_id){ notes=s.notes.map(function(n){return n.id===s.n_id?note:n;}); } else { notes=[note].concat(s.notes); } this.scheduleReminders(notes); this.up({notes:notes,sheet:null}); }
+  scheduleReminders(notesList){ var self=this; var list=notesList||(self.state.notes||[]); if(!window.Notification)return; if(Notification.permission==='default')Notification.requestPermission(); list.forEach(function(n){ if(!n.reminderDate||!n.reminderTime)return; var dt=new Date(n.reminderDate+'T'+n.reminderTime+':00'); var ms=dt-Date.now(); if(ms>0&&ms<48*3600*1000){ setTimeout(function(){ if(Notification.permission==='granted'){ try{ new Notification('ABECO Herinnering',{body:n.title||'Notitie',icon:'icons/icon-192.png'}); }catch(e){} } },ms); } }); }
   deleteNote(){ var s=this.state; if(!s.n_id)return; this.up({notes:s.notes.filter(function(n){return n.id!==s.n_id;}),sheet:null}); }
   clearProject(){ this.setState({f_projectId:'',f_projQuery:''}); }
   saveEntry(){ const s=this.state; const h=this.parseHours(s.f_hours); if(!s.f_projectId||!s.f_activity||h<=0)return; let entries=s.entries.slice(); if(s.editingId){ entries=entries.map(e=>e.id===s.editingId?Object.assign({},e,{date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}):e); } else { entries.push({id:this.uid('e'),date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}); } this.up({entries,sheet:null,showNewAct:false}); }
@@ -1202,7 +1215,10 @@ class Component extends DCLogic {
     const genList=s.entries.filter(e=>e.projectId===this.GEN).slice().sort((a,b)=>a.date<b.date?1:(a.date>b.date?-1:0));
     const genEntries=genList.map(e=>({actLabel:(e.note?e.activity+' · '+e.note:e.activity),dateLabel:this.dateRow(e.date),hoursLabel:this.fmt(e.hours),onTap:()=>this.openEdit(e)}));
     const genTotal=genList.reduce((a,e)=>a+e.hours,0);
-    const noteList=(s.notes||[]).slice().sort((a,b)=>{const au=a.updatedAt||'',bu=b.updatedAt||'';return au<bu?1:(au>bu?-1:0);}).map(n=>{ const its=n.items||[]; const done=its.filter(i=>i.done).length; const parts=[]; if(n.projectId)parts.push(this.projName(n.projectId)); if(its.length)parts.push(done+'/'+its.length+' afgevinkt'); else if((n.text||'').trim())parts.push((n.text||'').replace(/\s+/g,' ').trim().slice(0,60)); return {id:n.id,title:n.title||'Notitie',summary:parts.join(' · '),onTap:()=>this.openEditNote(n.id)}; });
+    const noteMap=(n)=>{ const its=n.items||[]; const done=its.filter(i=>i.done).length; const parts=[]; if(its.length)parts.push(done+'/'+its.length+' afgevinkt'); else if((n.text||'').trim())parts.push((n.text||'').replace(/\s+/g,' ').trim().slice(0,60)); if(n.reminderDate&&n.reminderTime)parts.push('⏰ '+n.reminderDate.slice(8,10)+'-'+n.reminderDate.slice(5,7)+' '+n.reminderTime); return {id:n.id,title:n.title||'Notitie',summary:parts.join(' · '),onTap:()=>this.openEditNote(n.id)}; };
+    const notesByProj={}; (s.notes||[]).forEach(n=>{ const pid=n.projectId||''; (notesByProj[pid]=notesByProj[pid]||[]).push(n); });
+    const sortNotes=arr=>arr.slice().sort((a,b)=>(a.updatedAt||'')<(b.updatedAt||'')?1:(a.updatedAt||'')>(b.updatedAt||'')?-1:0);
+    const noteGroups=[]; s.projects.forEach(p=>{ const list=sortNotes(notesByProj[p.id]||[]); if(list.length)noteGroups.push({label:p.name,notes:list.map(noteMap)}); }); const unlinked=sortNotes(notesByProj['']||[]); if(unlinked.length)noteGroups.push({label:'Algemeen',notes:unlinked.map(noteMap)});
     const noteItems=(s.n_items||[]).map(it=>({id:it.id,text:it.text,done:it.done,onToggle:()=>this.toggleNoteItem(it.id),onRemove:()=>this.removeNoteItem(it.id),boxStyle:it.done?'width:24px;height:24px;border-radius:7px;border:none;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none':'width:24px;height:24px;border-radius:7px;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;flex:none',textStyle:it.done?'flex:1;min-width:0;font-size:14px;color:var(--soft);text-decoration:line-through':'flex:1;min-width:0;font-size:14px;color:var(--ink)'}));
     const noteProjChips=[{label:'Algemeen',sel:!s.n_projectId,onTap:()=>this.setNoteProject(''),style:this.chipStyle(!s.n_projectId)}].concat(s.projects.map(p=>({label:p.name,sel:s.n_projectId===p.id,onTap:()=>this.setNoteProject(p.id),style:this.chipStyle(s.n_projectId===p.id)})));
     // overview (mine only)
@@ -1246,10 +1262,11 @@ class Component extends DCLogic {
       isUren:s.tab==='uren', isProjecten:s.tab==='projecten', isOverzicht:s.tab==='overzicht', isWeekstaat:s.tab==='weekstaat', isNotities:s.tab==='notities',
       tabUren:()=>this.setTab('uren'), tabProj:()=>this.setTab('projecten'), tabOver:()=>this.setTab('overzicht'), tabWeek:()=>this.setTab('weekstaat'), tabNotes:()=>this.setTab('notities'),
       tabUrenStyle:this.tabStyle(s.tab==='uren'), tabProjStyle:this.tabStyle(s.tab==='projecten'), tabOverStyle:this.tabStyle(s.tab==='overzicht'), tabWeekStyle:this.tabStyle(s.tab==='weekstaat'), tabNotesStyle:this.tabStyle(s.tab==='notities'),
-      noteList, hasNotes:(s.notes||[]).length>0, noNotes:(s.notes||[]).length===0, openNewNote:()=>this.openNewNote(),
+      noteGroups, hasNotes:(s.notes||[]).length>0, noNotes:(s.notes||[]).length===0, openNewNote:()=>this.openNewNote(),
       isSheetNote:s.sheet==='note', noteSheetTitle:s.n_id?'Notitie bewerken':'Nieuwe notitie', isNoteEditing:!!s.n_id,
       nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}), nText:s.n_text, setNText:e=>this.setState({n_text:ev(e)}),
       nNewItem:s.n_newItem, setNNewItem:e=>this.setState({n_newItem:ev(e)}), addNoteItem:()=>this.addNoteItem(),
+      nReminderDate:s.n_reminderDate, setNReminderDate:e=>this.setState({n_reminderDate:ev(e)}), nReminderTime:s.n_reminderTime, setNReminderTime:e=>this.setState({n_reminderTime:ev(e)}), showReminderHint:!!(s.n_reminderDate&&s.n_reminderTime),
       noteItems, hasNoteItems:(s.n_items||[]).length>0, noteProjChips,
       saveNote:()=>this.saveNote(), saveNoteStyle:this.primStyle(!!((s.n_title||'').trim()||(s.n_text||'').trim()||(s.n_items||[]).length)), deleteNote:()=>this.deleteNote(),
       todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),

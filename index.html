@@ -213,7 +213,7 @@ window.__checkPendingBackup = function () {
                   <sc-for list="{{ g.entries }}" as="e" hint-placeholder-count="2">
                     <div style="position:relative;border-radius:16px;overflow:hidden">
                       <div style="position:absolute;top:0;right:0;bottom:0;width:120px;display:flex;align-items:center;justify-content:center;gap:11px;background:transparent">
-                        <button onClick="{{ e.onEdit }}" aria-label="Bewerk" style="width:42px;height:42px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(12,18,30,.3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+                        <button onClick="{{ e.onCopy }}" aria-label="Kopieer" style="width:42px;height:42px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(12,18,30,.3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
                         <button onClick="{{ e.onDelete }}" aria-label="Verwijder" style="width:42px;height:42px;border-radius:50%;background:#b4413c;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(180,65,60,.4)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
                       </div>
                       <button onClick="{{ e.onTap }}" onPointerDown="{{ e.onSwipe }}" style="{{ e.frontStyle }}">
@@ -391,8 +391,7 @@ window.__checkPendingBackup = function () {
                   <div style="display:flex;flex-direction:column;gap:9px">
                     <sc-for list="{{ g.notes }}" as="n" hint-placeholder-count="2">
                       <div style="position:relative;border-radius:16px;overflow:hidden">
-                        <div style="position:absolute;top:0;right:0;bottom:0;width:120px;display:flex;align-items:center;justify-content:center;gap:11px;background:transparent">
-                          <button onClick="{{ n.onEdit }}" aria-label="Bewerk" style="width:42px;height:42px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(12,18,30,.3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+                        <div style="position:absolute;top:0;right:0;bottom:0;width:84px;display:flex;align-items:center;justify-content:center;background:transparent">
                           <button onClick="{{ n.onDelete }}" aria-label="Verwijder" style="width:42px;height:42px;border-radius:50%;background:#b4413c;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(180,65,60,.4)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
                         </div>
                         <button onClick="{{ n.onTap }}" onPointerDown="{{ n.onSwipe }}" style="{{ n.frontStyle }}">
@@ -405,7 +404,7 @@ window.__checkPendingBackup = function () {
                 </div>
               </sc-for>
             </div>
-            <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:16px 4px 0">Veeg een notitie naar links om te bewerken of verwijderen.</p>
+            <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:16px 4px 0">Tik op een notitie om te bewerken, veeg naar links om te verwijderen.</p>
           </sc-if>
           <sc-if value="{{ noNotes }}" hint-placeholder-val="{{ true }}">
             <div style="text-align:center;padding:46px 20px;color:var(--soft)">
@@ -527,7 +526,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v89</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v90</div>
         </div>
       </sc-if>
 
@@ -1129,6 +1128,7 @@ class Component extends DCLogic {
   fabAction(){ var t=this.state.tab; if(t==='projecten')this.openNewProject(); else if(t==='notities')this.openNewNote(); else this.openAdd(); }
   openAddWith(pid){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:pid,f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false,tab:'uren'}); }
   openEdit(e){ this.setState({sheet:'addEntry',editingId:e.id,f_date:e.date,f_projectId:e.projectId,f_activity:e.activity,f_hours:this.fmt(e.hours),f_note:e.note||'',f_projQuery:'',showNewAct:false}); }
+  copyEntry(e){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:e.date,f_projectId:e.projectId,f_activity:e.activity,f_hours:this.fmt(e.hours),f_note:e.note||'',f_projQuery:'',showNewAct:false}); }
   openAddGeneral(){ this.setState({sheet:'addEntry',editingId:null,openSwipe:'',f_date:this.toISO(new Date()),f_projectId:this.GEN,f_activity:'',f_hours:'',f_note:'',f_projQuery:'',showNewAct:false}); }
   openGeneralDetail(){ this.setState({sheet:'genDetail',openSwipe:'',newGenCat:''}); }
   addGenCat(){ const s=this.state; const v=(s.newGenCat||'').trim(); if(!v||(s.genCats||[]).indexOf(v)>=0)return; this.up({genCats:(s.genCats||[]).concat([v]),newGenCat:''}); }
@@ -1480,7 +1480,7 @@ class Component extends DCLogic {
   primStyle(on){ const C=this.C; return {background:on?C.navy:'#c7ccd4',color:'#fff',border:'none',borderRadius:'10px',padding:'8px 16px',fontSize:'14px',fontWeight:600,cursor:on?'pointer':'default'}; }
   entryFront(open){ const C=this.C; return {position:'relative',width:'100%',display:'flex',alignItems:'center',gap:'12px',padding:'15px 16px',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',cursor:'pointer',textAlign:'left',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-120px)':'translateX(0)'}; }
   projFront(open){ const C=this.C; return {position:'relative',width:'100%',textAlign:'left',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',padding:'15px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:'13px',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-120px)':'translateX(0)'}; }
-  noteFront(open){ const C=this.C; return {position:'relative',width:'100%',textAlign:'left',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',padding:'14px 16px',cursor:'pointer',display:'block',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-120px)':'translateX(0)'}; }
+  noteFront(open){ const C=this.C; return {position:'relative',width:'100%',textAlign:'left',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',padding:'14px 16px',cursor:'pointer',display:'block',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-84px)':'translateX(0)'}; }
   toggleTrack(on){ return 'width:48px;height:29px;border-radius:99px;border:none;cursor:pointer;position:relative;flex:none;transition:background .15s;background:'+(on?this.C.green:'#cfd4da'); }
   toggleKnob(on){ return 'position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;transition:transform .15s;transform:translateX('+(on?'19px':'0')+');box-shadow:0 1px 3px rgba(0,0,0,.3)'; }
   cellStyle(filled,self){ const C=this.C; return {textAlign:'center',background:filled?'#eaf0f9':C.mist,border:'1px solid '+(filled?'#c3d4ec':C.line),borderRadius:'8px',padding:'6px 2px',cursor:self?'default':'pointer',opacity:self?'.92':'1'}; }
@@ -1497,7 +1497,7 @@ class Component extends DCLogic {
     const yearMine=mine.filter(e=>(e.date||'').slice(0,4)===String(urenYear));
     const srcEntries=s.urenAll?yearMine:weekMine;
     const byDate={}; srcEntries.forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
-    const dayGroups=Object.keys(byDate).sort().reverse().map(date=>{ const list=byDate[date]; const total=list.reduce((a,e)=>a+e.hours,0); return {label:this.dayLabel(date),totalLabel:this.fmt(total),entries:list.map(e=>({projectName:this.projName(e.projectId),sub:(e.note?e.activity+' · '+e.note:e.activity),hoursLabel:this.fmt(e.hours),frontStyle:this.entryFront(s.openSwipe===e.id),onTap:()=>this.rowTap(e.id,()=>this.openEdit(e)),onSwipe:(ev)=>this.swipeStart(ev,e.id,120),onEdit:()=>this.openEdit(e),onDelete:()=>this.deleteById(e.id)}))}; });
+    const dayGroups=Object.keys(byDate).sort().reverse().map(date=>{ const list=byDate[date]; const total=list.reduce((a,e)=>a+e.hours,0); return {label:this.dayLabel(date),totalLabel:this.fmt(total),entries:list.map(e=>({projectName:this.projName(e.projectId),sub:(e.note?e.activity+' · '+e.note:e.activity),hoursLabel:this.fmt(e.hours),frontStyle:this.entryFront(s.openSwipe===e.id),onTap:()=>this.rowTap(e.id,()=>this.openEdit(e)),onSwipe:(ev)=>this.swipeStart(ev,e.id,120),onCopy:()=>this.copyEntry(e),onDelete:()=>this.deleteById(e.id)}))}; });
     const urenWeekTotal=weekMine.reduce((a,e)=>a+e.hours,0);
     const urenWeekEnd=this.addDays(urenMon,6);
     const urenWeekRange=urenMon.getDate()+(urenMon.getMonth()===urenWeekEnd.getMonth()?'':(' '+this.MS[urenMon.getMonth()]))+'–'+urenWeekEnd.getDate()+' '+this.MS[urenWeekEnd.getMonth()]+' '+urenWeekEnd.getFullYear();
@@ -1516,7 +1516,7 @@ class Component extends DCLogic {
     const genCatRows=Object.keys(genCatTot).sort((a,b)=>genCatTot[b]-genCatTot[a]).map(c=>({name:c,totalLabel:this.fmt(genCatTot[c])}));
     const genBookings=genList.map(e=>({id:e.id,cat:e.activity||'Overig',sub:(e.note?e.activity+' · '+e.note:e.activity),dateLabel:this.dateRow(e.date),hoursLabel:this.fmt(e.hours),frontStyle:this.entryFront(s.openSwipe===e.id),onTap:()=>this.rowTap(e.id,()=>this.openEdit(e)),onSwipe:(ev)=>this.swipeStart(ev,e.id,120),onEdit:()=>this.openEdit(e),onDelete:()=>this.deleteById(e.id)}));
     const genCatChips=(s.genCats||[]).map(c=>({name:c,chipStyle:actChip(s.editingGenCat===c),onEdit:()=>this.openEditGenCat(c),onRemove:()=>this.removeGenCat(c)}));
-    const noteMap=(n)=>{ const its=n.items||[]; const done=its.filter(i=>i.done).length; const parts=[]; if(its.length)parts.push(done+'/'+its.length+' afgevinkt'); else if((n.text||'').trim())parts.push((n.text||'').replace(/\s+/g,' ').trim().slice(0,60)); if(n.reminderDate&&n.reminderTime)parts.push('⏰ '+n.reminderDate.slice(8,10)+'-'+n.reminderDate.slice(5,7)+' '+n.reminderTime); return {id:n.id,title:n.title||'Notitie',summary:parts.join(' · '),frontStyle:this.noteFront(s.openSwipe===n.id),onTap:()=>this.rowTap(n.id,()=>this.openEditNote(n.id)),onSwipe:(ev)=>this.swipeStart(ev,n.id,120),onEdit:()=>this.openEditNote(n.id),onDelete:()=>this.deleteNoteById(n.id)}; };
+    const noteMap=(n)=>{ const its=n.items||[]; const done=its.filter(i=>i.done).length; const parts=[]; if(its.length)parts.push(done+'/'+its.length+' afgevinkt'); else if((n.text||'').trim())parts.push((n.text||'').replace(/\s+/g,' ').trim().slice(0,60)); if(n.reminderDate&&n.reminderTime)parts.push('⏰ '+n.reminderDate.slice(8,10)+'-'+n.reminderDate.slice(5,7)+' '+n.reminderTime); return {id:n.id,title:n.title||'Notitie',summary:parts.join(' · '),frontStyle:this.noteFront(s.openSwipe===n.id),onTap:()=>this.rowTap(n.id,()=>this.openEditNote(n.id)),onSwipe:(ev)=>this.swipeStart(ev,n.id,84),onDelete:()=>this.deleteNoteById(n.id)}; };
     const notesByProj={}; (s.notes||[]).forEach(n=>{ const pid=n.projectId||''; (notesByProj[pid]=notesByProj[pid]||[]).push(n); });
     const sortNotes=arr=>arr.slice().sort((a,b)=>(a.updatedAt||'')<(b.updatedAt||'')?1:(a.updatedAt||'')>(b.updatedAt||'')?-1:0);
     const noteGroups=[]; s.projects.forEach(p=>{ const list=sortNotes(notesByProj[p.id]||[]); if(list.length)noteGroups.push({label:p.name,notes:list.map(noteMap)}); }); const unlinked=sortNotes(notesByProj['']||[]); if(unlinked.length)noteGroups.push({label:'Algemeen',notes:unlinked.map(noteMap)});

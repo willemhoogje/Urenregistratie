@@ -205,7 +205,8 @@ window.__checkPendingBackup = function () {
           </sc-if>
           <sc-if value="{{ noEntries }}" hint-placeholder-val="{{ false }}">
             <div style="text-align:center;padding:46px 20px;color:var(--soft)">
-              <div style="font-size:14px;line-height:1.6">Nog geen uren geboekt.<br/>Tik op de <b style="color:var(--navy)">+</b> rechtsonder.</div>
+              <div style="font-size:15px;font-weight:600;color:var(--muted)">Nog geen uren geboekt</div>
+              <div style="font-size:13.5px;line-height:1.6;margin-top:6px">Tik op de <b style="color:var(--navy)">+</b> rechtsonder om te starten.</div>
             </div>
           </sc-if>
         </div>
@@ -215,14 +216,16 @@ window.__checkPendingBackup = function () {
       <sc-if value="{{ isProjecten }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px 18px 0">
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Projecten</h1>
-          <button onClick="{{ openAddGeneral }}" style="width:100%;margin-top:16px;display:flex;align-items:center;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 16px;cursor:pointer;text-align:left">
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Algemeen</div>
+          <button onClick="{{ openAddGeneral }}" style="width:100%;display:flex;align-items:center;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 16px;cursor:pointer;text-align:left">
             <span style="width:44px;height:44px;border-radius:11px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none"><span style="font-family:var(--disp);font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em">ALG</span></span>
             <span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:600;color:var(--ink)">Algemene uren</span><span style="display:block;font-size:12px;color:var(--muted);margin-top:4px">niet-projectgebonden</span></span>
             <span style="text-align:right;flex:none"><span style="display:block;font-family:var(--disp);font-size:17px;font-weight:600;color:var(--ink)">{{ genTotalLabel }}</span><span style="display:block;font-size:10px;color:var(--soft);font-weight:500;text-transform:uppercase;letter-spacing:.08em">uur</span></span>
           </button>
 
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:24px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Projecten</div>
           <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
-            <div style="margin-top:14px;display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;flex-direction:column;gap:11px">
               <sc-for list="{{ projectList }}" as="p" hint-placeholder-count="3">
                 <div style="position:relative;border-radius:16px;overflow:hidden">
                   <div style="position:absolute;top:0;right:0;bottom:0;width:120px;display:flex;align-items:center;justify-content:center;gap:11px;background:transparent">
@@ -248,9 +251,14 @@ window.__checkPendingBackup = function () {
             </div>
           </sc-if>
           <sc-if value="{{ noProjects }}" hint-placeholder-val="{{ true }}">
-            <div style="text-align:center;padding:40px 20px;color:var(--soft);font-size:14px;line-height:1.6">Nog geen projecten.<br/>Voeg er een toe met de + rechtsonder.</div>
+            <div style="text-align:center;padding:46px 20px;color:var(--soft)">
+              <div style="font-size:15px;font-weight:600;color:var(--muted)">Nog geen projecten toegevoegd</div>
+              <div style="font-size:13.5px;line-height:1.6;margin-top:6px">Tik op de <b style="color:var(--navy)">+</b> rechtsonder om te starten.</div>
+            </div>
           </sc-if>
-          <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:16px 4px 0">Veeg een project naar links om te bewerken of verwijderen.</p>
+          <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
+            <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:16px 4px 0">Veeg een project naar links om te bewerken of verwijderen.</p>
+          </sc-if>
         </div>
       </sc-if>
 
@@ -258,11 +266,6 @@ window.__checkPendingBackup = function () {
       <sc-if value="{{ isOverzicht }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px 18px 0">
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Overzicht</h1>
-
-          <div style="background:var(--navy);border-radius:18px;padding:17px 18px;color:#fff;margin-top:16px">
-            <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)">Totaal geboekt</div>
-            <div style="font-family:var(--disp);font-size:38px;font-weight:600;line-height:1;margin-top:8px">{{ grandTotalLabel }}<span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.6);margin-left:5px">uur</span></div>
-          </div>
 
           <div style="display:flex;gap:6px;margin-top:16px">
             <button onClick="{{ setDag }}" style="{{ omodeDagStyle }}">Per dag</button>
@@ -310,9 +313,9 @@ window.__checkPendingBackup = function () {
       <!-- ===== MANDAGENREGISTER ===== -->
       <sc-if value="{{ isWeekstaat }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px 18px 0">
-          <h1 style="font-family:var(--disp);font-size:29px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:4px 0 0">Mandagenregister</h1>
+          <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Mandagenregister</h1>
 
-          <div style="background:var(--navy);border-radius:16px;padding:15px 16px;margin-top:14px;color:#fff">
+          <div style="background:var(--navy);border-radius:18px;padding:17px 18px;margin-top:16px;color:#fff">
             <div style="display:flex;align-items:center;gap:7px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:11px"><span style="width:6px;height:6px;background:#fff;border-radius:1.5px"></span>Onderaannemer</div>
             <div style="font-family:var(--disp);font-size:16px;font-weight:600">{{ coName }}</div>
             <div style="font-size:12.5px;color:rgba(255,255,255,.7);margin-top:2px">{{ coAddress }} · {{ coCity }}</div>
@@ -398,18 +401,28 @@ window.__checkPendingBackup = function () {
                   <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>{{ g.label }}</div>
                   <div style="display:flex;flex-direction:column;gap:9px">
                     <sc-for list="{{ g.notes }}" as="n" hint-placeholder-count="2">
-                      <button onClick="{{ n.onTap }}" style="width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;display:block">
-                        <span style="display:block;font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.title }}</span>
-                        <span style="display:block;font-size:12.5px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.summary }}</span>
-                      </button>
+                      <div style="position:relative;border-radius:16px;overflow:hidden">
+                        <div style="position:absolute;top:0;right:0;bottom:0;width:120px;display:flex;align-items:center;justify-content:center;gap:11px;background:transparent">
+                          <button onClick="{{ n.onEdit }}" aria-label="Bewerk" style="width:42px;height:42px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(12,18,30,.3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+                          <button onClick="{{ n.onDelete }}" aria-label="Verwijder" style="width:42px;height:42px;border-radius:50%;background:#b4413c;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(180,65,60,.4)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+                        </div>
+                        <button onClick="{{ n.onTap }}" onPointerDown="{{ n.onSwipe }}" style="{{ n.frontStyle }}">
+                          <span style="display:block;font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.title }}</span>
+                          <span style="display:block;font-size:12.5px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.summary }}</span>
+                        </button>
+                      </div>
                     </sc-for>
                   </div>
                 </div>
               </sc-for>
             </div>
+            <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:16px 4px 0">Veeg een notitie naar links om te bewerken of verwijderen.</p>
           </sc-if>
           <sc-if value="{{ noNotes }}" hint-placeholder-val="{{ true }}">
-            <div style="text-align:center;padding:40px 20px;color:var(--soft);font-size:14px;line-height:1.6">Nog geen notities.<br/>Maak er een met de + rechtsonder.</div>
+            <div style="text-align:center;padding:46px 20px;color:var(--soft)">
+              <div style="font-size:15px;font-weight:600;color:var(--muted)">Nog geen notities gemaakt</div>
+              <div style="font-size:13.5px;line-height:1.6;margin-top:6px">Tik op de <b style="color:var(--navy)">+</b> rechtsonder om te starten.</div>
+            </div>
           </sc-if>
         </div>
       </sc-if>
@@ -566,6 +579,51 @@ window.__checkPendingBackup = function () {
       </div>
     </sc-if>
 
+    <!-- ===== SHEET: PROJECT DETAIL ===== -->
+    <sc-if value="{{ isSheetProjectDetail }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:62;background:rgba(8,12,20,.42);animation:fadeIn .18s ease" onClick="{{ closeSheet }}"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;z-index:63;max-height:90%;overflow-y:auto;background:var(--paper);border-radius:24px 24px 0 0;animation:sheetUp .26s cubic-bezier(.2,.8,.2,1)" class="noscroll">
+        <div style="position:sticky;top:0;background:var(--paper);padding:11px 0 0;z-index:2">
+          <div style="width:38px;height:5px;border-radius:99px;background:#d4d8de;margin:0 auto"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)">
+            <button onClick="{{ closeSheet }}" style="background:none;border:none;color:var(--muted);font-size:14.5px;cursor:pointer;font-weight:500">Sluiten</button>
+            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">Project</span>
+            <button onClick="{{ pdBook }}" style="background:none;border:none;color:var(--blue);font-size:14.5px;cursor:pointer;font-weight:600">+ Uren</button>
+          </div>
+        </div>
+        <div style="padding:18px 18px 30px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="width:48px;height:48px;border-radius:12px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+            <span style="min-width:0"><span style="display:block;font-family:var(--disp);font-size:19px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pdName }}</span><span style="display:block;font-size:12.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pdMeta }}</span></span>
+          </div>
+
+          <div style="background:var(--navy);border-radius:18px;padding:17px 18px;color:#fff;margin-top:18px">
+            <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)">Totaal geboekt op dit project</div>
+            <div style="font-family:var(--disp);font-size:38px;font-weight:600;line-height:1;margin-top:8px">{{ pdTotal }}<span style="font-size:15px;font-weight:500;color:rgba(255,255,255,.6);margin-left:5px">uur</span></div>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:12px">
+            <div style="flex:1;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:13px 15px"><div style="font-size:11px;color:var(--soft);font-weight:600">Mijn uren</div><div style="font-family:var(--disp);font-size:21px;font-weight:600;color:var(--ink);margin-top:3px">{{ pdOwn }}<span style="font-size:11px;color:var(--soft);font-weight:500;margin-left:3px">u</span></div></div>
+            <div style="flex:1;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:13px 15px"><div style="font-size:11px;color:var(--soft);font-weight:600">ZZP'ers</div><div style="font-family:var(--disp);font-size:21px;font-weight:600;color:var(--ink);margin-top:3px">{{ pdZzp }}<span style="font-size:11px;color:var(--soft);font-weight:500;margin-left:3px">u</span></div></div>
+          </div>
+
+          <sc-if value="{{ pdHasWorkers }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 9px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>ZZP'ers · mandagenregister</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ pdWorkers }}" as="w" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:12px 14px">
+                  <span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ w.name }}</span><span style="display:block;font-size:11px;color:var(--soft);font-family:var(--disp)">{{ w.kvkLabel }}</span></span>
+                  <span style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink);flex:none">{{ w.total }} u</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <button onClick="{{ pdBook }}" style="width:100%;margin-top:20px;background:var(--navy);border:none;color:#fff;border-radius:13px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Uren boeken op dit project</button>
+        </div>
+      </div>
+    </sc-if>
+
     <!-- ===== SHEET: NOTE ===== -->
     <sc-if value="{{ isSheetNote }}" hint-placeholder-val="{{ false }}">
       <div style="position:absolute;inset:0;z-index:62;background:rgba(8,12,20,.42);animation:fadeIn .18s ease" onClick="{{ closeSheet }}"></div>
@@ -715,13 +773,23 @@ window.__checkPendingBackup = function () {
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Werkzaamheden</div>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
             <sc-for list="{{ activitiesList }}" as="a" hint-placeholder-count="4">
-              <span style="display:inline-flex;align-items:center;gap:7px;padding:8px 9px 8px 13px;border-radius:999px;background:var(--mist);border:1px solid var(--line);font-size:13.5px;font-weight:500;color:var(--ink)">{{ a.name }}<button onClick="{{ a.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
+              <span style="{{ a.chipStyle }}"><button onClick="{{ a.onEdit }}" style="background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer">{{ a.name }}</button><button onClick="{{ a.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
             </sc-for>
           </div>
-          <div style="display:flex;gap:8px;margin-top:11px">
-            <input value="{{ newActName }}" onChange="{{ setNewAct }}" placeholder="Nieuwe werkzaamheid" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
-            <button onClick="{{ addActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
-          </div>
+          <sc-if value="{{ isEditingAct }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:8px;margin-top:11px">
+              <input value="{{ editActVal }}" onChange="{{ setEditActVal }}" placeholder="Werkzaamheid wijzigen" style="flex:1;padding:11px 13px;border:1.5px solid var(--navy);border-radius:11px;font-size:14px;background:var(--paper);color:var(--ink)"/>
+              <button onClick="{{ saveEditActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 15px;font-size:14px;font-weight:600;cursor:pointer">Opslaan</button>
+              <button onClick="{{ cancelEditActivity }}" aria-label="Annuleer" style="background:var(--mist);color:var(--muted);border:1px solid var(--line);border-radius:11px;padding:0 14px;font-size:16px;font-weight:600;cursor:pointer">×</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notEditingAct }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:8px;margin-top:11px">
+              <input value="{{ newActName }}" onChange="{{ setNewAct }}" placeholder="Nieuwe werkzaamheid" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+              <button onClick="{{ addActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
+            </div>
+          </sc-if>
+          <p style="font-size:11px;color:var(--soft);line-height:1.5;margin:8px 2px 0">Tik op een werkzaamheid om de naam te wijzigen.</p>
 
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Bedrijfsgegevens</div>
           <div style="display:flex;flex-direction:column;gap:9px">
@@ -746,7 +814,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v73</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v74</div>
         </div>
       </div>
     </sc-if>
@@ -914,7 +982,7 @@ class Component extends DCLogic {
     return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
-      newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',
+      newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',
       rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
@@ -975,6 +1043,7 @@ class Component extends DCLogic {
   saveNote(){ var s=this.state; var title=(s.n_title||'').trim(); if(!title&&!(s.n_text||'').trim()&&!s.n_items.length)return; var note={id:s.n_id||this.uid('n'),title:title||'Notitie',projectId:s.n_projectId||'',text:s.n_text||'',items:s.n_items,reminderDate:s.n_reminderDate||'',reminderTime:s.n_reminderTime||'',updatedAt:this.toISO(new Date())}; var notes; if(s.n_id){ notes=s.notes.map(function(n){return n.id===s.n_id?note:n;}); } else { notes=[note].concat(s.notes); } this.scheduleReminders(notes); this.up({notes:notes,sheet:null}); }
   scheduleReminders(notesList){ var self=this; var list=notesList||(self.state.notes||[]); if(!window.Notification)return; if(Notification.permission==='default')Notification.requestPermission(); list.forEach(function(n){ if(!n.reminderDate||!n.reminderTime)return; var dt=new Date(n.reminderDate+'T'+n.reminderTime+':00'); var ms=dt-Date.now(); if(ms>0&&ms<48*3600*1000){ setTimeout(function(){ if(Notification.permission==='granted'){ try{ new Notification('ABECO Herinnering',{body:n.title||'Notitie',icon:'icons/icon-192.png'}); }catch(e){} } },ms); } }); }
   deleteNote(){ var s=this.state; if(!s.n_id)return; this.up({notes:s.notes.filter(function(n){return n.id!==s.n_id;}),sheet:null}); }
+  deleteNoteById(id){ const s=this.state; if(!(s.notes||[]).some(n=>n.id===id))return; this._undoSnap={notes:s.notes.slice()}; this.up({notes:s.notes.filter(n=>n.id!==id),openSwipe:''}); this.flagUndo('Notitie verwijderd'); }
   clearProject(){ this.setState({f_projectId:'',f_projQuery:''}); }
   saveEntry(){ const s=this.state; const h=this.parseHours(s.f_hours); if(!s.f_projectId||!s.f_activity||h<=0)return; let entries=s.entries.slice(); if(s.editingId){ entries=entries.map(e=>e.id===s.editingId?Object.assign({},e,{date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}):e); } else { entries.push({id:this.uid('e'),date:s.f_date,projectId:s.f_projectId,activity:s.f_activity,hours:h,note:s.f_note}); } this.up({entries,sheet:null,showNewAct:false}); }
   deleteEntry(){ const s=this.state; this.up({entries:s.entries.filter(e=>e.id!==s.editingId),sheet:null}); }
@@ -987,11 +1056,16 @@ class Component extends DCLogic {
   openNewProjectFromEntry(){ this.setState({sheet:'addProject',p_name:'',p_number:'',p_location:'',p_client:'',projFromEntry:true}); }
   saveProject(){ const s=this.state; if(!s.p_name.trim())return; const digits=(s.p_number||'').replace(/\D/g,''); const num=(digits?'A'+digits:'—'); if(s.editingProj){ const projects=s.projects.map(p=>p.id===s.editingProj?Object.assign({},p,{name:s.p_name.trim(),number:num,location:s.p_location.trim(),client:s.p_client.trim()}):p); this.up({projects,sheet:null,editingProj:null}); return; } const id=this.uid('pr'); const projects=s.projects.concat([{id,name:s.p_name.trim(),number:num,location:s.p_location.trim(),client:s.p_client.trim()}]); const patch={projects}; if(!s.regProjectId)patch.regProjectId=id; if(s.projFromEntry){ patch.f_projectId=id; patch.sheet='addEntry'; patch.projFromEntry=false; } else { patch.sheet=null; } this.up(patch); }
   deleteProjectById(id){ const s=this.state; if(!s.projects.some(p=>p.id===id))return; this._undoSnap={projects:s.projects.slice(),entries:s.entries.slice(),regWorkers:s.regWorkers.slice(),regHours:Object.assign({},s.regHours),regProjectId:s.regProjectId}; const projects=s.projects.filter(p=>p.id!==id); const entries=s.entries.filter(e=>e.projectId!==id); const regWorkers=s.regWorkers.filter(w=>w.projectId!==id); const regProjectId=s.regProjectId===id?(projects[0]?projects[0].id:''):s.regProjectId; this.up({projects,entries,regWorkers,regProjectId,openSwipe:''}); this.flagUndo('Project verwijderd'); }
+  openProjectDetail(id){ if(id===this.GEN){ this.openAddGeneral(); return; } this.setState({sheet:'projectDetail',pd_id:id,openSwipe:''}); }
+  projectHours(pid){ const s=this.state; const own=s.entries.filter(e=>e.projectId===pid).reduce((a,e)=>a+e.hours,0); let zzp=0; const perWorker=[]; s.regWorkers.filter(w=>w.projectId===pid).forEach(w=>{ const m=s.regHours[w.id]||{}; let t=0; for(const k in m)t+=(m[k]||0); zzp+=t; perWorker.push({name:this.wkName(w),kvkLabel:w.kvk?('KvK '+w.kvk):'geen KvK',total:this.fmt(t),_v:t}); }); perWorker.sort((a,b)=>b._v-a._v); return {own,zzp,total:own+zzp,perWorker}; }
   // activities
   toggleNewAct(){ this.setState(st=>({showNewAct:!st.showNewAct})); }
   addActInline(){ const s=this.state; const v=s.newActInline.trim(); if(!v)return; const activities=s.activities.indexOf(v)>=0?s.activities:s.activities.concat([v]); this.up({activities,f_activity:v,newActInline:'',showNewAct:false}); }
   addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; this.up({activities:s.activities.concat([v]),newActName:''}); }
-  removeActivity(name){ const s=this.state; this.up({activities:s.activities.filter(a=>a!==name)}); }
+  removeActivity(name){ const s=this.state; const patch={activities:s.activities.filter(a=>a!==name)}; if(s.editingAct===name){patch.editingAct='';patch.editActVal='';} this.up(patch); }
+  openEditActivity(name){ this.setState({editingAct:name,editActVal:name,newActName:''}); }
+  cancelEditActivity(){ this.setState({editingAct:'',editActVal:''}); }
+  saveEditActivity(){ const s=this.state; const oldN=s.editingAct; const v=(s.editActVal||'').trim(); if(!oldN)return; if(!v){ this.setState({editingAct:'',editActVal:''}); return; } if(v===oldN){ this.setState({editingAct:'',editActVal:''}); return; } let activities=s.activities.map(a=>a===oldN?v:a); activities=activities.filter((a,i)=>activities.indexOf(a)===i); const entries=s.entries.map(e=>e.activity===oldN?Object.assign({},e,{activity:v}):e); const patch={activities,entries,editingAct:'',editActVal:''}; if(s.f_activity===oldN)patch.f_activity=v; this.up(patch); }
   // register workers + hours
   openAddWorker(){ if(!this.state.regProjectId)return; this.setState({sheet:'addWorker',editingWorker:null,rw_init:'',rw_last:'',rw_kvk:'',rw_query:''}); }
   openEditWorker(id){ const w=this.worker(id); if(!w)return; this.setState({sheet:'addWorker',editingWorker:id,rw_init:w.init||'',rw_last:w.last||w.name||'',rw_kvk:w.kvk||'',rw_query:''}); }
@@ -1296,6 +1370,7 @@ class Component extends DCLogic {
   primStyle(on){ const C=this.C; return {background:on?C.navy:'#c7ccd4',color:'#fff',border:'none',borderRadius:'10px',padding:'8px 16px',fontSize:'14px',fontWeight:600,cursor:on?'pointer':'default'}; }
   entryFront(open){ const C=this.C; return {position:'relative',width:'100%',display:'flex',alignItems:'center',gap:'12px',padding:'15px 16px',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',cursor:'pointer',textAlign:'left',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-120px)':'translateX(0)'}; }
   projFront(open){ const C=this.C; return {position:'relative',width:'100%',textAlign:'left',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',padding:'15px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:'13px',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-120px)':'translateX(0)'}; }
+  noteFront(open){ const C=this.C; return {position:'relative',width:'100%',textAlign:'left',background:C.paper,border:'1px solid '+C.line,borderRadius:'16px',padding:'14px 16px',cursor:'pointer',display:'block',touchAction:'pan-y',transition:'transform .22s cubic-bezier(.2,.8,.2,1)',transform:open?'translateX(-120px)':'translateX(0)'}; }
   cellStyle(filled,self){ const C=this.C; return {textAlign:'center',background:filled?'#eaf0f9':C.mist,border:'1px solid '+(filled?'#c3d4ec':C.line),borderRadius:'8px',padding:'6px 2px',cursor:self?'default':'pointer',opacity:self?'.92':'1'}; }
   renderVals(){
     const s=this.state, C=this.C;
@@ -1307,11 +1382,12 @@ class Component extends DCLogic {
     const todayTotal=mine.filter(e=>e.date===t).reduce((a,e)=>a+e.hours,0);
     const curMon=this.getMonday(new Date()); const curDates=[]; for(let i=0;i<7;i++)curDates.push(this.toISO(this.addDays(curMon,i)));
     const weekTotal=mine.filter(e=>curDates.indexOf(e.date)>=0).reduce((a,e)=>a+e.hours,0);
-    const projectList=s.projects.map(p=>{const es=s.entries.filter(e=>e.projectId===p.id);const tot=es.reduce((a,e)=>a+e.hours,0); const num=(p.number&&p.number!=='—')?p.number:''; const meta=(p.location?p.location+' · ':'')+es.length+' boeking'+(es.length===1?'':'en'); return {name:p.name,number:num,hasNumber:!!num,meta,totalLabel:this.fmt(tot),frontStyle:this.projFront(s.openSwipe===p.id),onTap:()=>this.rowTap(p.id,()=>this.openAddWith(p.id)),onSwipe:(ev)=>this.swipeStart(ev,p.id,120),onEdit:()=>this.openEditProject(p.id),onDelete:()=>this.deleteProjectById(p.id)};});
+    const projectList=s.projects.map(p=>{const es=s.entries.filter(e=>e.projectId===p.id); const ph=this.projectHours(p.id); const num=(p.number&&p.number!=='—')?p.number:''; const meta=(p.location?p.location+' · ':'')+es.length+' boeking'+(es.length===1?'':'en'); return {name:p.name,number:num,hasNumber:!!num,meta,totalLabel:this.fmt(ph.total),frontStyle:this.projFront(s.openSwipe===p.id),onTap:()=>this.rowTap(p.id,()=>this.openProjectDetail(p.id)),onSwipe:(ev)=>this.swipeStart(ev,p.id,120),onEdit:()=>this.openEditProject(p.id),onDelete:()=>this.deleteProjectById(p.id)};});
+    const pd=this.projectHours(s.pd_id); const pdP=this.proj(s.pd_id)||{}; const pdNum=(pdP.number&&pdP.number!=='—')?pdP.number:''; const pdMetaParts=[]; if(pdNum)pdMetaParts.push(pdNum); if(pdP.location)pdMetaParts.push(pdP.location); if(pdP.client)pdMetaParts.push(pdP.client);
     const genList=s.entries.filter(e=>e.projectId===this.GEN).slice().sort((a,b)=>a.date<b.date?1:(a.date>b.date?-1:0));
     const genEntries=genList.map(e=>({actLabel:(e.note?e.activity+' · '+e.note:e.activity),dateLabel:this.dateRow(e.date),hoursLabel:this.fmt(e.hours),onTap:()=>this.openEdit(e)}));
     const genTotal=genList.reduce((a,e)=>a+e.hours,0);
-    const noteMap=(n)=>{ const its=n.items||[]; const done=its.filter(i=>i.done).length; const parts=[]; if(its.length)parts.push(done+'/'+its.length+' afgevinkt'); else if((n.text||'').trim())parts.push((n.text||'').replace(/\s+/g,' ').trim().slice(0,60)); if(n.reminderDate&&n.reminderTime)parts.push('⏰ '+n.reminderDate.slice(8,10)+'-'+n.reminderDate.slice(5,7)+' '+n.reminderTime); return {id:n.id,title:n.title||'Notitie',summary:parts.join(' · '),onTap:()=>this.openEditNote(n.id)}; };
+    const noteMap=(n)=>{ const its=n.items||[]; const done=its.filter(i=>i.done).length; const parts=[]; if(its.length)parts.push(done+'/'+its.length+' afgevinkt'); else if((n.text||'').trim())parts.push((n.text||'').replace(/\s+/g,' ').trim().slice(0,60)); if(n.reminderDate&&n.reminderTime)parts.push('⏰ '+n.reminderDate.slice(8,10)+'-'+n.reminderDate.slice(5,7)+' '+n.reminderTime); return {id:n.id,title:n.title||'Notitie',summary:parts.join(' · '),frontStyle:this.noteFront(s.openSwipe===n.id),onTap:()=>this.rowTap(n.id,()=>this.openEditNote(n.id)),onSwipe:(ev)=>this.swipeStart(ev,n.id,120),onEdit:()=>this.openEditNote(n.id),onDelete:()=>this.deleteNoteById(n.id)}; };
     const notesByProj={}; (s.notes||[]).forEach(n=>{ const pid=n.projectId||''; (notesByProj[pid]=notesByProj[pid]||[]).push(n); });
     const sortNotes=arr=>arr.slice().sort((a,b)=>(a.updatedAt||'')<(b.updatedAt||'')?1:(a.updatedAt||'')>(b.updatedAt||'')?-1:0);
     const noteGroups=[]; s.projects.forEach(p=>{ const list=sortNotes(notesByProj[p.id]||[]); if(list.length)noteGroups.push({label:p.name,notes:list.map(noteMap)}); }); const unlinked=sortNotes(notesByProj['']||[]); if(unlinked.length)noteGroups.push({label:'Algemeen',notes:unlinked.map(noteMap)});
@@ -1342,7 +1418,8 @@ class Component extends DCLogic {
     const hourChips=[4,6,8].map(h=>({label:''+h,onTap:()=>this.setState({f_hours:this.fmt(h)})}));
     const rhChips=[4,6,8].map(h=>({label:''+h,onTap:()=>this.setState({rh_val:this.fmt(h)})}));
     const canSave=!!s.f_projectId&&!!s.f_activity&&this.parseHours(s.f_hours)>0;
-    const activitiesList=s.activities.map(a=>({name:a,onRemove:()=>this.removeActivity(a)}));
+    const actChip=(sel)=>'display:inline-flex;align-items:center;gap:7px;padding:8px 9px 8px 13px;border-radius:999px;background:'+(sel?C.paper:C.mist)+';border:'+(sel?'1.5px solid '+C.navy:'1px solid '+C.line)+';font-size:13.5px;font-weight:500;color:'+C.ink;
+    const activitiesList=s.activities.map(a=>({name:a,chipStyle:actChip(s.editingAct===a),onEdit:()=>this.openEditActivity(a),onRemove:()=>this.removeActivity(a)}));
     const co=s.company||{name:'',address:'',city:''};
     const rhWorker=this.worker(s.rh_worker);
     const onProj={}; s.regWorkers.filter(w=>w.projectId===s.regProjectId).forEach(w=>{onProj[(this.wkName(w)+'|'+(w.kvk||'')).toLowerCase()]=1;});
@@ -1369,6 +1446,7 @@ class Component extends DCLogic {
       openAdd:()=>this.openAdd(), fabAction:()=>this.fabAction(), fabLabel:(s.tab==='projecten'?'Nieuw project':(s.tab==='notities'?'Nieuwe notitie':'Uren toevoegen')), showFab:(s.tab==='uren'||s.tab==='projecten'||s.tab==='notities'), undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(),
       dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(),
+      isSheetProjectDetail:s.sheet==='projectDetail', pdName:pdP.name||'—', pdMeta:(pdMetaParts.length?pdMetaParts.join(' · '):'Geen extra gegevens'), pdTotal:this.fmt(pd.total), pdOwn:this.fmt(pd.own), pdZzp:this.fmt(pd.zzp), pdHasWorkers:pd.perWorker.length>0, pdWorkers:pd.perWorker, pdBook:()=>this.openAddWith(s.pd_id),
       genEntries, hasGenEntries:genList.length>0, noGenEntries:genList.length===0, genTotalLabel:this.fmt(genTotal), openAddGeneral:()=>this.openAddGeneral(),
       grandTotalLabel:this.fmt(grandTotal),
       setDag:()=>this.setOmode('dag'), setWeek:()=>this.setOmode('week'), setProj:()=>this.setOmode('project'),
@@ -1399,6 +1477,7 @@ class Component extends DCLogic {
       knownWorkers, hasKnownWorkers:!s.editingWorker&&knownWorkers.length>0, anyKnownWorkers:!s.editingWorker&&s.regWorkers.length>0, workerSheetTitle:s.editingWorker?'ZZP’er wijzigen':'ZZP’er toevoegen', workerSheetHint:s.editingWorker?'Pas naam en KvK-nummer aan':('Toevoegen aan '+this.projName(s.regProjectId)), rwQuery:s.rw_query, setRwQuery:e=>this.setState({rw_query:ev(e)}),
       rhWorkerName:rhWorker?rhWorker.name:'', rhDateLabel:s.rh_date?this.dateMid(s.rh_date):'', rhVal:s.rh_val, setRhVal:e=>this.setState({rh_val:ev(e)}), rhChips, saveRegHour:()=>this.saveRegHour(), saveRegHourStyle:this.primStyle(true), clearRegHour:()=>this.clearRegHour(),
       activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
+      isEditingAct:!!s.editingAct, notEditingAct:!s.editingAct, editActVal:s.editActVal, setEditActVal:e=>this.setState({editActVal:ev(e)}), saveEditActivity:()=>this.saveEditActivity(), cancelEditActivity:()=>this.cancelEditActivity(),
       setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)), setCoMyInit:e=>this.setCompany('myInit',ev(e)), setCoMyLast:e=>this.setCompany('myLast',ev(e)), setCoMyKvk:e=>this.setCompany('myKvk',ev(e)),
       resetData:()=>this.resetData(),
       exportBackup:()=>this.exportBackup(), copyBackupText:()=>this.copyBackupText(), submitPasteArea:()=>this.submitPasteArea(), triggerImport:()=>this.triggerImport(), importBackup:(e)=>this.importBackup(e), pasteBackup:()=>this.pasteBackup(),

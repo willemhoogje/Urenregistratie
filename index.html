@@ -732,7 +732,8 @@ window.__checkPendingBackup = function () {
 
 
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Gegevens &amp; backup</div>
-          <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 12px">Sla een kopie van al je gegevens op (bijv. in Google Drive of Bestanden) en zet 'm terug op een nieuw apparaat. Laatste backup: <b style="color:var(--muted)">{{ backupLastLabel }}</b></p>
+          <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 10px">Sla een kopie van al je gegevens op en zet 'm terug op een nieuw apparaat. Laatste backup: <b style="color:var(--muted)">{{ backupLastLabel }}</b></p>
+          <p style="font-size:11.5px;color:var(--navy);line-height:1.5;margin:0 2px 12px;background:var(--mist);border-radius:10px;padding:9px 11px">💡 Bewaar je backup onder <b>"Op mijn iPhone"</b> (niet iCloud). Alleen lokale bestanden kun je in de app terugzetten.</p>
           <div style="display:flex;gap:9px">
             <button onClick="{{ exportBackup }}" style="flex:1;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Backup maken</button>
             <label style="flex:1;position:relative;overflow:hidden;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><input type="file" data-role="backup" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.001;cursor:pointer;font-size:16px;border:0;padding:0;margin:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Terugzetten</label>
@@ -745,7 +746,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v72</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v73</div>
         </div>
       </div>
     </sc-if>

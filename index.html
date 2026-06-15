@@ -90,7 +90,6 @@ window.__checkPendingBackup = function () {
 </script>
 </head>
 <body>
-<input id="backupFileInput" type="file" data-role="backup" style="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;border:0;padding:0;z-index:-1">
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -736,7 +735,7 @@ window.__checkPendingBackup = function () {
           <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 12px">Sla een kopie van al je gegevens op (bijv. in Google Drive of Bestanden) en zet 'm terug op een nieuw apparaat. Laatste backup: <b style="color:var(--muted)">{{ backupLastLabel }}</b></p>
           <div style="display:flex;gap:9px">
             <button onClick="{{ exportBackup }}" style="flex:1;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Backup maken</button>
-            <label for="backupFileInput" style="flex:1;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Terugzetten</label>
+            <label style="flex:1;position:relative;overflow:hidden;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><input type="file" data-role="backup" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.001;cursor:pointer;font-size:16px;border:0;padding:0;margin:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Terugzetten</label>
           </div>
           <div style="font-size:11.5px;color:var(--muted);margin:18px 2px 9px;font-weight:600">Automatische herinnering</div>
           <div style="display:flex;gap:8px">
@@ -746,7 +745,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v71</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v72</div>
         </div>
       </div>
     </sc-if>
@@ -863,24 +862,28 @@ class Component extends DCLogic {
     this.state=this.initialState();
     var _self=this;
     setTimeout(function(){ _self.scheduleReminders(); },1500);
-    // Persistente bestandskiezer (buiten de DC-template, wordt nooit opnieuw gerenderd)
-    var consume=function(){
-      var inp=document.getElementById('backupFileInput');
-      if(inp&&inp.files&&inp.files[0]){
-        var f=inp.files[0];
+    // Bestandskiezer-afhandeling. iOS PWA koppelt het input-element soms los
+    // tijdens de Bestanden-kiezer; een losgekoppeld element behoudt echter zijn
+    // .files. Daarom houden we een directe verwijzing naar het laatst getikte
+    // input-element bij, en lezen we dat (ook bij terugkeer in de app).
+    var consume=function(el){
+      el=el||window.__lastFileInput;
+      if(el&&el.files&&el.files[0]){
+        var f=el.files[0];
         _self.showFlash('Bestand gelezen — bezig met terugzetten…');
         _self.readBackupFile(f);
-        try{inp.value='';}catch(e){}
+        try{el.value='';}catch(e){}
+        window.__lastFileInput=null;
         return true;
       }
       return false;
     };
-    var inp0=document.getElementById('backupFileInput');
-    if(inp0){ inp0.addEventListener('change',function(){ consume(); }); }
+    var isBackupInput=function(t){ return t&&t.type==='file'&&t.getAttribute&&t.getAttribute('data-role')==='backup'; };
+    document.addEventListener('click',function(ev){ if(isBackupInput(ev.target))window.__lastFileInput=ev.target; },true);
+    document.addEventListener('change',function(ev){ if(isBackupInput(ev.target))consume(ev.target); },true);
     // Vangnet: iOS PWA vuurt het change-event soms niet bij terugkeer uit de kiezer.
-    // Controleer daarom ook wanneer de app weer zichtbaar/actief wordt of er een bestand klaarstaat.
-    window.addEventListener('focus',function(){ setTimeout(consume,350); });
-    document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible')setTimeout(consume,350); });
+    window.addEventListener('focus',function(){ setTimeout(function(){consume();},350); });
+    document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible')setTimeout(function(){consume();},350); });
     // Registreer als globale app-instantie voor share-target afhandeling
     window.__dcApp=this;
     setTimeout(function(){ if(window.__checkPendingBackup)window.__checkPendingBackup(); },800);

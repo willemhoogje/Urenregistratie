@@ -724,7 +724,7 @@ if ('serviceWorker' in navigator) {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v63</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v64</div>
         </div>
       </div>
     </sc-if>
@@ -841,10 +841,12 @@ class Component extends DCLogic {
     this.state=this.initialState();
     var _self=this;
     setTimeout(function(){ _self.scheduleReminders(); },1500);
-    setTimeout(function(){
-      var inp=document.getElementById('backupFileInput');
-      if(inp){ inp.addEventListener('change',function(ev){ var f=ev.target&&ev.target.files&&ev.target.files[0]; if(f){_self.readBackupFile(f);} try{inp.value='';}catch(e){} }); }
-    },300);
+    document.addEventListener('change',function(ev){
+      var t=ev.target;
+      if(t&&t.type==='file'&&(t.id==='backupFileInput'||t.getAttribute('data-role')==='backup')){
+        var f=t.files&&t.files[0]; if(f){ _self.readBackupFile(f); } try{t.value='';}catch(e){}
+      }
+    },true);
   }
   // ===== Opslag-laag (1 centrale plek; straks om te zetten naar online database) =====
   storeLoad(){ try{const raw=localStorage.getItem(this.KEY);return raw?JSON.parse(raw):null;}catch(e){return null;} }
@@ -977,11 +979,17 @@ class Component extends DCLogic {
     el.click();
   }
   importBackup(e){ var f=e&&e.target&&e.target.files&&e.target.files[0]; if(f)this.readBackupFile(f); }
+  showFlash(msg){
+    var el=document.getElementById('appFlash');
+    if(!el){ el=document.createElement('div'); el.id='appFlash'; el.style.cssText='position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:#1c2a3a;color:#fff;border-radius:12px;padding:11px 20px;font-size:13.5px;font-weight:600;z-index:9999;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.25);transition:opacity .4s;font-family:Poppins,system-ui,sans-serif'; document.body.appendChild(el); }
+    el.textContent=msg; el.style.opacity='1'; clearTimeout(el._t);
+    el._t=setTimeout(function(){ el.style.opacity='0'; },2500);
+  }
   readBackupFile(f){
     var self=this;
     var reader=new FileReader();
     reader.onload=function(){ self.readBackupText(reader.result); };
-    reader.onerror=function(){ alert('Kon het bestand niet lezen.'); };
+    reader.onerror=function(){ self.showFlash('Kon het bestand niet lezen.'); };
     reader.readAsText(f);
   }
   pasteBackup(){
@@ -993,12 +1001,10 @@ class Component extends DCLogic {
     var self=this;
     try{
       var obj=JSON.parse(txt); var d=(obj&&obj.data)?obj.data:obj;
-      if(!d||(!d.entries&&!d.projects)){ alert('Dit lijkt geen geldige backup te zijn.'); return; }
-      if(typeof confirm==='function'&&!confirm('Backup terugzetten? Dit vervangt je huidige gegevens in de app.'))return;
+      if(!d||(!d.entries&&!d.projects)){ self.showFlash('Geen geldige backup.'); return; }
       var ns={company:d.company||self.state.company,projects:d.projects||[],activities:d.activities||self.state.activities,entries:d.entries||[],regWorkers:d.regWorkers||[],regHours:d.regHours||{},notes:d.notes||self.state.notes||[]};
-      self.setState(Object.assign({sheet:null,regProjectId:(ns.projects[0]?ns.projects[0].id:'')},ns),function(){ self.persist(); });
-      alert('Backup teruggezet.');
-    }catch(err){ alert('Kon de backup niet lezen — controleer of je de volledige tekst hebt geplakt.'); }
+      self.setState(Object.assign({sheet:null,regProjectId:(ns.projects[0]?ns.projects[0].id:'')},ns),function(){ self.persist(); self.showFlash('Backup teruggezet ✓'); });
+    }catch(err){ self.showFlash('Kon backup niet lezen.'); }
   }
   setOmode(v){ this.setState({omode:v}); }
   setCompany(k,v){ this.up({company:Object.assign({},this.state.company,{[k]:v})}); }

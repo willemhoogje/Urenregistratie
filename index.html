@@ -90,6 +90,7 @@ window.__checkPendingBackup = function () {
 </script>
 </head>
 <body>
+<input id="backupFileInput" type="file" data-role="backup" style="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;border:0;padding:0;z-index:-1">
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -734,19 +735,8 @@ window.__checkPendingBackup = function () {
           <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Gegevens &amp; backup</div>
           <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 12px">Sla een kopie van al je gegevens op (bijv. in Google Drive of Bestanden) en zet 'm terug op een nieuw apparaat. Laatste backup: <b style="color:var(--muted)">{{ backupLastLabel }}</b></p>
           <div style="display:flex;gap:9px">
-            <button onClick="{{ exportBackup }}" style="flex:1;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Opslaan</button>
-            <button onClick="{{ copyBackupText }}" style="flex:1;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Kopiëren</button>
-          </div>
-          <p style="font-size:11px;color:var(--soft);line-height:1.5;margin:7px 2px 0">"Opslaan" maakt een .json bestand · "Kopiëren" zet de backup als tekst op het klembord.</p>
-          <div style="margin-top:12px;background:var(--mist);border-radius:14px;padding:14px 15px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:9px">Backup terugzetten</div>
-            <label style="position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:7px;width:100%;background:var(--navy);color:#fff;border-radius:11px;padding:13px;font-size:14px;font-weight:600;cursor:pointer">
-              <input type="file" data-role="backup" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.001;cursor:pointer;font-size:16px"/>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Kies backup-bestand…
-            </label>
-            <p style="font-size:11px;color:var(--soft);line-height:1.5;margin:9px 2px 0">Lukt het kiezen van een bestand niet? Plak dan de backup-tekst:</p>
-            <textarea id="backupPasteArea" placeholder="Houd lang vast → Plak…" style="width:100%;height:64px;margin-top:7px;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;font-size:13px;font-family:inherit;color:var(--ink);background:var(--paper);resize:none;display:block;box-sizing:border-box;-webkit-appearance:none"></textarea>
-            <button onClick="{{ submitPasteArea }}" style="width:100%;margin-top:8px;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:11px;padding:11px;font-size:13.5px;font-weight:600;cursor:pointer">Plak-tekst terugzetten</button>
+            <button onClick="{{ exportBackup }}" style="flex:1;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Backup maken</button>
+            <label for="backupFileInput" style="flex:1;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Terugzetten</label>
           </div>
           <div style="font-size:11.5px;color:var(--muted);margin:18px 2px 9px;font-weight:600">Automatische herinnering</div>
           <div style="display:flex;gap:8px">
@@ -756,7 +746,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v70</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v71</div>
         </div>
       </div>
     </sc-if>
@@ -873,12 +863,24 @@ class Component extends DCLogic {
     this.state=this.initialState();
     var _self=this;
     setTimeout(function(){ _self.scheduleReminders(); },1500);
-    document.addEventListener('change',function(ev){
-      var t=ev.target;
-      if(t&&t.type==='file'&&(t.id==='backupFileInput'||t.getAttribute('data-role')==='backup')){
-        var f=t.files&&t.files[0]; if(f){ _self.readBackupFile(f); } try{t.value='';}catch(e){}
+    // Persistente bestandskiezer (buiten de DC-template, wordt nooit opnieuw gerenderd)
+    var consume=function(){
+      var inp=document.getElementById('backupFileInput');
+      if(inp&&inp.files&&inp.files[0]){
+        var f=inp.files[0];
+        _self.showFlash('Bestand gelezen — bezig met terugzetten…');
+        _self.readBackupFile(f);
+        try{inp.value='';}catch(e){}
+        return true;
       }
-    },true);
+      return false;
+    };
+    var inp0=document.getElementById('backupFileInput');
+    if(inp0){ inp0.addEventListener('change',function(){ consume(); }); }
+    // Vangnet: iOS PWA vuurt het change-event soms niet bij terugkeer uit de kiezer.
+    // Controleer daarom ook wanneer de app weer zichtbaar/actief wordt of er een bestand klaarstaat.
+    window.addEventListener('focus',function(){ setTimeout(consume,350); });
+    document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible')setTimeout(consume,350); });
     // Registreer als globale app-instantie voor share-target afhandeling
     window.__dcApp=this;
     setTimeout(function(){ if(window.__checkPendingBackup)window.__checkPendingBackup(); },800);

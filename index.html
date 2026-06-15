@@ -166,11 +166,11 @@ window.__checkPendingBackup = function () {
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px">
             <div style="background:var(--navy);border-radius:18px;padding:15px 16px;color:#fff">
-              <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)"><span style="width:6px;height:6px;background:#fff;border-radius:1.5px"></span>Deze week</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)">Deze week</div>
               <div style="font-family:var(--disp);font-size:32px;font-weight:600;line-height:1;margin-top:10px">{{ weekTotal }}<span style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-left:4px">uur</span></div>
             </div>
             <div style="background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:15px 16px">
-              <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Vandaag</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">Vandaag</div>
               <div style="font-family:var(--disp);font-size:32px;font-weight:600;line-height:1;margin-top:10px;color:var(--ink)">{{ todayTotal }}<span style="font-size:14px;font-weight:500;color:var(--muted);margin-left:4px">uur</span></div>
             </div>
           </div>
@@ -179,7 +179,7 @@ window.__checkPendingBackup = function () {
             <sc-for list="{{ dayGroups }}" as="g" hint-placeholder-count="2">
               <div style="margin-top:24px">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
-                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>{{ g.label }}</div>
+                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">{{ g.label }}</div>
                   <span style="font-family:var(--disp);font-size:13px;font-weight:600;color:var(--ink)">{{ g.totalLabel }} uur</span>
                 </div>
                 <div style="display:flex;flex-direction:column;gap:9px">
@@ -216,14 +216,14 @@ window.__checkPendingBackup = function () {
       <sc-if value="{{ isProjecten }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px 18px 0">
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Projecten</h1>
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Algemeen</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px">Algemeen</div>
           <button onClick="{{ openGeneralDetail }}" style="width:100%;display:flex;align-items:center;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 16px;cursor:pointer;text-align:left">
             <span style="width:44px;height:44px;border-radius:11px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none"><span style="font-family:var(--disp);font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em">ALG</span></span>
             <span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:600;color:var(--ink)">Algemene uren</span><span style="display:block;font-size:12px;color:var(--muted);margin-top:4px">niet-projectgebonden</span></span>
             <span style="text-align:right;flex:none"><span style="display:block;font-family:var(--disp);font-size:17px;font-weight:600;color:var(--ink)">{{ genTotalLabel }}</span><span style="display:block;font-size:10px;color:var(--soft);font-weight:500;text-transform:uppercase;letter-spacing:.08em">uur</span></span>
           </button>
 
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:24px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Projecten</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:24px 0 10px">Projecten</div>
           <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;flex-direction:column;gap:11px">
               <sc-for list="{{ projectList }}" as="p" hint-placeholder-count="3">
@@ -316,12 +316,12 @@ window.__checkPendingBackup = function () {
           <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 0">Mandagenregister</h1>
 
           <div style="background:var(--navy);border-radius:18px;padding:17px 18px;margin-top:16px;color:#fff">
-            <div style="display:flex;align-items:center;gap:7px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:11px"><span style="width:6px;height:6px;background:#fff;border-radius:1.5px"></span>Onderaannemer</div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:11px">Onderaannemer</div>
             <div style="font-family:var(--disp);font-size:16px;font-weight:600">{{ coName }}</div>
             <div style="font-size:12.5px;color:rgba(255,255,255,.7);margin-top:2px">{{ coAddress }} · {{ coCity }}</div>
           </div>
 
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Project</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px">Project</label>
           <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;flex-wrap:wrap;gap:8px">
               <sc-for list="{{ regProjChips }}" as="c" hint-placeholder-count="2">
@@ -356,7 +356,7 @@ window.__checkPendingBackup = function () {
             <sc-for list="{{ regWeeks }}" as="wk" hint-placeholder-count="1">
               <div style="margin-top:20px">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
-                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>{{ wk.weekLabel }} · {{ wk.range }}</div>
+                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">{{ wk.weekLabel }} · {{ wk.range }}</div>
                   <span style="font-family:var(--disp);font-size:13px;font-weight:600;color:var(--ink)">{{ wk.totalLabel }} u</span>
                 </div>
                 <sc-if value="{{ wk.hasRows }}" hint-placeholder-val="{{ true }}">
@@ -398,7 +398,7 @@ window.__checkPendingBackup = function () {
             <div style="margin-top:16px;display:flex;flex-direction:column;gap:20px">
               <sc-for list="{{ noteGroups }}" as="g" hint-placeholder-count="2">
                 <div>
-                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px"><span style="width:7px;height:7px;background:var(--blue);border-radius:1.5px"></span>{{ g.label }}</div>
+                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px">{{ g.label }}</div>
                   <div style="display:flex;flex-direction:column;gap:9px">
                     <sc-for list="{{ g.notes }}" as="n" hint-placeholder-count="2">
                       <div style="position:relative;border-radius:16px;overflow:hidden">
@@ -485,10 +485,10 @@ window.__checkPendingBackup = function () {
           </div>
         </div>
         <div style="padding:18px 18px 30px">
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Datum</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Datum</label>
           <input type="date" value="{{ fDate }}" onChange="{{ setFDate }}" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist);font-family:var(--body)"/>
 
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Project</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px">Project</label>
           <sc-if value="{{ hasSelectedProject }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;align-items:center;gap:12px;background:var(--navy);border-radius:12px;padding:13px 15px">
               <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:rgba(255,255,255,.16);border-radius:6px;padding:4px 7px;white-space:nowrap">{{ selProjNumber }}</span>
@@ -518,7 +518,7 @@ window.__checkPendingBackup = function () {
           </sc-if>
 
           <sc-if value="{{ hasSelectedProject }}" hint-placeholder-val="{{ false }}">
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>{{ activityLabel }}</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px">{{ activityLabel }}</label>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
             <sc-for list="{{ activityChips }}" as="a" hint-placeholder-count="4">
               <button onClick="{{ a.onTap }}" style="{{ a.style }}">{{ a.name }}</button>
@@ -533,7 +533,7 @@ window.__checkPendingBackup = function () {
           </sc-if>
           </sc-if>
 
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Aantal uren</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px">Aantal uren</label>
           <div style="display:flex;align-items:center;gap:10px">
             <input value="{{ fHours }}" onChange="{{ setFHours }}" inputmode="decimal" placeholder="0" style="width:104px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:22px;font-weight:600;font-family:var(--disp);color:var(--ink);background:var(--mist);text-align:center"/>
             <div style="display:flex;gap:6px">
@@ -543,7 +543,7 @@ window.__checkPendingBackup = function () {
             </div>
           </div>
 
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Notitie / omschrijving</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px">Notitie / omschrijving</label>
           <textarea value="{{ fNote }}" onChange="{{ setFNote }}" rows="3" placeholder="Optioneel — wat heb je gedaan?" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist);line-height:1.5"></textarea>
 
           <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
@@ -566,16 +566,16 @@ window.__checkPendingBackup = function () {
           </div>
         </div>
         <div style="padding:18px 18px 34px">
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Projectnaam</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Projectnaam</label>
           <input value="{{ pName }}" onChange="{{ setPName }}" placeholder="Projectnaam" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Projectnummer</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Projectnummer</label>
           <div style="display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--mist);overflow:hidden">
             <span style="padding:13px 2px 13px 14px;font-size:15px;font-weight:600;color:var(--ink);font-family:var(--disp)">A</span>
             <input value="{{ pNumberDigits }}" onChange="{{ setPNumberDigits }}" inputmode="numeric" placeholder="1234" style="flex:1;padding:13px 14px 13px 0;border:none;background:transparent;font-size:15px;color:var(--ink);font-family:var(--disp);outline:none"/>
           </div>
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Locatie / plaats <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Locatie / plaats <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
           <input value="{{ pLocation }}" onChange="{{ setPLocation }}" placeholder="Locatie / plaats" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Opdrachtgever <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Opdrachtgever <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
           <input value="{{ pClient }}" onChange="{{ setPClient }}" placeholder="Opdrachtgever" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
         </div>
       </div>
@@ -610,7 +610,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <sc-if value="{{ pdHasWorkers }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 9px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>ZZP'ers · mandagenregister</div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 9px">ZZP'ers · mandagenregister</div>
             <div style="display:flex;flex-direction:column;gap:8px">
               <sc-for list="{{ pdWorkers }}" as="w" hint-placeholder-count="2">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:12px 14px">
@@ -776,12 +776,12 @@ window.__checkPendingBackup = function () {
               </sc-for>
             </div>
           </sc-if>
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Naam</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Naam</label>
           <div style="display:grid;grid-template-columns:96px 1fr;gap:9px">
             <input value="{{ rwInit }}" onChange="{{ setRwInit }}" placeholder="Voorl." autocomplete="off" style="width:100%;padding:13px 12px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
             <input value="{{ rwLast }}" onChange="{{ setRwLast }}" placeholder="Achternaam" autocapitalize="words" autocomplete="off" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
           </div>
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>KvK-nummer</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">KvK-nummer</label>
           <input value="{{ rwKvk }}" onChange="{{ setRwKvk }}" inputmode="numeric" placeholder="Bijv. 71239723" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist);font-family:var(--disp)"/>
         </div>
       </div>
@@ -804,7 +804,7 @@ window.__checkPendingBackup = function () {
             <span style="font-size:14px;font-weight:600;color:var(--ink)">{{ rhWorkerName }}</span>
             <span style="font-size:13px;color:var(--muted)">{{ rhDateLabel }}</span>
           </div>
-          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Aantal uren</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Aantal uren</label>
           <div style="display:flex;align-items:center;gap:10px">
             <input value="{{ rhVal }}" onChange="{{ setRhVal }}" inputmode="decimal" placeholder="0" style="width:104px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:22px;font-weight:600;font-family:var(--disp);color:var(--ink);background:var(--mist);text-align:center"/>
             <div style="display:flex;gap:6px">
@@ -831,7 +831,7 @@ window.__checkPendingBackup = function () {
           </div>
         </div>
         <div style="padding:18px 18px 34px">
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Persoonsgegevens</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Persoonsgegevens</div>
           <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 10px">Verschijnt als <b style="color:var(--muted)">Eigen uren</b>-regel op het register.</p>
           <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:26px">
             <div style="display:grid;grid-template-columns:96px 1fr;gap:9px">
@@ -840,7 +840,7 @@ window.__checkPendingBackup = function () {
             </div>
             <input value="{{ coMyKvk }}" onChange="{{ setCoMyKvk }}" inputmode="numeric" placeholder="Mijn KvK-nummer" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink);font-family:var(--disp)"/>
           </div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Activiteiten</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Activiteiten</div>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
             <sc-for list="{{ activitiesList }}" as="a" hint-placeholder-count="4">
               <span style="{{ a.chipStyle }}"><button onClick="{{ a.onEdit }}" style="background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer">{{ a.name }}</button><button onClick="{{ a.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
@@ -861,7 +861,7 @@ window.__checkPendingBackup = function () {
           </sc-if>
           <p style="font-size:11px;color:var(--soft);line-height:1.5;margin:8px 2px 0">Tik op een activiteit om de naam te wijzigen.</p>
 
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Bedrijfsgegevens</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px">Bedrijfsgegevens</div>
           <div style="display:flex;flex-direction:column;gap:9px">
             <input value="{{ coName }}" onChange="{{ setCoName }}" placeholder="Bedrijfsnaam" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
             <input value="{{ coAddress }}" onChange="{{ setCoAddress }}" placeholder="Adres" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
@@ -869,7 +869,7 @@ window.__checkPendingBackup = function () {
           </div>
 
 
-          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px"><span style="width:6px;height:6px;background:var(--blue);border-radius:1.5px"></span>Gegevens &amp; backup</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px">Gegevens &amp; backup</div>
           <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:-2px 2px 10px">Sla een kopie van al je gegevens op en zet 'm terug op een nieuw apparaat. Laatste backup: <b style="color:var(--muted)">{{ backupLastLabel }}</b></p>
           <div style="display:flex;gap:9px">
             <button onClick="{{ exportBackup }}" style="flex:1;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Backup maken</button>
@@ -883,7 +883,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:28px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v76</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Uren · versie v77</div>
         </div>
       </div>
     </sc-if>

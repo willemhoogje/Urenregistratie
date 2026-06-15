@@ -427,6 +427,112 @@ window.__checkPendingBackup = function () {
         </div>
       </sc-if>
 
+      <!-- ===== INSTELLINGEN ===== -->
+      <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:20px 16px 0">
+          <h1 style="font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:7px 0 16px">Instellingen</h1>
+
+          <!-- Persoonsgegevens -->
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden">
+            <button onClick="{{ toggleSetPersoon }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 16px;background:none;border:none;cursor:pointer"><span style="font-size:14.5px;font-weight:600;color:var(--ink)">Persoonsgegevens</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="{{ chevPersoon }}"><path d="M6 9l6 6 6-6"/></svg></button>
+            <sc-if value="{{ setOpenPersoon }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 16px 16px">
+                <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:0 2px 10px">Verschijnt als <b style="color:var(--muted)">Eigen uren</b>-regel op het register.</p>
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <div style="display:grid;grid-template-columns:96px 1fr;gap:9px">
+                    <input value="{{ coMyInit }}" onChange="{{ setCoMyInit }}" placeholder="Voorl." autocomplete="off" style="padding:12px 12px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+                    <input value="{{ coMyLast }}" onChange="{{ setCoMyLast }}" placeholder="Achternaam" autocapitalize="words" autocomplete="off" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+                  </div>
+                  <input value="{{ coMyKvk }}" onChange="{{ setCoMyKvk }}" inputmode="numeric" placeholder="Mijn KvK-nummer" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink);font-family:var(--disp)"/>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- Activiteiten -->
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden">
+            <button onClick="{{ toggleSetAct }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 16px;background:none;border:none;cursor:pointer"><span style="font-size:14.5px;font-weight:600;color:var(--ink)">Activiteiten</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="{{ chevAct }}"><path d="M6 9l6 6 6-6"/></svg></button>
+            <sc-if value="{{ setOpenAct }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 16px 16px">
+                <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:0 2px 10px">Voor projecturen. Tik op een activiteit om de naam te wijzigen.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ activitiesList }}" as="a" hint-placeholder-count="4">
+                    <span style="{{ a.chipStyle }}"><button onClick="{{ a.onEdit }}" style="background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer">{{ a.name }}</button><button onClick="{{ a.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ isEditingAct }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;gap:8px;margin-top:11px">
+                    <input value="{{ editActVal }}" onChange="{{ setEditActVal }}" placeholder="Activiteit wijzigen" style="flex:1;padding:11px 13px;border:1.5px solid var(--navy);border-radius:11px;font-size:14px;background:var(--paper);color:var(--ink)"/>
+                    <button onClick="{{ saveEditActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 15px;font-size:14px;font-weight:600;cursor:pointer">Opslaan</button>
+                    <button onClick="{{ cancelEditActivity }}" aria-label="Annuleer" style="background:var(--mist);color:var(--muted);border:1px solid var(--line);border-radius:11px;padding:0 14px;font-size:16px;font-weight:600;cursor:pointer">×</button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ notEditingAct }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:8px;margin-top:11px">
+                    <input value="{{ newActName }}" onChange="{{ setNewAct }}" placeholder="Nieuwe activiteit" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+                    <button onClick="{{ addActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- Categorieën (algemene uren) -->
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden">
+            <button onClick="{{ toggleSetCat }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 16px;background:none;border:none;cursor:pointer"><span style="font-size:14.5px;font-weight:600;color:var(--ink)">Categorieën</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="{{ chevCat }}"><path d="M6 9l6 6 6-6"/></svg></button>
+            <sc-if value="{{ setOpenCat }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 16px 16px">
+                <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:0 2px 10px">Voor algemene, niet-projectgebonden uren — bijv. verlof, vakantie of vrije dagen.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ genCatChips }}" as="c" hint-placeholder-count="3">
+                    <span style="display:inline-flex;align-items:center;gap:7px;padding:8px 9px 8px 13px;border-radius:999px;background:var(--mist);border:1px solid var(--line);font-size:13.5px;font-weight:500;color:var(--ink)">{{ c.name }}<button onClick="{{ c.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:11px">
+                  <input value="{{ newGenCat }}" onChange="{{ setNewGenCat }}" placeholder="Nieuwe categorie (bijv. Verlof)" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+                  <button onClick="{{ addGenCat }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- Bedrijfsgegevens -->
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden">
+            <button onClick="{{ toggleSetBedrijf }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 16px;background:none;border:none;cursor:pointer"><span style="font-size:14.5px;font-weight:600;color:var(--ink)">Bedrijfsgegevens</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="{{ chevBedrijf }}"><path d="M6 9l6 6 6-6"/></svg></button>
+            <sc-if value="{{ setOpenBedrijf }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:9px">
+                <input value="{{ coName }}" onChange="{{ setCoName }}" placeholder="Bedrijfsnaam" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+                <input value="{{ coAddress }}" onChange="{{ setCoAddress }}" placeholder="Adres" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+                <input value="{{ coCity }}" onChange="{{ setCoCity }}" placeholder="Postcode + plaats" style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- Backup -->
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden">
+            <button onClick="{{ toggleSetBackup }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 16px;background:none;border:none;cursor:pointer"><span style="font-size:14.5px;font-weight:600;color:var(--ink)">Backup</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="{{ chevBackup }}"><path d="M6 9l6 6 6-6"/></svg></button>
+            <sc-if value="{{ setOpenBackup }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 16px 16px">
+                <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:0 2px 10px">Sla een kopie van al je gegevens op en zet 'm terug op een nieuw apparaat. Laatste backup: <b style="color:var(--muted)">{{ backupLastLabel }}</b></p>
+                <div style="display:flex;gap:9px">
+                  <button onClick="{{ exportBackup }}" style="flex:1;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Backup maken</button>
+                  <label style="flex:1;position:relative;overflow:hidden;background:var(--mist);color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><input type="file" data-role="backup" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.001;cursor:pointer;font-size:16px;border:0;padding:0;margin:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Terugzetten</label>
+                </div>
+                <div style="font-size:11.5px;color:var(--muted);margin:18px 2px 9px;font-weight:600">Automatische herinnering</div>
+                <div style="display:flex;gap:8px">
+                  <button onClick="{{ setBackupOff }}" style="{{ biOffStyle }}">Uit</button>
+                  <button onClick="{{ setBackupWeek }}" style="{{ biWeekStyle }}">Wekelijks</button>
+                  <button onClick="{{ setBackupDay }}" style="{{ biDayStyle }}">Dagelijks</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v80</div>
+        </div>
+      </sc-if>
+
       <div style="height:104px"></div>
     </div>
 
@@ -1064,7 +1170,35 @@ class Component extends DCLogic {
     // Registreer als globale app-instantie voor share-target afhandeling
     window.__dcApp=this;
     setTimeout(function(){ if(window.__checkPendingBackup)window.__checkPendingBackup(); },800);
+    // ===== Notitie-editor: Enter zet checklist voort + toolbar boven toetsenbord =====
+    var isNoteInput=function(t){ return t&&t.id&&t.id.indexOf('nb-')===0; };
+    document.addEventListener('keydown',function(ev){
+      var t=ev.target; if(!isNoteInput(t))return;
+      if(ev.key==='Enter'||ev.keyCode===13){
+        if(t.tagName==='TEXTAREA')return; // tekstregel: normale Enter (nieuwe regel)
+        ev.preventDefault(); _self.noteCheckEnter(t.id.slice(3));
+      }
+    });
+    var noteBar=null;
+    var posBar=function(){ if(!noteBar)return; var vv=window.visualViewport; var b=vv?Math.max(0,window.innerHeight-vv.height-vv.offsetTop):0; noteBar.style.bottom=b+'px'; };
+    var buildBar=function(){
+      if(noteBar)return; noteBar=document.createElement('div'); noteBar.id='noteKbBar';
+      noteBar.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:2147483600;display:none;align-items:center;gap:6px;padding:7px 12px;background:#f3f4f6;border-top:1px solid #e4e6e9';
+      var btn=document.createElement('button'); btn.type='button'; btn.setAttribute('aria-label','Checklist');
+      btn.style.cssText='display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #e4e6e9;border-radius:9px;padding:8px 13px;font-size:13.5px;font-weight:600;color:#1c2a3a;cursor:pointer;font-family:Poppins,system-ui,sans-serif';
+      btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12l3 3 5-6"/></svg>Checklist';
+      btn.addEventListener('pointerdown',function(e){ e.preventDefault(); });
+      btn.addEventListener('click',function(){ _self.toolbarChecklist(); });
+      noteBar.appendChild(btn); document.body.appendChild(noteBar);
+    };
+    document.addEventListener('focusin',function(ev){ if(isNoteInput(ev.target)){ window.__noteFocusedBlock=ev.target.id.slice(3); buildBar(); posBar(); noteBar.style.display='flex'; } });
+    document.addEventListener('focusout',function(ev){ if(isNoteInput(ev.target)){ setTimeout(function(){ var a=document.activeElement; if(!isNoteInput(a)&&noteBar)noteBar.style.display='none'; },180); } });
+    if(window.visualViewport){ window.visualViewport.addEventListener('resize',posBar); window.visualViewport.addEventListener('scroll',posBar); }
   }
+  noteCheckEnter(bid){ var blocks=this.state.n_blocks||[]; var idx=-1; for(var i=0;i<blocks.length;i++){ if(blocks[i].id===bid){idx=i;break;} } if(idx<0)return; var cur=blocks[idx]; var self=this;
+    if((cur.text||'').trim()===''){ var nb=blocks.map(function(b,i){return i===idx?Object.assign({},b,{type:'text'}):b;}); this.setState({n_blocks:nb},function(){ var el=document.getElementById('nb-'+bid); if(el)el.focus(); }); }
+    else { var nid=this.uid('b'); var nb2=blocks.slice(0,idx+1).concat([{id:nid,type:'check',text:'',done:false}]).concat(blocks.slice(idx+1)); this.setState({n_blocks:nb2},function(){ var el=document.getElementById('nb-'+nid); if(el)el.focus(); }); } }
+  toolbarChecklist(){ var bid=window.__noteFocusedBlock; var blocks=this.state.n_blocks||[]; if(!bid){ this.addNoteBlock('check'); return; } var idx=-1; for(var i=0;i<blocks.length;i++){ if(blocks[i].id===bid){idx=i;break;} } if(idx<0){ this.addNoteBlock('check'); return; } var nt=blocks[idx].type==='check'?'text':'check'; var nb=blocks.map(function(b,i){return i===idx?Object.assign({},b,{type:nt}):b;}); this.setState({n_blocks:nb},function(){ var el=document.getElementById('nb-'+bid); if(el)el.focus(); }); }
   applyPendingBackup(){
     var text=window.__pendingBackup;
     if(!text)return;
@@ -1128,7 +1262,7 @@ class Component extends DCLogic {
   wkName(w){ if(!w)return '—'; var n=this.nm(w.last,w.init); return n||w.name||'—'; }
   // nav
   setTab(t){ this.setState({tab:t,openSwipe:''}); }
-  openSettings(){ this.setState({sheet:'settings',openSwipe:''}); }
+  openSettings(){ this.setState({tab:'settings',sheet:null,openSwipe:''}); }
   toggleSet(key){ var o=Object.assign({},this.state.settingsOpen); o[key]=!o[key]; this.setState({settingsOpen:o}); }
   closeSheet(){ this.setState({sheet:null,showNewAct:false,editingWorker:null,editingProj:null}); }
   // swipe-to-reveal
@@ -1560,7 +1694,7 @@ class Component extends DCLogic {
       setOpenPersoon:!!soS.persoon, setOpenAct:!!soS.act, setOpenCat:!!soS.cat, setOpenBedrijf:!!soS.bedrijf, setOpenBackup:!!soS.backup,
       chevPersoon:chevS(!!soS.persoon), chevAct:chevS(!!soS.act), chevCat:chevS(!!soS.cat), chevBedrijf:chevS(!!soS.bedrijf), chevBackup:chevS(!!soS.backup),
       toggleSetPersoon:()=>this.toggleSet('persoon'), toggleSetAct:()=>this.toggleSet('act'), toggleSetCat:()=>this.toggleSet('cat'), toggleSetBedrijf:()=>this.toggleSet('bedrijf'), toggleSetBackup:()=>this.toggleSet('backup'),
-      isUren:s.tab==='uren', isProjecten:s.tab==='projecten', isOverzicht:s.tab==='overzicht', isWeekstaat:s.tab==='weekstaat', isNotities:s.tab==='notities',
+      isUren:s.tab==='uren', isProjecten:s.tab==='projecten', isOverzicht:s.tab==='overzicht', isWeekstaat:s.tab==='weekstaat', isNotities:s.tab==='notities', isSettings:s.tab==='settings',
       tabUren:()=>this.setTab('uren'), tabProj:()=>this.setTab('projecten'), tabOver:()=>this.setTab('overzicht'), tabWeek:()=>this.setTab('weekstaat'), tabNotes:()=>this.setTab('notities'),
       tabUrenStyle:this.tabStyle(s.tab==='uren'), tabProjStyle:this.tabStyle(s.tab==='projecten'), tabOverStyle:this.tabStyle(s.tab==='overzicht'), tabWeekStyle:this.tabStyle(s.tab==='weekstaat'), tabNotesStyle:this.tabStyle(s.tab==='notities'),
       noteGroups, hasNotes:(s.notes||[]).length>0, noNotes:(s.notes||[]).length===0, openNewNote:()=>this.openNewNote(),

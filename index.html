@@ -175,6 +175,18 @@ window.__checkPendingBackup = function () {
             </div>
           </div>
 
+          <div style="margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:9px;padding:8px 10px">
+              <button onClick="{{ prevUrenWeek }}" aria-label="Vorige week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5l-6 6 6 6"/></svg></button>
+              <div style="flex:1;text-align:center"><div style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ urenWeekLabel }}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">{{ urenWeekRange }}</div></div>
+              <button onClick="{{ nextUrenWeek }}" aria-label="Volgende week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-top:1px solid var(--line)">
+              <span style="font-size:13px;color:var(--muted)"><b style="font-family:var(--disp);font-size:16px;color:var(--ink)">{{ urenWeekTotal }}</b> uur deze week</span>
+              <button onClick="{{ exportUrenWeek }}" aria-label="PDF van deze week" style="display:flex;align-items:center;gap:7px;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:9px 13px;font-size:13px;font-weight:600;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>PDF</button>
+            </div>
+          </div>
+
           <sc-if value="{{ hasEntries }}" hint-placeholder-val="{{ true }}">
             <sc-for list="{{ dayGroups }}" as="g" hint-placeholder-count="2">
               <div style="margin-top:24px">
@@ -204,9 +216,9 @@ window.__checkPendingBackup = function () {
             </sc-for>
           </sc-if>
           <sc-if value="{{ noEntries }}" hint-placeholder-val="{{ false }}">
-            <div style="text-align:center;padding:46px 20px;color:var(--soft)">
-              <div style="font-size:15px;font-weight:600;color:var(--muted)">Nog geen uren geboekt</div>
-              <div style="font-size:13.5px;line-height:1.6;margin-top:6px">Tik op de <b style="color:var(--navy)">+</b> rechtsonder om te starten.</div>
+            <div style="text-align:center;padding:40px 20px;color:var(--soft)">
+              <div style="font-size:15px;font-weight:600;color:var(--muted)">Geen uren in deze week</div>
+              <div style="font-size:13.5px;line-height:1.6;margin-top:6px">Tik op de <b style="color:var(--navy)">+</b> rechtsonder of kies een andere week.</div>
             </div>
           </sc-if>
         </div>
@@ -538,7 +550,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v81</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v82</div>
         </div>
       </sc-if>
 
@@ -789,10 +801,7 @@ window.__checkPendingBackup = function () {
           <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)">
             <button onClick="{{ closeSheet }}" style="background:none;border:none;color:var(--muted);font-size:14.5px;cursor:pointer;font-weight:500">Annuleer</button>
             <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">{{ noteSheetTitle }}</span>
-            <span style="display:flex;align-items:center;gap:12px">
-              <button id="noteChecklistBtn" onClick="{{ toolbarChecklist }}" aria-label="Checklist toevoegen" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:1px"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12l3 3 5-6"/></svg></button>
-              <button onClick="{{ saveNote }}" style="{{ saveNoteStyle }}">Opslaan</button>
-            </span>
+            <button onClick="{{ saveNote }}" style="{{ saveNoteStyle }}">Opslaan</button>
           </div>
         </div>
         <div style="padding:16px 18px 32px">
@@ -800,24 +809,7 @@ window.__checkPendingBackup = function () {
           <div style="background:var(--mist);border:1px solid var(--line);border-radius:14px;overflow:hidden">
             <input value="{{ nTitle }}" onChange="{{ setNTitle }}" placeholder="Onderwerp" style="width:100%;padding:14px 15px;border:none;background:transparent;font-size:16px;font-weight:600;color:var(--ink);outline:none;font-family:var(--body)"/>
             <div style="height:1px;background:var(--line);margin:0 15px"></div>
-            <div style="padding:8px 9px 10px">
-              <sc-for list="{{ noteBlocks }}" as="b" hint-placeholder-count="1">
-                <sc-if value="{{ b.isText }}" hint-placeholder-val="{{ true }}">
-                  <textarea id="{{ b.domId }}" value="{{ b.text }}" onChange="{{ b.onText }}" rows="{{ b.rows }}" placeholder="Notitie…" style="{{ b.inputStyle }};width:100%;padding:5px 6px;line-height:1.5;resize:none;display:block;box-sizing:border-box"></textarea>
-                </sc-if>
-                <sc-if value="{{ b.isCheck }}" hint-placeholder-val="{{ false }}">
-                  <div style="display:flex;align-items:flex-start;gap:9px;padding:3px 6px">
-                    <button onClick="{{ b.onToggle }}" style="{{ b.boxStyle }}"><sc-if value="{{ b.done }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></button>
-                    <input id="{{ b.domId }}" value="{{ b.text }}" onChange="{{ b.onText }}" placeholder="Afvinkpunt…" style="{{ b.inputStyle }}"/>
-                    <button onClick="{{ b.onRemove }}" aria-label="Verwijder" style="width:22px;height:22px;border-radius:6px;border:none;background:var(--mist);color:var(--muted);cursor:pointer;font-size:14px;line-height:1;flex:none;margin-top:2px">×</button>
-                  </div>
-                </sc-if>
-              </sc-for>
-            </div>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:10px">
-            <button onClick="{{ addCheckBlock }}" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px;border-radius:11px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:13.5px;font-weight:600;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12l3 3 5-6"/></svg>Checkbox</button>
-            <button onClick="{{ addTextBlock }}" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px;border-radius:11px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:13.5px;font-weight:600;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Tekst</button>
+            <textarea value="{{ nText }}" onChange="{{ setNText }}" rows="6" placeholder="Notitie…" style="width:100%;padding:12px 15px;border:none;background:transparent;font-size:14.5px;color:var(--ink);line-height:1.5;outline:none;resize:none;font-family:var(--body);display:block;box-sizing:border-box"></textarea>
           </div>
 
           <!-- Datum en tijd -->
@@ -1069,24 +1061,7 @@ class Component extends DCLogic {
     // Registreer als globale app-instantie voor share-target afhandeling
     window.__dcApp=this;
     setTimeout(function(){ if(window.__checkPendingBackup)window.__checkPendingBackup(); },800);
-    // ===== Notitie-editor: Enter zet checklist voort; checklist-knop in de kop =====
-    var isNoteInput=function(t){ return t&&t.id&&t.id.indexOf('nb-')===0; };
-    document.addEventListener('keydown',function(ev){
-      var t=ev.target; if(!isNoteInput(t))return;
-      if(ev.key==='Enter'||ev.keyCode===13){
-        if(t.tagName==='TEXTAREA')return; // tekstregel: normale Enter (nieuwe regel)
-        ev.preventDefault(); _self.noteCheckEnter(t.id.slice(3));
-      }
-    });
-    // onthoud welke notitieregel focus heeft (voor de checklist-knop in de kop)
-    document.addEventListener('focusin',function(ev){ if(isNoteInput(ev.target))window.__noteFocusedBlock=ev.target.id.slice(3); });
-    // de checklist-knop mag de focus NIET stelen, zodat het toetsenbord open blijft
-    document.addEventListener('pointerdown',function(ev){ var b=ev.target&&ev.target.closest&&ev.target.closest('#noteChecklistBtn'); if(b)ev.preventDefault(); },true);
   }
-  noteCheckEnter(bid){ var blocks=this.state.n_blocks||[]; var idx=-1; for(var i=0;i<blocks.length;i++){ if(blocks[i].id===bid){idx=i;break;} } if(idx<0)return; var cur=blocks[idx]; var self=this;
-    if((cur.text||'').trim()===''){ var nb=blocks.map(function(b,i){return i===idx?Object.assign({},b,{type:'text'}):b;}); this.setState({n_blocks:nb},function(){ var el=document.getElementById('nb-'+bid); if(el)el.focus(); }); }
-    else { var nid=this.uid('b'); var nb2=blocks.slice(0,idx+1).concat([{id:nid,type:'check',text:'',done:false}]).concat(blocks.slice(idx+1)); this.setState({n_blocks:nb2},function(){ var el=document.getElementById('nb-'+nid); if(el)el.focus(); }); } }
-  toolbarChecklist(){ var bid=window.__noteFocusedBlock; var blocks=this.state.n_blocks||[]; if(!bid){ this.addNoteBlock('check'); return; } var idx=-1; for(var i=0;i<blocks.length;i++){ if(blocks[i].id===bid){idx=i;break;} } if(idx<0){ this.addNoteBlock('check'); return; } var nt=blocks[idx].type==='check'?'text':'check'; var nb=blocks.map(function(b,i){return i===idx?Object.assign({},b,{type:nt}):b;}); this.setState({n_blocks:nb},function(){ var el=document.getElementById('nb-'+bid); if(el)el.focus(); }); }
   applyPendingBackup(){
     var text=window.__pendingBackup;
     if(!text)return;
@@ -1110,7 +1085,7 @@ class Component extends DCLogic {
     if(!data.notes)data.notes=[];
     if(!data.genCats)data.genCats=['Verlof','Vakantie','Vrije dag','Ziek','Feestdag'];
     const firstProj=(data.projects&&data.projects[0])?data.projects[0].id:'';
-    return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
+    return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,urenWeek:0,regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
@@ -1171,16 +1146,11 @@ class Component extends DCLogic {
   openEditGenCat(name){ this.setState({editingGenCat:name,editGenCatVal:name,newGenCat:''}); }
   cancelEditGenCat(){ this.setState({editingGenCat:'',editGenCatVal:''}); }
   saveEditGenCat(){ const s=this.state; const oldN=s.editingGenCat; const v=(s.editGenCatVal||'').trim(); if(!oldN)return; if(!v||v===oldN){ this.setState({editingGenCat:'',editGenCatVal:''}); return; } let genCats=(s.genCats||[]).map(c=>c===oldN?v:c); genCats=genCats.filter((c,i)=>genCats.indexOf(c)===i); const entries=s.entries.map(e=>(e.projectId===this.GEN&&e.activity===oldN)?Object.assign({},e,{activity:v}):e); const patch={genCats,entries,editingGenCat:'',editGenCatVal:''}; if(s.f_projectId===this.GEN&&s.f_activity===oldN)patch.f_activity=v; this.up(patch); }
-  // ===== Notities & checklists =====
-  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_reminderDate:'',n_reminderTime:'',n_blocks:[{id:this.uid('b'),type:'text',text:'',done:false}]}); }
-  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_reminderDate:n.reminderDate||'',n_reminderTime:n.reminderTime||'',n_blocks:this.blocksFromNote(n)}); }
-  blocksFromNote(n){ var self=this; if(n.blocks&&n.blocks.length){ return n.blocks.map(function(b){return {id:b.id||self.uid('b'),type:(b.type==='check'?'check':'text'),text:b.text||'',done:!!b.done};}); } var blocks=[]; if((n.text||'').trim())blocks.push({id:self.uid('b'),type:'text',text:n.text,done:false}); (n.items||[]).forEach(function(it){ blocks.push({id:it.id||self.uid('b'),type:'check',text:it.text||'',done:!!it.done}); }); if(!blocks.length)blocks=[{id:self.uid('b'),type:'text',text:'',done:false}]; return blocks; }
+  // ===== Notities =====
+  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_text:'',n_reminderDate:'',n_reminderTime:''}); }
+  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; var t=n.text||''; if(n.items&&n.items.length){ t+=(t?'\n':'')+n.items.map(function(it){return (it.done?'✓ ':'• ')+it.text;}).join('\n'); } this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_text:t,n_reminderDate:n.reminderDate||'',n_reminderTime:n.reminderTime||''}); }
   setNoteProject(pid){ this.setState({n_projectId:pid}); }
-  setBlockText(id,val){ this.setState({n_blocks:this.state.n_blocks.map(function(b){return b.id===id?Object.assign({},b,{text:val}):b;})}); }
-  toggleBlockDone(id){ this.setState({n_blocks:this.state.n_blocks.map(function(b){return b.id===id?Object.assign({},b,{done:!b.done}):b;})}); }
-  removeNoteBlock(id){ var bl=this.state.n_blocks.filter(function(b){return b.id!==id;}); if(!bl.length)bl=[{id:this.uid('b'),type:'text',text:'',done:false}]; this.setState({n_blocks:bl}); }
-  addNoteBlock(type){ var id=this.uid('b'); this.setState({n_blocks:(this.state.n_blocks||[]).concat([{id:id,type:type,text:'',done:false}])},function(){ var el=document.getElementById('nb-'+id); if(el)el.focus(); }); }
-  saveNote(){ var s=this.state; var title=(s.n_title||'').trim(); var blocks=(s.n_blocks||[]).filter(function(b){return (b.text||'').trim()!=='';}).map(function(b){return {id:b.id,type:b.type,text:b.text,done:!!b.done};}); var text=blocks.filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('\n').trim(); var items=blocks.filter(function(b){return b.type==='check';}).map(function(b){return {id:b.id,text:b.text,done:b.done};}); if(!title&&!text&&!items.length)return; var note={id:s.n_id||this.uid('n'),title:title||'Notitie',projectId:s.n_projectId||'',text:text,items:items,blocks:blocks,reminderDate:s.n_reminderDate||'',reminderTime:s.n_reminderTime||'',updatedAt:this.toISO(new Date())}; var notes; if(s.n_id){ notes=s.notes.map(function(n){return n.id===s.n_id?note:n;}); } else { notes=[note].concat(s.notes); } this.scheduleReminders(notes); this.up({notes:notes,sheet:null}); }
+  saveNote(){ var s=this.state; var title=(s.n_title||'').trim(); var text=(s.n_text||'').trim(); if(!title&&!text)return; var note={id:s.n_id||this.uid('n'),title:title||'Notitie',projectId:s.n_projectId||'',text:text,items:[],reminderDate:s.n_reminderDate||'',reminderTime:s.n_reminderTime||'',updatedAt:this.toISO(new Date())}; var notes; if(s.n_id){ notes=s.notes.map(function(n){return n.id===s.n_id?note:n;}); } else { notes=[note].concat(s.notes); } this.scheduleReminders(notes); this.up({notes:notes,sheet:null}); }
   scheduleReminders(notesList){ var self=this; var list=notesList||(self.state.notes||[]); if(!window.Notification)return; if(Notification.permission==='default')Notification.requestPermission(); list.forEach(function(n){ if(!n.reminderDate||!n.reminderTime)return; var dt=new Date(n.reminderDate+'T'+n.reminderTime+':00'); var ms=dt-Date.now(); if(ms>0&&ms<48*3600*1000){ setTimeout(function(){ if(Notification.permission==='granted'){ try{ new Notification('ABECO Herinnering',{body:n.title||'Notitie',icon:'icons/icon-192.png'}); }catch(e){} } },ms); } }); }
   deleteNote(){ var s=this.state; if(!s.n_id)return; this.up({notes:s.notes.filter(function(n){return n.id!==s.n_id;}),sheet:null}); }
   toggleNDate(){ const s=this.state; if(s.n_reminderDate){ this.setState({n_reminderDate:'',n_reminderTime:''}); } else { this.setState({n_reminderDate:this.toISO(new Date())}); } }
@@ -1307,6 +1277,9 @@ class Component extends DCLogic {
   }
   setOmode(v){ this.setState({omode:v}); }
   setCompany(k,v){ this.up({company:Object.assign({},this.state.company,{[k]:v})}); }
+  prevUrenWeek(){ this.setState(st=>({urenWeek:st.urenWeek-1})); }
+  nextUrenWeek(){ this.setState(st=>({urenWeek:st.urenWeek+1})); }
+  exportUrenWeek(){ var mon=this.getMonday(this.addDays(new Date(),this.state.urenWeek*7)); this.printOverviewWeek(this.toISO(mon)); }
   prevWeek(){ this.setState(st=>({weekOffset:st.weekOffset-1})); }
   nextWeek(){ this.setState(st=>({weekOffset:st.weekOffset+1})); }
   incWeeks(){ this.setState(st=>({weeks:Math.min(4,st.weeks+1)})); }
@@ -1522,8 +1495,14 @@ class Component extends DCLogic {
     const soS=s.settingsOpen||{}; const chevS=(open)=>'transition:transform .2s ease;transform:rotate('+(open?'180':'0')+'deg)';
     const actChip=(sel)=>'display:inline-flex;align-items:center;gap:7px;padding:8px 9px 8px 13px;border-radius:999px;background:'+(sel?C.paper:C.mist)+';border:'+(sel?'1.5px solid '+C.navy:'1px solid '+C.line)+';font-size:13.5px;font-weight:500;color:'+C.ink;
     const mine=s.entries;
-    const byDate={}; mine.forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
+    const urenMon=this.getMonday(this.addDays(new Date(),(s.urenWeek||0)*7));
+    const urenDateSet={}; for(let i=0;i<7;i++)urenDateSet[this.toISO(this.addDays(urenMon,i))]=1;
+    const weekMine=mine.filter(e=>urenDateSet[e.date]);
+    const byDate={}; weekMine.forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
     const dayGroups=Object.keys(byDate).sort().reverse().map(date=>{ const list=byDate[date]; const total=list.reduce((a,e)=>a+e.hours,0); return {label:this.dayLabel(date),totalLabel:this.fmt(total),entries:list.map(e=>({projectName:this.projName(e.projectId),sub:(e.note?e.activity+' · '+e.note:e.activity),hoursLabel:this.fmt(e.hours),frontStyle:this.entryFront(s.openSwipe===e.id),onTap:()=>this.rowTap(e.id,()=>this.openEdit(e)),onSwipe:(ev)=>this.swipeStart(ev,e.id,120),onEdit:()=>this.openEdit(e),onDelete:()=>this.deleteById(e.id)}))}; });
+    const urenWeekTotal=weekMine.reduce((a,e)=>a+e.hours,0);
+    const urenWeekEnd=this.addDays(urenMon,6);
+    const urenWeekRange=urenMon.getDate()+(urenMon.getMonth()===urenWeekEnd.getMonth()?'':(' '+this.MS[urenMon.getMonth()]))+'–'+urenWeekEnd.getDate()+' '+this.MS[urenWeekEnd.getMonth()]+' '+urenWeekEnd.getFullYear();
     const t=this.toISO(new Date());
     const todayTotal=mine.filter(e=>e.date===t).reduce((a,e)=>a+e.hours,0);
     const curMon=this.getMonday(new Date()); const curDates=[]; for(let i=0;i<7;i++)curDates.push(this.toISO(this.addDays(curMon,i)));
@@ -1541,7 +1520,6 @@ class Component extends DCLogic {
     const notesByProj={}; (s.notes||[]).forEach(n=>{ const pid=n.projectId||''; (notesByProj[pid]=notesByProj[pid]||[]).push(n); });
     const sortNotes=arr=>arr.slice().sort((a,b)=>(a.updatedAt||'')<(b.updatedAt||'')?1:(a.updatedAt||'')>(b.updatedAt||'')?-1:0);
     const noteGroups=[]; s.projects.forEach(p=>{ const list=sortNotes(notesByProj[p.id]||[]); if(list.length)noteGroups.push({label:p.name,notes:list.map(noteMap)}); }); const unlinked=sortNotes(notesByProj['']||[]); if(unlinked.length)noteGroups.push({label:'Algemeen',notes:unlinked.map(noteMap)});
-    const noteBlocks=(s.n_blocks||[]).map(b=>({id:b.id,isText:b.type==='text',isCheck:b.type==='check',text:b.text,done:b.done,domId:'nb-'+b.id,rows:Math.max(2,((b.text||'').match(/\n/g)||[]).length+2),onText:e=>this.setBlockText(b.id,ev(e)),onToggle:()=>this.toggleBlockDone(b.id),onRemove:()=>this.removeNoteBlock(b.id),boxStyle:b.done?'width:23px;height:23px;border-radius:7px;border:none;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px':'width:23px;height:23px;border-radius:7px;border:1.5px solid #c4ccd6;background:var(--paper);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px',inputStyle:(b.done?'color:var(--soft);text-decoration:line-through':'color:var(--ink)')+';flex:1;min-width:0;font-size:15px;border:none;background:transparent;outline:none;font-family:var(--body);padding:3px 0'}));
     const noteProjChips=[{label:'Algemeen',sel:!s.n_projectId,onTap:()=>this.setNoteProject(''),style:this.chipStyle(!s.n_projectId)}].concat(s.projects.map(p=>({label:p.name,sel:s.n_projectId===p.id,onTap:()=>this.setNoteProject(p.id),style:this.chipStyle(s.n_projectId===p.id)})));
     // overview (mine only)
     const grandTotal=mine.reduce((a,e)=>a+e.hours,0);
@@ -1590,12 +1568,12 @@ class Component extends DCLogic {
       tabUrenStyle:this.tabStyle(s.tab==='uren'), tabProjStyle:this.tabStyle(s.tab==='projecten'), tabOverStyle:this.tabStyle(s.tab==='overzicht'), tabWeekStyle:this.tabStyle(s.tab==='weekstaat'), tabNotesStyle:this.tabStyle(s.tab==='notities'),
       noteGroups, hasNotes:(s.notes||[]).length>0, noNotes:(s.notes||[]).length===0, openNewNote:()=>this.openNewNote(),
       isSheetNote:s.sheet==='note', noteSheetTitle:s.n_id?'Notitie bewerken':'Nieuwe notitie', isNoteEditing:!!s.n_id,
-      nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}),
-      noteBlocks, addTextBlock:()=>this.addNoteBlock('text'), addCheckBlock:()=>this.addNoteBlock('check'), toolbarChecklist:()=>this.toolbarChecklist(), noteProjChips,
+      nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}), nText:s.n_text, setNText:e=>this.setState({n_text:ev(e)}), noteProjChips,
       nReminderDate:s.n_reminderDate, setNReminderDate:e=>this.setState({n_reminderDate:ev(e)}), nReminderTime:s.n_reminderTime, setNReminderTime:e=>this.setState({n_reminderTime:ev(e)}), showReminderHint:!!(s.n_reminderDate&&s.n_reminderTime),
       nDateOn:!!s.n_reminderDate, nTimeOn:!!s.n_reminderTime, toggleNDate:()=>this.toggleNDate(), toggleNTime:()=>this.toggleNTime(), nDateToggleStyle:this.toggleTrack(!!s.n_reminderDate), nDateKnobStyle:this.toggleKnob(!!s.n_reminderDate), nTimeToggleStyle:this.toggleTrack(!!s.n_reminderTime), nTimeKnobStyle:this.toggleKnob(!!s.n_reminderTime),
-      saveNote:()=>this.saveNote(), saveNoteStyle:this.primStyle(!!((s.n_title||'').trim()||(s.n_blocks||[]).some(b=>(b.text||'').trim()))), deleteNote:()=>this.deleteNote(),
+      saveNote:()=>this.saveNote(), saveNoteStyle:this.primStyle(!!((s.n_title||'').trim()||(s.n_text||'').trim())), deleteNote:()=>this.deleteNote(),
       todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),
+      urenWeekLabel:'Week '+this.isoWeek(urenMon), urenWeekRange, urenWeekTotal:this.fmt(urenWeekTotal), prevUrenWeek:()=>this.prevUrenWeek(), nextUrenWeek:()=>this.nextUrenWeek(), exportUrenWeek:()=>this.exportUrenWeek(), hasWeekEntries:weekMine.length>0,
       openAdd:()=>this.openAdd(), fabAction:()=>this.fabAction(), fabLabel:(s.tab==='projecten'?'Nieuw project':(s.tab==='notities'?'Nieuwe notitie':'Uren toevoegen')), showFab:(s.tab==='uren'||s.tab==='projecten'||s.tab==='notities'), undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(),
       dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(),

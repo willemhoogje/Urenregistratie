@@ -167,7 +167,10 @@ window.__checkPendingBackup = function () {
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px">
             <div style="background:var(--navy);border-radius:18px;padding:15px 16px;color:#fff">
               <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)">Deze week</div>
-              <div style="font-family:var(--disp);font-size:32px;font-weight:600;line-height:1;margin-top:10px">{{ weekTotal }}<span style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-left:4px">uur</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px">
+                <div style="font-family:var(--disp);font-size:32px;font-weight:600;line-height:1">{{ urenWeekTotal }}<span style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-left:4px">uur</span></div>
+                <button onClick="{{ exportUrenWeek }}" aria-label="PDF van deze week" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.16);border:none;cursor:pointer;flex:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
+              </div>
             </div>
             <div style="background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:15px 16px">
               <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">Vandaag</div>
@@ -175,16 +178,10 @@ window.__checkPendingBackup = function () {
             </div>
           </div>
 
-          <div style="margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden">
-            <div style="display:flex;align-items:center;gap:9px;padding:8px 10px">
-              <button onClick="{{ prevUrenWeek }}" aria-label="Vorige week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5l-6 6 6 6"/></svg></button>
-              <div style="flex:1;text-align:center"><div style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ urenWeekLabel }}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">{{ urenWeekRange }}</div></div>
-              <button onClick="{{ nextUrenWeek }}" aria-label="Volgende week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-top:1px solid var(--line)">
-              <span style="font-size:13px;color:var(--muted)"><b style="font-family:var(--disp);font-size:16px;color:var(--ink)">{{ urenWeekTotal }}</b> uur deze week</span>
-              <button onClick="{{ exportUrenWeek }}" aria-label="PDF van deze week" style="display:flex;align-items:center;gap:7px;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:9px 13px;font-size:13px;font-weight:600;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>PDF</button>
-            </div>
+          <div style="margin-top:14px;display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:8px 10px">
+            <button onClick="{{ prevUrenWeek }}" aria-label="Vorige week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5l-6 6 6 6"/></svg></button>
+            <div style="flex:1;text-align:center"><div style="font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)">{{ urenWeekLabel }}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">{{ urenWeekRange }}</div></div>
+            <button onClick="{{ nextUrenWeek }}" aria-label="Volgende week" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--mist);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="8" height="14" viewBox="0 0 9 15" fill="none" stroke="#1c2a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
           </div>
 
           <sc-if value="{{ hasEntries }}" hint-placeholder-val="{{ true }}">
@@ -550,7 +547,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v82</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v83</div>
         </div>
       </sc-if>
 

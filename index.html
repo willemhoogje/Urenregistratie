@@ -682,7 +682,24 @@ window.__checkPendingBackup = function () {
           <div style="background:var(--mist);border:1px solid var(--line);border-radius:14px;overflow:hidden">
             <input value="{{ nTitle }}" onChange="{{ setNTitle }}" placeholder="Onderwerp" style="width:100%;padding:14px 15px;border:none;background:transparent;font-size:16px;font-weight:600;color:var(--ink);outline:none;font-family:var(--body)"/>
             <div style="height:1px;background:var(--line);margin:0 15px"></div>
-            <textarea value="{{ nText }}" onChange="{{ setNText }}" rows="3" placeholder="Notities" style="width:100%;padding:12px 15px;border:none;background:transparent;font-size:14.5px;color:var(--ink);line-height:1.5;outline:none;resize:none;font-family:var(--body);display:block;box-sizing:border-box"></textarea>
+            <div style="padding:8px 9px 10px">
+              <sc-for list="{{ noteBlocks }}" as="b" hint-placeholder-count="1">
+                <sc-if value="{{ b.isText }}" hint-placeholder-val="{{ true }}">
+                  <textarea id="{{ b.domId }}" value="{{ b.text }}" onChange="{{ b.onText }}" rows="{{ b.rows }}" placeholder="Notitie…" style="{{ b.inputStyle }};width:100%;padding:5px 6px;line-height:1.5;resize:none;display:block;box-sizing:border-box"></textarea>
+                </sc-if>
+                <sc-if value="{{ b.isCheck }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:flex-start;gap:9px;padding:3px 6px">
+                    <button onClick="{{ b.onToggle }}" style="{{ b.boxStyle }}"><sc-if value="{{ b.done }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></button>
+                    <input id="{{ b.domId }}" value="{{ b.text }}" onChange="{{ b.onText }}" placeholder="Afvinkpunt…" style="{{ b.inputStyle }}"/>
+                    <button onClick="{{ b.onRemove }}" aria-label="Verwijder" style="width:22px;height:22px;border-radius:6px;border:none;background:var(--mist);color:var(--muted);cursor:pointer;font-size:14px;line-height:1;flex:none;margin-top:2px">×</button>
+                  </div>
+                </sc-if>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button onClick="{{ addCheckBlock }}" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px;border-radius:11px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:13.5px;font-weight:600;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12l3 3 5-6"/></svg>Checkbox</button>
+            <button onClick="{{ addTextBlock }}" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px;border-radius:11px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:13.5px;font-weight:600;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Tekst</button>
           </div>
 
           <!-- Datum en tijd -->
@@ -708,28 +725,6 @@ window.__checkPendingBackup = function () {
           </div>
           <sc-if value="{{ showReminderHint }}" hint-placeholder-val="{{ false }}"><p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:7px 4px 0">Je ontvangt een melding op {{ nReminderDate }} om {{ nReminderTime }} als de app open staat.</p></sc-if>
 
-          <!-- Checkboxes (optioneel) -->
-          <sc-if value="{{ noteCheckVisible }}" hint-placeholder-val="{{ false }}">
-            <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px">Checklist</div>
-            <sc-if value="{{ hasNoteItems }}" hint-placeholder-val="{{ true }}">
-              <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
-                <sc-for list="{{ noteItems }}" as="it" hint-placeholder-count="2">
-                  <div style="display:flex;align-items:center;gap:11px">
-                    <button onClick="{{ it.onToggle }}" style="{{ it.boxStyle }}"><sc-if value="{{ it.done }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></button>
-                    <span style="{{ it.textStyle }}">{{ it.text }}</span>
-                    <button onClick="{{ it.onRemove }}" aria-label="Verwijder" style="width:26px;height:26px;border-radius:7px;border:none;background:var(--mist);color:var(--muted);cursor:pointer;font-size:15px;line-height:1;flex:none">×</button>
-                  </div>
-                </sc-for>
-              </div>
-            </sc-if>
-            <div style="display:flex;gap:8px">
-              <input id="noteItemInput" value="{{ nNewItem }}" onChange="{{ setNNewItem }}" placeholder="Afvinkpunt toevoegen" style="flex:1;padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
-              <button onClick="{{ addNoteItem }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
-            </div>
-          </sc-if>
-          <sc-if value="{{ noteCheckHidden }}" hint-placeholder-val="{{ true }}">
-            <button onClick="{{ showNoteCheck }}" style="width:100%;margin-top:20px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:12px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:14px;font-weight:600;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12l3 3 5-6"/></svg>Checkboxes toevoegen</button>
-          </sc-if>
 
           <!-- Koppel aan project -->
           <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px">Koppel aan project <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></div>
@@ -927,7 +922,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v78</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v79</div>
         </div>
       </div>
     </sc-if>
@@ -1097,7 +1092,7 @@ class Component extends DCLogic {
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',newGenCat:'',settingsOpen:{},
-      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false,rh_worker:'',rh_date:'',rh_val:''},data);
+      rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false,n_blocks:[],rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
     return {
@@ -1152,14 +1147,15 @@ class Component extends DCLogic {
   addGenCat(){ const s=this.state; const v=(s.newGenCat||'').trim(); if(!v||(s.genCats||[]).indexOf(v)>=0)return; this.up({genCats:(s.genCats||[]).concat([v]),newGenCat:''}); }
   removeGenCat(name){ const s=this.state; this.up({genCats:(s.genCats||[]).filter(c=>c!==name)}); }
   // ===== Notities & checklists =====
-  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false}); }
-  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_text:n.text||'',n_items:(n.items||[]).map(function(it){return {id:it.id,text:it.text,done:!!it.done};}),n_newItem:'',n_reminderDate:n.reminderDate||'',n_reminderTime:n.reminderTime||'',n_showCheck:false}); }
-  showNoteCheck(){ this.setState({n_showCheck:true},function(){ var inp=document.getElementById('noteItemInput'); if(inp)inp.focus(); }); }
+  openNewNote(){ this.setState({sheet:'note',n_id:null,n_title:'',n_projectId:'',n_reminderDate:'',n_reminderTime:'',n_blocks:[{id:this.uid('b'),type:'text',text:'',done:false}]}); }
+  openEditNote(id){ var n=(this.state.notes||[]).find(function(x){return x.id===id;}); if(!n)return; this.setState({sheet:'note',n_id:id,n_title:n.title||'',n_projectId:n.projectId||'',n_reminderDate:n.reminderDate||'',n_reminderTime:n.reminderTime||'',n_blocks:this.blocksFromNote(n)}); }
+  blocksFromNote(n){ var self=this; if(n.blocks&&n.blocks.length){ return n.blocks.map(function(b){return {id:b.id||self.uid('b'),type:(b.type==='check'?'check':'text'),text:b.text||'',done:!!b.done};}); } var blocks=[]; if((n.text||'').trim())blocks.push({id:self.uid('b'),type:'text',text:n.text,done:false}); (n.items||[]).forEach(function(it){ blocks.push({id:it.id||self.uid('b'),type:'check',text:it.text||'',done:!!it.done}); }); if(!blocks.length)blocks=[{id:self.uid('b'),type:'text',text:'',done:false}]; return blocks; }
   setNoteProject(pid){ this.setState({n_projectId:pid}); }
-  addNoteItem(){ var v=(this.state.n_newItem||'').trim(); if(!v)return; this.setState({n_items:this.state.n_items.concat([{id:this.uid('ni'),text:v,done:false}]),n_newItem:''},function(){ var inp=document.getElementById('noteItemInput'); if(inp)inp.focus(); }); }
-  toggleNoteItem(id){ this.setState({n_items:this.state.n_items.map(function(it){return it.id===id?{id:it.id,text:it.text,done:!it.done}:it;})}); }
-  removeNoteItem(id){ this.setState({n_items:this.state.n_items.filter(function(it){return it.id!==id;})}); }
-  saveNote(){ var s=this.state; var title=(s.n_title||'').trim(); if(!title&&!(s.n_text||'').trim()&&!s.n_items.length)return; var note={id:s.n_id||this.uid('n'),title:title||'Notitie',projectId:s.n_projectId||'',text:s.n_text||'',items:s.n_items,reminderDate:s.n_reminderDate||'',reminderTime:s.n_reminderTime||'',updatedAt:this.toISO(new Date())}; var notes; if(s.n_id){ notes=s.notes.map(function(n){return n.id===s.n_id?note:n;}); } else { notes=[note].concat(s.notes); } this.scheduleReminders(notes); this.up({notes:notes,sheet:null}); }
+  setBlockText(id,val){ this.setState({n_blocks:this.state.n_blocks.map(function(b){return b.id===id?Object.assign({},b,{text:val}):b;})}); }
+  toggleBlockDone(id){ this.setState({n_blocks:this.state.n_blocks.map(function(b){return b.id===id?Object.assign({},b,{done:!b.done}):b;})}); }
+  removeNoteBlock(id){ var bl=this.state.n_blocks.filter(function(b){return b.id!==id;}); if(!bl.length)bl=[{id:this.uid('b'),type:'text',text:'',done:false}]; this.setState({n_blocks:bl}); }
+  addNoteBlock(type){ var id=this.uid('b'); this.setState({n_blocks:(this.state.n_blocks||[]).concat([{id:id,type:type,text:'',done:false}])},function(){ var el=document.getElementById('nb-'+id); if(el)el.focus(); }); }
+  saveNote(){ var s=this.state; var title=(s.n_title||'').trim(); var blocks=(s.n_blocks||[]).filter(function(b){return (b.text||'').trim()!=='';}).map(function(b){return {id:b.id,type:b.type,text:b.text,done:!!b.done};}); var text=blocks.filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('\n').trim(); var items=blocks.filter(function(b){return b.type==='check';}).map(function(b){return {id:b.id,text:b.text,done:b.done};}); if(!title&&!text&&!items.length)return; var note={id:s.n_id||this.uid('n'),title:title||'Notitie',projectId:s.n_projectId||'',text:text,items:items,blocks:blocks,reminderDate:s.n_reminderDate||'',reminderTime:s.n_reminderTime||'',updatedAt:this.toISO(new Date())}; var notes; if(s.n_id){ notes=s.notes.map(function(n){return n.id===s.n_id?note:n;}); } else { notes=[note].concat(s.notes); } this.scheduleReminders(notes); this.up({notes:notes,sheet:null}); }
   scheduleReminders(notesList){ var self=this; var list=notesList||(self.state.notes||[]); if(!window.Notification)return; if(Notification.permission==='default')Notification.requestPermission(); list.forEach(function(n){ if(!n.reminderDate||!n.reminderTime)return; var dt=new Date(n.reminderDate+'T'+n.reminderTime+':00'); var ms=dt-Date.now(); if(ms>0&&ms<48*3600*1000){ setTimeout(function(){ if(Notification.permission==='granted'){ try{ new Notification('ABECO Herinnering',{body:n.title||'Notitie',icon:'icons/icon-192.png'}); }catch(e){} } },ms); } }); }
   deleteNote(){ var s=this.state; if(!s.n_id)return; this.up({notes:s.notes.filter(function(n){return n.id!==s.n_id;}),sheet:null}); }
   toggleNDate(){ const s=this.state; if(s.n_reminderDate){ this.setState({n_reminderDate:'',n_reminderTime:''}); } else { this.setState({n_reminderDate:this.toISO(new Date())}); } }
@@ -1519,7 +1515,7 @@ class Component extends DCLogic {
     const notesByProj={}; (s.notes||[]).forEach(n=>{ const pid=n.projectId||''; (notesByProj[pid]=notesByProj[pid]||[]).push(n); });
     const sortNotes=arr=>arr.slice().sort((a,b)=>(a.updatedAt||'')<(b.updatedAt||'')?1:(a.updatedAt||'')>(b.updatedAt||'')?-1:0);
     const noteGroups=[]; s.projects.forEach(p=>{ const list=sortNotes(notesByProj[p.id]||[]); if(list.length)noteGroups.push({label:p.name,notes:list.map(noteMap)}); }); const unlinked=sortNotes(notesByProj['']||[]); if(unlinked.length)noteGroups.push({label:'Algemeen',notes:unlinked.map(noteMap)});
-    const noteItems=(s.n_items||[]).map(it=>({id:it.id,text:it.text,done:it.done,onToggle:()=>this.toggleNoteItem(it.id),onRemove:()=>this.removeNoteItem(it.id),boxStyle:it.done?'width:24px;height:24px;border-radius:7px;border:none;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none':'width:24px;height:24px;border-radius:7px;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;flex:none',textStyle:it.done?'flex:1;min-width:0;font-size:14px;color:var(--soft);text-decoration:line-through':'flex:1;min-width:0;font-size:14px;color:var(--ink)'}));
+    const noteBlocks=(s.n_blocks||[]).map(b=>({id:b.id,isText:b.type==='text',isCheck:b.type==='check',text:b.text,done:b.done,domId:'nb-'+b.id,rows:Math.max(2,((b.text||'').match(/\n/g)||[]).length+2),onText:e=>this.setBlockText(b.id,ev(e)),onToggle:()=>this.toggleBlockDone(b.id),onRemove:()=>this.removeNoteBlock(b.id),boxStyle:b.done?'width:23px;height:23px;border-radius:7px;border:none;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px':'width:23px;height:23px;border-radius:7px;border:1.5px solid #c4ccd6;background:var(--paper);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px',inputStyle:(b.done?'color:var(--soft);text-decoration:line-through':'color:var(--ink)')+';flex:1;min-width:0;font-size:15px;border:none;background:transparent;outline:none;font-family:var(--body);padding:3px 0'}));
     const noteProjChips=[{label:'Algemeen',sel:!s.n_projectId,onTap:()=>this.setNoteProject(''),style:this.chipStyle(!s.n_projectId)}].concat(s.projects.map(p=>({label:p.name,sel:s.n_projectId===p.id,onTap:()=>this.setNoteProject(p.id),style:this.chipStyle(s.n_projectId===p.id)})));
     // overview (mine only)
     const grandTotal=mine.reduce((a,e)=>a+e.hours,0);
@@ -1569,12 +1565,11 @@ class Component extends DCLogic {
       tabUrenStyle:this.tabStyle(s.tab==='uren'), tabProjStyle:this.tabStyle(s.tab==='projecten'), tabOverStyle:this.tabStyle(s.tab==='overzicht'), tabWeekStyle:this.tabStyle(s.tab==='weekstaat'), tabNotesStyle:this.tabStyle(s.tab==='notities'),
       noteGroups, hasNotes:(s.notes||[]).length>0, noNotes:(s.notes||[]).length===0, openNewNote:()=>this.openNewNote(),
       isSheetNote:s.sheet==='note', noteSheetTitle:s.n_id?'Notitie bewerken':'Nieuwe notitie', isNoteEditing:!!s.n_id,
-      nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}), nText:s.n_text, setNText:e=>this.setState({n_text:ev(e)}),
-      nNewItem:s.n_newItem, setNNewItem:e=>this.setState({n_newItem:ev(e)}), addNoteItem:()=>this.addNoteItem(),
+      nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}),
+      noteBlocks, addTextBlock:()=>this.addNoteBlock('text'), addCheckBlock:()=>this.addNoteBlock('check'), noteProjChips,
       nReminderDate:s.n_reminderDate, setNReminderDate:e=>this.setState({n_reminderDate:ev(e)}), nReminderTime:s.n_reminderTime, setNReminderTime:e=>this.setState({n_reminderTime:ev(e)}), showReminderHint:!!(s.n_reminderDate&&s.n_reminderTime),
       nDateOn:!!s.n_reminderDate, nTimeOn:!!s.n_reminderTime, toggleNDate:()=>this.toggleNDate(), toggleNTime:()=>this.toggleNTime(), nDateToggleStyle:this.toggleTrack(!!s.n_reminderDate), nDateKnobStyle:this.toggleKnob(!!s.n_reminderDate), nTimeToggleStyle:this.toggleTrack(!!s.n_reminderTime), nTimeKnobStyle:this.toggleKnob(!!s.n_reminderTime),
-      noteItems, hasNoteItems:(s.n_items||[]).length>0, noteProjChips, noteCheckVisible:((s.n_items||[]).length>0||!!s.n_showCheck), noteCheckHidden:!((s.n_items||[]).length>0||!!s.n_showCheck), showNoteCheck:()=>this.showNoteCheck(),
-      saveNote:()=>this.saveNote(), saveNoteStyle:this.primStyle(!!((s.n_title||'').trim()||(s.n_text||'').trim()||(s.n_items||[]).length)), deleteNote:()=>this.deleteNote(),
+      saveNote:()=>this.saveNote(), saveNoteStyle:this.primStyle(!!((s.n_title||'').trim()||(s.n_blocks||[]).some(b=>(b.text||'').trim()))), deleteNote:()=>this.deleteNote(),
       todayLong:this.todayLong(), weekTotal:this.fmt(weekTotal), todayTotal:this.fmt(todayTotal),
       openAdd:()=>this.openAdd(), fabAction:()=>this.fabAction(), fabLabel:(s.tab==='projecten'?'Nieuw project':(s.tab==='notities'?'Nieuwe notitie':'Uren toevoegen')), showFab:(s.tab==='uren'||s.tab==='projecten'||s.tab==='notities'), undoLabel:s.undoLabel, hasUndo:!!s.undoLabel, undo:()=>this.undo(),
       dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,

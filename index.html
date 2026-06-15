@@ -445,22 +445,18 @@ window.__checkPendingBackup = function () {
                 <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:0 2px 10px">Voor projecturen. Tik op een activiteit om de naam te wijzigen.</p>
                 <div style="display:flex;flex-wrap:wrap;gap:8px">
                   <sc-for list="{{ activitiesList }}" as="a" hint-placeholder-count="4">
-                    <span style="{{ a.chipStyle }}"><button onClick="{{ a.onEdit }}" style="background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer">{{ a.name }}</button><button onClick="{{ a.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
+                    <sc-if value="{{ a.editing }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 5px 4px 11px;border-radius:999px;background:var(--paper);border:1.5px solid var(--navy)"><input id="actEditInput" value="{{ editActVal }}" onChange="{{ setEditActVal }}" style="border:none;background:transparent;outline:none;font-size:13.5px;font-weight:500;color:var(--ink);width:110px;font-family:var(--body);padding:0"/><button onClick="{{ saveEditActivity }}" aria-label="Opslaan" style="width:22px;height:22px;border-radius:50%;border:none;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></button><button onClick="{{ cancelEditActivity }}" aria-label="Annuleer" style="width:22px;height:22px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex:none">×</button></span>
+                    </sc-if>
+                    <sc-if value="{{ a.notEditing }}" hint-placeholder-val="{{ true }}">
+                      <span style="{{ a.chipStyle }}"><button onClick="{{ a.onEdit }}" style="background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer">{{ a.name }}</button><button onClick="{{ a.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
+                    </sc-if>
                   </sc-for>
                 </div>
-                <sc-if value="{{ isEditingAct }}" hint-placeholder-val="{{ false }}">
-                  <div style="display:flex;gap:8px;margin-top:11px">
-                    <input value="{{ editActVal }}" onChange="{{ setEditActVal }}" placeholder="Activiteit wijzigen" style="flex:1;padding:11px 13px;border:1.5px solid var(--navy);border-radius:11px;font-size:14px;background:var(--paper);color:var(--ink)"/>
-                    <button onClick="{{ saveEditActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 15px;font-size:14px;font-weight:600;cursor:pointer">Opslaan</button>
-                    <button onClick="{{ cancelEditActivity }}" aria-label="Annuleer" style="background:var(--mist);color:var(--muted);border:1px solid var(--line);border-radius:11px;padding:0 14px;font-size:16px;font-weight:600;cursor:pointer">×</button>
-                  </div>
-                </sc-if>
-                <sc-if value="{{ notEditingAct }}" hint-placeholder-val="{{ true }}">
-                  <div style="display:flex;gap:8px;margin-top:11px">
-                    <input value="{{ newActName }}" onChange="{{ setNewAct }}" placeholder="Nieuwe activiteit" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
-                    <button onClick="{{ addActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
-                  </div>
-                </sc-if>
+                <div style="display:flex;gap:8px;margin-top:11px">
+                  <input value="{{ newActName }}" onChange="{{ setNewAct }}" placeholder="Nieuwe activiteit" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+                  <button onClick="{{ addActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
+                </div>
               </div>
             </sc-if>
           </div>
@@ -473,22 +469,18 @@ window.__checkPendingBackup = function () {
                 <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:0 2px 10px">Voor algemene, niet-projectgebonden uren. Tik op een categorie om de naam te wijzigen.</p>
                 <div style="display:flex;flex-wrap:wrap;gap:8px">
                   <sc-for list="{{ genCatChips }}" as="c" hint-placeholder-count="3">
-                    <span style="{{ c.chipStyle }}"><button onClick="{{ c.onEdit }}" style="background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer">{{ c.name }}</button><button onClick="{{ c.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
+                    <sc-if value="{{ c.editing }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 5px 4px 11px;border-radius:999px;background:var(--paper);border:1.5px solid var(--navy)"><input id="catEditInput" value="{{ editGenCatVal }}" onChange="{{ setEditGenCatVal }}" style="border:none;background:transparent;outline:none;font-size:13.5px;font-weight:500;color:var(--ink);width:110px;font-family:var(--body);padding:0"/><button onClick="{{ saveEditGenCat }}" aria-label="Opslaan" style="width:22px;height:22px;border-radius:50%;border:none;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></button><button onClick="{{ cancelEditGenCat }}" aria-label="Annuleer" style="width:22px;height:22px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex:none">×</button></span>
+                    </sc-if>
+                    <sc-if value="{{ c.notEditing }}" hint-placeholder-val="{{ true }}">
+                      <span style="{{ c.chipStyle }}"><button onClick="{{ c.onEdit }}" style="background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer">{{ c.name }}</button><button onClick="{{ c.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
+                    </sc-if>
                   </sc-for>
                 </div>
-                <sc-if value="{{ isEditingGenCat }}" hint-placeholder-val="{{ false }}">
-                  <div style="display:flex;gap:8px;margin-top:11px">
-                    <input value="{{ editGenCatVal }}" onChange="{{ setEditGenCatVal }}" placeholder="Categorie wijzigen" style="flex:1;padding:11px 13px;border:1.5px solid var(--navy);border-radius:11px;font-size:14px;background:var(--paper);color:var(--ink)"/>
-                    <button onClick="{{ saveEditGenCat }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 15px;font-size:14px;font-weight:600;cursor:pointer">Opslaan</button>
-                    <button onClick="{{ cancelEditGenCat }}" aria-label="Annuleer" style="background:var(--mist);color:var(--muted);border:1px solid var(--line);border-radius:11px;padding:0 14px;font-size:16px;font-weight:600;cursor:pointer">×</button>
-                  </div>
-                </sc-if>
-                <sc-if value="{{ notEditingGenCat }}" hint-placeholder-val="{{ true }}">
-                  <div style="display:flex;gap:8px;margin-top:11px">
-                    <input value="{{ newGenCat }}" onChange="{{ setNewGenCat }}" placeholder="Nieuwe categorie" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
-                    <button onClick="{{ addGenCat }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
-                  </div>
-                </sc-if>
+                <div style="display:flex;gap:8px;margin-top:11px">
+                  <input value="{{ newGenCat }}" onChange="{{ setNewGenCat }}" placeholder="Nieuwe categorie" style="flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
+                  <button onClick="{{ addGenCat }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
+                </div>
               </div>
             </sc-if>
           </div>
@@ -526,7 +518,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v92</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v93</div>
         </div>
       </sc-if>
 
@@ -1133,7 +1125,7 @@ class Component extends DCLogic {
   openGeneralDetail(){ this.setState({sheet:'genDetail',openSwipe:'',newGenCat:''}); }
   addGenCat(){ const s=this.state; const v=(s.newGenCat||'').trim(); if(!v||(s.genCats||[]).indexOf(v)>=0)return; this.up({genCats:(s.genCats||[]).concat([v]),newGenCat:''}); }
   removeGenCat(name){ const s=this.state; const patch={genCats:(s.genCats||[]).filter(c=>c!==name)}; if(s.editingGenCat===name){patch.editingGenCat='';patch.editGenCatVal='';} this.up(patch); }
-  openEditGenCat(name){ this.setState({editingGenCat:name,editGenCatVal:name,newGenCat:''}); }
+  openEditGenCat(name){ this.setState({editingGenCat:name,editGenCatVal:name,newGenCat:''},function(){ var el=document.getElementById('catEditInput'); if(el){el.focus();el.select&&el.select();} }); }
   cancelEditGenCat(){ this.setState({editingGenCat:'',editGenCatVal:''}); }
   saveEditGenCat(){ const s=this.state; const oldN=s.editingGenCat; const v=(s.editGenCatVal||'').trim(); if(!oldN)return; if(!v||v===oldN){ this.setState({editingGenCat:'',editGenCatVal:''}); return; } let genCats=(s.genCats||[]).map(c=>c===oldN?v:c); genCats=genCats.filter((c,i)=>genCats.indexOf(c)===i); const entries=s.entries.map(e=>(e.projectId===this.GEN&&e.activity===oldN)?Object.assign({},e,{activity:v}):e); const patch={genCats,entries,editingGenCat:'',editGenCatVal:''}; if(s.f_projectId===this.GEN&&s.f_activity===oldN)patch.f_activity=v; this.up(patch); }
   // ===== Notities =====
@@ -1165,7 +1157,7 @@ class Component extends DCLogic {
   addActInline(){ const s=this.state; const v=s.newActInline.trim(); if(!v)return; if(s.f_projectId===this.GEN){ const genCats=(s.genCats||[]).indexOf(v)>=0?s.genCats:(s.genCats||[]).concat([v]); this.up({genCats,f_activity:v,newActInline:'',showNewAct:false}); } else { const activities=s.activities.indexOf(v)>=0?s.activities:s.activities.concat([v]); this.up({activities,f_activity:v,newActInline:'',showNewAct:false}); } }
   addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; this.up({activities:s.activities.concat([v]),newActName:''}); }
   removeActivity(name){ const s=this.state; const patch={activities:s.activities.filter(a=>a!==name)}; if(s.editingAct===name){patch.editingAct='';patch.editActVal='';} this.up(patch); }
-  openEditActivity(name){ this.setState({editingAct:name,editActVal:name,newActName:''}); }
+  openEditActivity(name){ this.setState({editingAct:name,editActVal:name,newActName:''},function(){ var el=document.getElementById('actEditInput'); if(el){el.focus();el.select&&el.select();} }); }
   cancelEditActivity(){ this.setState({editingAct:'',editActVal:''}); }
   saveEditActivity(){ const s=this.state; const oldN=s.editingAct; const v=(s.editActVal||'').trim(); if(!oldN)return; if(!v){ this.setState({editingAct:'',editActVal:''}); return; } if(v===oldN){ this.setState({editingAct:'',editActVal:''}); return; } let activities=s.activities.map(a=>a===oldN?v:a); activities=activities.filter((a,i)=>activities.indexOf(a)===i); const entries=s.entries.map(e=>e.activity===oldN?Object.assign({},e,{activity:v}):e); const patch={activities,entries,editingAct:'',editActVal:''}; if(s.f_activity===oldN)patch.f_activity=v; this.up(patch); }
   // register workers + hours
@@ -1515,7 +1507,7 @@ class Component extends DCLogic {
     const genCatTot={}; genList.forEach(e=>{ const c=e.activity||'Overig'; genCatTot[c]=(genCatTot[c]||0)+e.hours; });
     const genCatRows=Object.keys(genCatTot).sort((a,b)=>genCatTot[b]-genCatTot[a]).map(c=>({name:c,totalLabel:this.fmt(genCatTot[c])}));
     const genBookings=genList.map(e=>({id:e.id,cat:e.activity||'Overig',sub:(e.note?e.activity+' · '+e.note:e.activity),dateLabel:this.dateRow(e.date),hoursLabel:this.fmt(e.hours),frontStyle:this.entryFront(s.openSwipe===e.id),onTap:()=>this.rowTap(e.id,()=>this.openEdit(e)),onSwipe:(ev)=>this.swipeStart(ev,e.id,120),onEdit:()=>this.openEdit(e),onDelete:()=>this.deleteById(e.id)}));
-    const genCatChips=(s.genCats||[]).map(c=>({name:c,chipStyle:actChip(s.editingGenCat===c),onEdit:()=>this.openEditGenCat(c),onRemove:()=>this.removeGenCat(c)}));
+    const genCatChips=(s.genCats||[]).map(c=>({name:c,chipStyle:actChip(s.editingGenCat===c),editing:s.editingGenCat===c,notEditing:s.editingGenCat!==c,onEdit:()=>this.openEditGenCat(c),onRemove:()=>this.removeGenCat(c)}));
     const noteMap=(n)=>{ const its=n.items||[]; const done=its.filter(i=>i.done).length; const parts=[]; if(its.length)parts.push(done+'/'+its.length+' afgevinkt'); else if((n.text||'').trim())parts.push((n.text||'').replace(/\s+/g,' ').trim().slice(0,60)); if(n.reminderDate&&n.reminderTime)parts.push('⏰ '+n.reminderDate.slice(8,10)+'-'+n.reminderDate.slice(5,7)+' '+n.reminderTime); return {id:n.id,title:n.title||'Notitie',summary:parts.join(' · '),frontStyle:this.noteFront(s.openSwipe===n.id),onTap:()=>this.rowTap(n.id,()=>this.openEditNote(n.id)),onSwipe:(ev)=>this.swipeStart(ev,n.id,84),onDelete:()=>this.deleteNoteById(n.id)}; };
     const notesByProj={}; (s.notes||[]).forEach(n=>{ const pid=n.projectId||''; (notesByProj[pid]=notesByProj[pid]||[]).push(n); });
     const sortNotes=arr=>arr.slice().sort((a,b)=>(a.updatedAt||'')<(b.updatedAt||'')?1:(a.updatedAt||'')>(b.updatedAt||'')?-1:0);
@@ -1558,7 +1550,7 @@ class Component extends DCLogic {
     const hourChips=[4,6,8].map(h=>({label:''+h,onTap:()=>this.setState({f_hours:this.fmt(h)})}));
     const rhChips=[4,6,8].map(h=>({label:''+h,onTap:()=>this.setState({rh_val:this.fmt(h)})}));
     const canSave=!!s.f_projectId&&!!s.f_activity&&this.parseHours(s.f_hours)>0;
-    const activitiesList=s.activities.map(a=>({name:a,chipStyle:actChip(s.editingAct===a),onEdit:()=>this.openEditActivity(a),onRemove:()=>this.removeActivity(a)}));
+    const activitiesList=s.activities.map(a=>({name:a,chipStyle:actChip(s.editingAct===a),editing:s.editingAct===a,notEditing:s.editingAct!==a,onEdit:()=>this.openEditActivity(a),onRemove:()=>this.removeActivity(a)}));
     const co=s.company||{name:'',address:'',city:''};
     const rhWorker=this.worker(s.rh_worker);
     const onProj={}; s.regWorkers.filter(w=>w.projectId===s.regProjectId).forEach(w=>{onProj[(this.wkName(w)+'|'+(w.kvk||'')).toLowerCase()]=1;});

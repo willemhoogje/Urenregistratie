@@ -1,5 +1,5 @@
 /* ABECO Uren — service worker (relatieve paden, werkt in een submap op GitHub Pages) */
-const CACHE = 'abeco-uren-v96';
+const CACHE = 'abeco-uren-v97';
 const PENDING = 'abeco-pending-backup';
 const CORE = [
   './',

@@ -527,7 +527,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v98</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v99</div>
         </div>
       </sc-if>
 
@@ -1186,8 +1186,8 @@ class Component extends DCLogic {
   saveProject(){ const s=this.state; if(!s.p_name.trim())return; const digits=(s.p_number||'').replace(/\D/g,''); const num=(digits?'A'+digits:'—'); if(s.editingProj){ const projects=s.projects.map(p=>p.id===s.editingProj?Object.assign({},p,{name:s.p_name.trim(),number:num,location:s.p_location.trim(),client:s.p_client.trim()}):p); this.up({projects,sheet:null,editingProj:null}); return; } const id=this.uid('pr'); const projects=s.projects.concat([{id,name:s.p_name.trim(),number:num,location:s.p_location.trim(),client:s.p_client.trim()}]); const patch={projects}; if(!s.regProjectId)patch.regProjectId=id; if(s.projFromEntry){ patch.f_projectId=id; patch.sheet='addEntry'; patch.projFromEntry=false; } else { patch.sheet=null; } this.up(patch); }
   deleteProjectById(id){ const s=this.state; if(!s.projects.some(p=>p.id===id))return; this._undoSnap={projects:s.projects.slice(),entries:s.entries.slice(),regWorkers:s.regWorkers.slice(),regHours:Object.assign({},s.regHours),regProjectId:s.regProjectId}; const projects=s.projects.filter(p=>p.id!==id); const entries=s.entries.filter(e=>e.projectId!==id); const regWorkers=s.regWorkers.filter(w=>w.projectId!==id); const regProjectId=s.regProjectId===id?(projects[0]?projects[0].id:''):s.regProjectId; this.up({projects,entries,regWorkers,regProjectId,openSwipe:''}); this.flagUndo('Project verwijderd'); }
   openProjectDetail(id){ if(id===this.GEN){ this.openAddGeneral(); return; } this.setState({sheet:'projectDetail',pd_id:id,openSwipe:'',pdShowActs:false,pdShowReg:false}); }
-  togglePdActs(){ this.setState({pdShowActs:!this.state.pdShowActs}); }
-  togglePdReg(){ this.setState({pdShowReg:!this.state.pdShowReg}); }
+  togglePdActs(){ const open=!this.state.pdShowActs; this.setState({pdShowActs:open,pdShowReg:false}); }
+  togglePdReg(){ const open=!this.state.pdShowReg; this.setState({pdShowReg:open,pdShowActs:false}); }
   projectHours(pid){ const s=this.state; const mine=s.entries.filter(e=>e.projectId===pid); const own=mine.reduce((a,e)=>a+e.hours,0); const regAct=(s.company||{}).regActivity||''; const regOwn=mine.filter(e=>!regAct||e.activity===regAct).reduce((a,e)=>a+e.hours,0); const am={}; mine.forEach(e=>{ const k=e.activity||'Overig'; am[k]=(am[k]||0)+e.hours; }); const perAct=Object.keys(am).map(k=>({name:k,total:this.fmt(am[k]),_v:am[k],inReg:!!regAct&&k===regAct})).sort((a,b)=>b._v-a._v); let zzp=0; const perWorker=[]; s.regWorkers.filter(w=>w.projectId===pid).forEach(w=>{ const m=s.regHours[w.id]||{}; let t=0; for(const k in m)t+=(m[k]||0); zzp+=t; perWorker.push({name:this.wkName(w),kvkLabel:w.kvk?('KvK '+w.kvk):'geen KvK',total:this.fmt(t),_v:t}); }); perWorker.sort((a,b)=>b._v-a._v); return {own,zzp,total:own+zzp,perWorker,perAct,regOwn,regTotal:regOwn+zzp,regAct}; }
   // activities
   toggleNewAct(){ this.setState(st=>({showNewAct:!st.showNewAct})); }

@@ -519,7 +519,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v102</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v103</div>
         </div>
       </sc-if>
 
@@ -552,13 +552,13 @@ window.__checkPendingBackup = function () {
       </button>
     </sc-if>
     <sc-if value="{{ hasUndo }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute;left:14px;right:86px;bottom:calc(env(safe-area-inset-bottom) + 84px);z-index:45;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#16202b;color:#fff;border-radius:13px;padding:11px 14px;box-shadow:0 10px 26px rgba(8,12,20,.4);animation:fadeIn .2s ease">
+      <div style="position:absolute;left:14px;right:86px;bottom:calc(env(safe-area-inset-bottom) + 102px);transform:translateY(50%);z-index:45;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#16202b;color:#fff;border-radius:13px;padding:11px 14px;box-shadow:0 10px 26px rgba(8,12,20,.4);animation:fadeIn .2s ease">
         <span style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ undoLabel }}</span>
         <button onClick="{{ undo }}" style="background:none;border:none;color:#86b4ff;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap">Ongedaan maken</button>
       </div>
     </sc-if>
     <sc-if value="{{ backupDue }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute;left:14px;right:86px;bottom:calc(env(safe-area-inset-bottom) + 84px);z-index:46;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#16202b;color:#fff;border-radius:13px;padding:11px 14px;box-shadow:0 10px 26px rgba(8,12,20,.4);animation:fadeIn .2s ease">
+      <div style="position:absolute;left:14px;right:86px;bottom:calc(env(safe-area-inset-bottom) + 102px);transform:translateY(50%);z-index:46;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#16202b;color:#fff;border-radius:13px;padding:11px 14px;box-shadow:0 10px 26px rgba(8,12,20,.4);animation:fadeIn .2s ease">
         <span style="font-size:13px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis">Tijd voor een backup van je uren</span>
         <span style="display:flex;gap:12px;flex:none"><button onClick="{{ backupLater }}" style="background:none;border:none;color:#9aa6b8;font-size:13px;font-weight:600;cursor:pointer">Later</button><button onClick="{{ backupNow }}" style="background:none;border:none;color:#86b4ff;font-size:13px;font-weight:700;cursor:pointer">Nu maken</button></span>
       </div>

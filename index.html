@@ -453,7 +453,7 @@ window.__checkPendingBackup = function () {
                     </sc-if>
                   </sc-for>
                 </div>
-                <div style="display:flex;align-items:center;gap:8px;margin-top:11px">
+                <div style="display:flex;gap:8px;margin-top:11px">
                   <button onClick="{{ toggleNewActReg }}" aria-label="Meetellen in mandagenregister" style="{{ newActRegStyle }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13l1.8 1.8L15 11"/></svg></button>
                   <input value="{{ newActName }}" onChange="{{ setNewAct }}" placeholder="Nieuwe activiteit" style="flex:1;min-width:0;box-sizing:border-box;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
                   <button onClick="{{ addActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
@@ -519,7 +519,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v101</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v102</div>
         </div>
       </sc-if>
 
@@ -1587,7 +1587,7 @@ class Component extends DCLogic {
     const rhChips=[4,6,8].map(h=>({label:''+h,onTap:()=>this.setState({rh_val:this.fmt(h)})}));
     const canSave=!!s.f_projectId&&!!s.f_activity&&this.parseHours(s.f_hours)>0;
     const regActsSel=(s.company||{}).regActivities||[];
-    const regBtn=(on)=>'cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:'+(on?C.navy:'transparent')+';border:1.5px solid '+(on?C.navy:'#c8ccd2')+';color:'+(on?'#fff':'#9aa0a8');
+    const regBtn=(on)=>'cursor:pointer;flex:none;align-self:center;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:'+(on?C.navy:'transparent')+';border:1.5px solid '+(on?C.navy:'#c8ccd2')+';color:'+(on?'#fff':'#9aa0a8');
     const activitiesList=s.activities.map(a=>({name:a,chipStyle:actChip(s.editingAct===a),editing:s.editingAct===a,notEditing:s.editingAct!==a,inReg:regActsSel.indexOf(a)>=0,regBtnStyle:regBtn(regActsSel.indexOf(a)>=0),onToggleReg:()=>this.toggleRegActivity(a),onEdit:()=>this.openEditActivity(a),onRemove:()=>this.removeActivity(a)}));
     const co=s.company||{name:'',address:'',city:''};
     const rhWorker=this.worker(s.rh_worker);

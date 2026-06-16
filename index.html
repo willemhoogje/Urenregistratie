@@ -442,29 +442,21 @@ window.__checkPendingBackup = function () {
             <button onClick="{{ toggleSetAct }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 16px;background:none;border:none;cursor:pointer"><span style="font-size:14.5px;font-weight:600;color:var(--ink)">Directe uren</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="{{ chevAct }}"><path d="M6 9l6 6 6-6"/></svg></button>
             <sc-if value="{{ setOpenAct }}" hint-placeholder-val="{{ false }}">
               <div style="padding:0 16px 16px">
-                <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:0 2px 10px">Voor projecturen. Tik op een activiteit om de naam te wijzigen.</p>
+                <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:0 2px 10px">Voor projecturen. Tik op een activiteit om de naam te wijzigen. Vink het <span style="color:var(--navy);font-weight:600">klembord-icoon</span> aan om die uren mee te tellen in het mandagenregister.</p>
                 <div style="display:flex;flex-wrap:wrap;gap:8px">
                   <sc-for list="{{ activitiesList }}" as="a" hint-placeholder-count="4">
                     <sc-if value="{{ a.editing }}" hint-placeholder-val="{{ false }}">
-                      <span id="actEditChip" style="display:inline-flex;align-items:center;gap:5px;padding:4px 5px 4px 11px;border-radius:999px;background:var(--paper);border:1.5px solid var(--navy)"><input id="actEditInput" value="{{ editActVal }}" onChange="{{ setEditActVal }}" style="border:none;background:transparent;outline:none;font-size:13.5px;font-weight:500;color:var(--ink);width:{{ editActW }};min-width:20px;font-family:var(--body);padding:0"/><button onClick="{{ saveEditActivity }}" aria-label="Opslaan" style="width:22px;height:22px;border-radius:50%;border:none;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></button><button onClick="{{ cancelEditActivity }}" aria-label="Annuleer" style="width:22px;height:22px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex:none">×</button></span>
+                      <span id="actEditChip" style="display:inline-flex;align-items:center;gap:5px;padding:4px 5px 4px 11px;border-radius:999px;background:var(--paper);border:1.5px solid var(--navy)"><input id="actEditInput" value="{{ editActVal }}" onChange="{{ setEditActVal }}" style="border:none;background:transparent;outline:none;font-size:13.5px;font-weight:500;color:var(--ink);width:{{ editActW }};min-width:20px;font-family:var(--body);padding:0"/><button onClick="{{ a.onToggleReg }}" aria-label="Meetellen in mandagenregister" style="{{ a.regBtnStyle }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13l1.8 1.8L15 11"/></svg></button><button onClick="{{ saveEditActivity }}" aria-label="Opslaan" style="width:22px;height:22px;border-radius:50%;border:none;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></button><button onClick="{{ cancelEditActivity }}" aria-label="Annuleer" style="width:22px;height:22px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex:none">×</button></span>
                     </sc-if>
                     <sc-if value="{{ a.notEditing }}" hint-placeholder-val="{{ true }}">
-                      <span style="{{ a.chipStyle }}"><button onClick="{{ a.onEdit }}" style="background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer">{{ a.name }}</button><button onClick="{{ a.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
+                      <span style="{{ a.chipStyle }}"><button onClick="{{ a.onEdit }}" style="background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer">{{ a.name }}</button><sc-if value="{{ a.inReg }}" hint-placeholder-val="{{ false }}"><span aria-label="In mandagenregister" style="display:inline-flex;align-items:center;justify-content:center;color:var(--navy);flex:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13l1.8 1.8L15 11"/></svg></span></sc-if><button onClick="{{ a.onRemove }}" style="width:19px;height:19px;border-radius:50%;border:none;background:#e4e6e9;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center">×</button></span>
                     </sc-if>
                   </sc-for>
                 </div>
-                <div style="display:flex;gap:8px;margin-top:11px">
+                <div style="display:flex;align-items:center;gap:8px;margin-top:11px">
+                  <button onClick="{{ toggleNewActReg }}" aria-label="Meetellen in mandagenregister" style="{{ newActRegStyle }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13l1.8 1.8L15 11"/></svg></button>
                   <input value="{{ newActName }}" onChange="{{ setNewAct }}" placeholder="Nieuwe activiteit" style="flex:1;min-width:0;box-sizing:border-box;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:14px;background:var(--mist);color:var(--ink)"/>
                   <button onClick="{{ addActivity }}" style="background:var(--navy);color:#fff;border:none;border-radius:11px;padding:0 17px;font-size:14px;font-weight:600;cursor:pointer">Toevoegen</button>
-                </div>
-                <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
-                  <p style="font-size:12.5px;font-weight:600;color:var(--ink);margin:0 2px 3px">Telt mee in mandagenregister</p>
-                  <p style="font-size:11.5px;color:var(--soft);line-height:1.5;margin:0 2px 10px">Kies welke van jouw eigen uren als ‘eigen uren’ in het mandagenregister worden geteld.</p>
-                  <div style="display:flex;flex-wrap:wrap;gap:8px">
-                    <sc-for list="{{ regChips }}" as="r">
-                      <button onClick="{{ r.onPick }}" style="{{ r.style }}">{{ r.label }}</button>
-                    </sc-for>
-                  </div>
                 </div>
               </div>
             </sc-if>
@@ -527,7 +519,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v99</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v100</div>
         </div>
       </sc-if>
 
@@ -1092,7 +1084,7 @@ class Component extends DCLogic {
     if(!data||!data.projects)data=this.seed();
     if(!data.company)data.company={name:'ABECO Projecten BV',address:'Oude Grintweg 55',city:'5688 MA Oirschot'};
     if(!data.activities)data.activities=['Montage','Productie','Voorbereiding','Overleg','Reizen','Schoonmaak'];
-    if(data.company.regActivity===undefined)data.company.regActivity=(data.activities.indexOf('Montage op locatie')>=0?'Montage op locatie':'');
+    if(!Array.isArray(data.company.regActivities)){ var _ra=data.company.regActivity; data.company.regActivities=(_ra===undefined?(data.activities.indexOf('Montage op locatie')>=0?['Montage op locatie']:[]):(_ra?[_ra]:[])); }
     if(!data.entries)data.entries=[];
     if(!data.regWorkers)data.regWorkers=[];
     if(!data.regHours)data.regHours={};
@@ -1103,7 +1095,7 @@ class Component extends DCLogic {
     return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,urenWeek:0,urenAll:false,urenYear:new Date().getFullYear(),regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
-      newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',pdShowActs:false,pdShowReg:false,newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
+      newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',newActReg:false,editingAct:'',editActVal:'',pd_id:'',pdShowActs:false,pdShowReg:false,newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
       rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',reg_projQuery:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_projQuery:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false,n_blocks:[],rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
@@ -1188,16 +1180,17 @@ class Component extends DCLogic {
   openProjectDetail(id){ if(id===this.GEN){ this.openAddGeneral(); return; } this.setState({sheet:'projectDetail',pd_id:id,openSwipe:'',pdShowActs:false,pdShowReg:false}); }
   togglePdActs(){ const open=!this.state.pdShowActs; this.setState({pdShowActs:open,pdShowReg:false}); }
   togglePdReg(){ const open=!this.state.pdShowReg; this.setState({pdShowReg:open,pdShowActs:false}); }
-  projectHours(pid){ const s=this.state; const mine=s.entries.filter(e=>e.projectId===pid); const own=mine.reduce((a,e)=>a+e.hours,0); const regAct=(s.company||{}).regActivity||''; const regOwn=mine.filter(e=>!regAct||e.activity===regAct).reduce((a,e)=>a+e.hours,0); const am={}; mine.forEach(e=>{ const k=e.activity||'Overig'; am[k]=(am[k]||0)+e.hours; }); const perAct=Object.keys(am).map(k=>({name:k,total:this.fmt(am[k]),_v:am[k],inReg:!!regAct&&k===regAct})).sort((a,b)=>b._v-a._v); let zzp=0; const perWorker=[]; s.regWorkers.filter(w=>w.projectId===pid).forEach(w=>{ const m=s.regHours[w.id]||{}; let t=0; for(const k in m)t+=(m[k]||0); zzp+=t; perWorker.push({name:this.wkName(w),kvkLabel:w.kvk?('KvK '+w.kvk):'geen KvK',total:this.fmt(t),_v:t}); }); perWorker.sort((a,b)=>b._v-a._v); return {own,zzp,total:own+zzp,perWorker,perAct,regOwn,regTotal:regOwn+zzp,regAct}; }
+  projectHours(pid){ const s=this.state; const mine=s.entries.filter(e=>e.projectId===pid); const own=mine.reduce((a,e)=>a+e.hours,0); const regActs=(s.company||{}).regActivities||[]; const inReg=(act)=>regActs.length===0||regActs.indexOf(act)>=0; const regOwn=mine.filter(e=>inReg(e.activity)).reduce((a,e)=>a+e.hours,0); const am={}; mine.forEach(e=>{ const k=e.activity||'Overig'; am[k]=(am[k]||0)+e.hours; }); const perAct=Object.keys(am).map(k=>({name:k,total:this.fmt(am[k]),_v:am[k],inReg:regActs.indexOf(k)>=0})).sort((a,b)=>b._v-a._v); const regActLabel=(regActs.length===0?'alle activiteiten':regActs.join(', ')); let zzp=0; const perWorker=[]; s.regWorkers.filter(w=>w.projectId===pid).forEach(w=>{ const m=s.regHours[w.id]||{}; let t=0; for(const k in m)t+=(m[k]||0); zzp+=t; perWorker.push({name:this.wkName(w),kvkLabel:w.kvk?('KvK '+w.kvk):'geen KvK',total:this.fmt(t),_v:t}); }); perWorker.sort((a,b)=>b._v-a._v); return {own,zzp,total:own+zzp,perWorker,perAct,regOwn,regTotal:regOwn+zzp,regActLabel}; }
   // activities
   toggleNewAct(){ this.setState(st=>({showNewAct:!st.showNewAct})); }
   addActInline(){ const s=this.state; const v=s.newActInline.trim(); if(!v)return; if(s.f_projectId===this.GEN){ const genCats=(s.genCats||[]).indexOf(v)>=0?s.genCats:(s.genCats||[]).concat([v]); this.up({genCats,f_activity:v,newActInline:'',showNewAct:false}); } else { const activities=s.activities.indexOf(v)>=0?s.activities:s.activities.concat([v]); this.up({activities,f_activity:v,newActInline:'',showNewAct:false}); } }
-  addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; this.up({activities:s.activities.concat([v]),newActName:''}); }
+  addActivity(){ const s=this.state; const v=s.newActName.trim(); if(!v||s.activities.indexOf(v)>=0)return; const patch={activities:s.activities.concat([v]),newActName:'',newActReg:false}; if(s.newActReg){ const cur=((s.company||{}).regActivities||[]).slice(); if(cur.indexOf(v)<0)cur.push(v); patch.company=Object.assign({},s.company,{regActivities:cur}); } this.up(patch); }
+  toggleNewActReg(){ this.setState({newActReg:!this.state.newActReg}); }
+  toggleRegActivity(name){ const s=this.state; const cur=((s.company||{}).regActivities||[]).slice(); const i=cur.indexOf(name); if(i>=0)cur.splice(i,1); else cur.push(name); this.up({company:Object.assign({},s.company,{regActivities:cur})}); }
   removeActivity(name){ const s=this.state; const patch={activities:s.activities.filter(a=>a!==name)}; if(s.editingAct===name){patch.editingAct='';patch.editActVal='';} this.up(patch); }
   openEditActivity(name){ this.setState({editingAct:name,editActVal:name,newActName:''},function(){ var el=document.getElementById('actEditInput'); if(el){el.focus();el.select&&el.select();} }); }
   cancelEditActivity(){ this.setState({editingAct:'',editActVal:''}); }
-  saveEditActivity(){ const s=this.state; const oldN=s.editingAct; const v=(s.editActVal||'').trim(); if(!oldN)return; if(!v){ this.setState({editingAct:'',editActVal:''}); return; } if(v===oldN){ this.setState({editingAct:'',editActVal:''}); return; } let activities=s.activities.map(a=>a===oldN?v:a); activities=activities.filter((a,i)=>activities.indexOf(a)===i); const entries=s.entries.map(e=>e.activity===oldN?Object.assign({},e,{activity:v}):e); const patch={activities,entries,editingAct:'',editActVal:''}; if(s.f_activity===oldN)patch.f_activity=v; if((s.company||{}).regActivity===oldN)patch.company=Object.assign({},s.company,{regActivity:v}); this.up(patch); }
-  setRegActivity(v){ const s=this.state; this.up({company:Object.assign({},s.company,{regActivity:v||''})}); }
+  saveEditActivity(){ const s=this.state; const oldN=s.editingAct; const v=(s.editActVal||'').trim(); if(!oldN)return; if(!v){ this.setState({editingAct:'',editActVal:''}); return; } if(v===oldN){ this.setState({editingAct:'',editActVal:''}); return; } let activities=s.activities.map(a=>a===oldN?v:a); activities=activities.filter((a,i)=>activities.indexOf(a)===i); const entries=s.entries.map(e=>e.activity===oldN?Object.assign({},e,{activity:v}):e); const patch={activities,entries,editingAct:'',editActVal:''}; if(s.f_activity===oldN)patch.f_activity=v; const _rga=((s.company||{}).regActivities||[]); if(_rga.indexOf(oldN)>=0){ patch.company=Object.assign({},s.company,{regActivities:_rga.map(a=>a===oldN?v:a).filter((a,i,arr)=>arr.indexOf(a)===i)}); } this.up(patch); }
   // register workers + hours
   openAddWorker(){ if(!this.state.regProjectId)return; this.setState({sheet:'addWorker',editingWorker:null,rw_init:'',rw_last:'',rw_kvk:'',rw_query:''}); }
   openEditWorker(id){ const w=this.worker(id); if(!w)return; this.setState({sheet:'addWorker',editingWorker:id,rw_init:w.init||'',rw_last:w.last||w.name||'',rw_kvk:w.kvk||'',rw_query:''}); }
@@ -1317,9 +1310,10 @@ class Component extends DCLogic {
       const mon=this.getMonday(this.addDays(new Date(),(s.weekOffset+w)*7));
       const dates=[]; for(let i=0;i<5;i++)dates.push(this.toISO(this.addDays(mon,i)));
       const co0=s.company||{};
-      const regAct=co0.regActivity||'';
+      const regActs=co0.regActivities||[];
+      const inReg=(act)=>regActs.length===0||regActs.indexOf(act)>=0;
       const selfName=this.nm(co0.myLast,co0.myInit)||co0.myName||co0.name||'Eigen uren';
-      const selfCells=dates.map(d=>({date:d,v:s.entries.filter(e=>e.projectId===pid&&e.date===d&&(!regAct||e.activity===regAct)).reduce((a,e)=>a+e.hours,0)}));
+      const selfCells=dates.map(d=>({date:d,v:s.entries.filter(e=>e.projectId===pid&&e.date===d&&inReg(e.activity)).reduce((a,e)=>a+e.hours,0)}));
       const selfRow={id:'__self__',isSelf:true,name:selfName,kvk:co0.myKvk||'—',cells:selfCells,total:selfCells.reduce((a,c)=>a+c.v,0),nr:1};
       const rows=[selfRow].concat(workers.map((wk,idx)=>{
         const cells=dates.map(d=>{ const m=s.regHours[wk.id]; return {date:d,v:(m&&m[d])||0}; });
@@ -1593,10 +1587,9 @@ class Component extends DCLogic {
     const hourChips=[4,6,8].map(h=>({label:''+h,onTap:()=>this.setState({f_hours:this.fmt(h)})}));
     const rhChips=[4,6,8].map(h=>({label:''+h,onTap:()=>this.setState({rh_val:this.fmt(h)})}));
     const canSave=!!s.f_projectId&&!!s.f_activity&&this.parseHours(s.f_hours)>0;
-    const activitiesList=s.activities.map(a=>({name:a,chipStyle:actChip(s.editingAct===a),editing:s.editingAct===a,notEditing:s.editingAct!==a,onEdit:()=>this.openEditActivity(a),onRemove:()=>this.removeActivity(a)}));
-    const regActSel=(s.company||{}).regActivity||'';
-    const regPill=(sel)=>'border:none;cursor:pointer;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:'+(sel?'600':'500')+';background:'+(sel?C.navy:C.mist)+';color:'+(sel?'#fff':C.ink)+';border:'+(sel?'1.5px solid '+C.navy:'1px solid '+C.line);
-    const regChips=[{label:'Alle eigen uren',value:''}].concat(s.activities.map(a=>({label:a,value:a}))).map(o=>({label:o.label,style:regPill(regActSel===o.value),onPick:()=>this.setRegActivity(o.value)}));
+    const regActsSel=(s.company||{}).regActivities||[];
+    const regBtn=(on)=>'cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:'+(on?C.navy:'transparent')+';border:1.5px solid '+(on?C.navy:'#c8ccd2')+';color:'+(on?'#fff':'#9aa0a8');
+    const activitiesList=s.activities.map(a=>({name:a,chipStyle:actChip(s.editingAct===a),editing:s.editingAct===a,notEditing:s.editingAct!==a,inReg:regActsSel.indexOf(a)>=0,regBtnStyle:regBtn(regActsSel.indexOf(a)>=0),onToggleReg:()=>this.toggleRegActivity(a),onEdit:()=>this.openEditActivity(a),onRemove:()=>this.removeActivity(a)}));
     const co=s.company||{name:'',address:'',city:''};
     const rhWorker=this.worker(s.rh_worker);
     const onProj={}; s.regWorkers.filter(w=>w.projectId===s.regProjectId).forEach(w=>{onProj[(this.wkName(w)+'|'+(w.kvk||'')).toLowerCase()]=1;});
@@ -1632,7 +1625,7 @@ class Component extends DCLogic {
       dayGroups, hasEntries:dayGroups.length>0, noEntries:dayGroups.length===0,
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(),
       isSheetProjectDetail:s.sheet==='projectDetail', pdName:pdP.name||'—', pdMeta:(pdMetaParts.length?pdMetaParts.join(' · '):'Geen extra gegevens'), pdTotal:this.fmt(pd.total), pdOwn:this.fmt(pd.own), pdZzp:this.fmt(pd.zzp), pdHasWorkers:pd.perWorker.length>0, pdWorkers:pd.perWorker, pdBook:()=>this.openAddWith(s.pd_id),
-      pdActs:pd.perAct, pdHasActs:pd.perAct.length>0, pdRegTotal:this.fmt(pd.regTotal), pdRegOwn:this.fmt(pd.regOwn), pdRegHasOwn:pd.regOwn>0, pdRegActLabel:(pd.regAct||'Alle eigen uren'), pdHasRegister:(pd.regTotal>0||pd.perWorker.length>0),
+      pdActs:pd.perAct, pdHasActs:pd.perAct.length>0, pdRegTotal:this.fmt(pd.regTotal), pdRegOwn:this.fmt(pd.regOwn), pdRegHasOwn:pd.regOwn>0, pdRegActLabel:pd.regActLabel, pdHasRegister:(pd.regTotal>0||pd.perWorker.length>0),
       togglePdActs:()=>this.togglePdActs(), togglePdReg:()=>this.togglePdReg(), pdActsVisible:(s.pdShowActs&&pd.perAct.length>0), pdRegVisible:(s.pdShowReg&&(pd.regTotal>0||pd.perWorker.length>0)), pdChevActs:'transition:transform .2s ease;flex:none;transform:rotate('+(s.pdShowActs?'180':'0')+'deg)', pdChevReg:'transition:transform .2s ease;flex:none;transform:rotate('+(s.pdShowReg?'180':'0')+'deg)',
       genEntries, hasGenEntries:genList.length>0, noGenEntries:genList.length===0, genTotalLabel:this.fmt(genTotal), openAddGeneral:()=>this.openAddGeneral(), openGeneralDetail:()=>this.openGeneralDetail(),
       isSheetGenDetail:s.sheet==='genDetail', genCatRows, genHasCatRows:genCatRows.length>0, genBookings, genHasBookings:genBookings.length>0, genCatChips, newGenCat:s.newGenCat, setNewGenCat:e=>this.setState({newGenCat:ev(e)}), addGenCat:()=>this.addGenCat(),
@@ -1666,7 +1659,8 @@ class Component extends DCLogic {
       rwInit:s.rw_init, setRwInit:e=>this.setState({rw_init:ev(e)}), rwLast:s.rw_last, setRwLast:e=>this.setState({rw_last:ev(e)}), rwKvk:s.rw_kvk, setRwKvk:e=>this.setState({rw_kvk:ev(e)}), saveWorker:()=>this.saveWorker(), saveWorkerStyle:this.primStyle(!!s.rw_last.trim()),
       knownWorkers, hasKnownWorkers:!s.editingWorker&&knownWorkers.length>0, anyKnownWorkers:!s.editingWorker&&s.regWorkers.length>0, workerSheetTitle:s.editingWorker?'ZZP’er wijzigen':'ZZP’er toevoegen', workerSheetHint:s.editingWorker?'Pas naam en KvK-nummer aan':('Toevoegen aan '+this.projName(s.regProjectId)), rwQuery:s.rw_query, setRwQuery:e=>this.setState({rw_query:ev(e)}),
       rhWorkerName:rhWorker?rhWorker.name:'', rhDateLabel:s.rh_date?this.dateMid(s.rh_date):'', rhVal:s.rh_val, setRhVal:e=>this.setState({rh_val:ev(e)}), rhChips, saveRegHour:()=>this.saveRegHour(), saveRegHourStyle:this.primStyle(true), clearRegHour:()=>this.clearRegHour(),
-      activitiesList, regChips, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
+      activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
+      newActReg:!!s.newActReg, newActRegStyle:regBtn(!!s.newActReg), toggleNewActReg:()=>this.toggleNewActReg(),
       isEditingAct:!!s.editingAct, notEditingAct:!s.editingAct, editActVal:s.editActVal, editActW:(Math.max(20,this.measureChipText(s.editActVal)+4))+'px', setEditActVal:e=>this.setState({editActVal:ev(e)}), saveEditActivity:()=>this.saveEditActivity(), cancelEditActivity:()=>this.cancelEditActivity(),
       setCoName:e=>this.setCompany('name',ev(e)), setCoAddress:e=>this.setCompany('address',ev(e)), setCoCity:e=>this.setCompany('city',ev(e)), setCoMyInit:e=>this.setCompany('myInit',ev(e)), setCoMyLast:e=>this.setCompany('myLast',ev(e)), setCoMyKvk:e=>this.setCompany('myKvk',ev(e)),
       resetData:()=>this.resetData(),

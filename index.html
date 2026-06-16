@@ -527,7 +527,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v97</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v98</div>
         </div>
       </sc-if>
 
@@ -702,12 +702,12 @@ window.__checkPendingBackup = function () {
           </div>
 
           <div style="display:flex;gap:10px;margin-top:12px">
-            <div style="flex:1;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:13px 15px"><div style="font-size:11px;color:var(--soft);font-weight:600">Mijn uren</div><div style="font-family:var(--disp);font-size:21px;font-weight:600;color:var(--ink);margin-top:3px">{{ pdOwn }}<span style="font-size:11px;color:var(--soft);font-weight:500;margin-left:3px">u</span></div></div>
-            <div style="flex:1;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:13px 15px"><div style="font-size:11px;color:var(--soft);font-weight:600">Via register</div><div style="font-family:var(--disp);font-size:21px;font-weight:600;color:var(--ink);margin-top:3px">{{ pdRegTotal }}<span style="font-size:11px;color:var(--soft);font-weight:500;margin-left:3px">u</span></div></div>
+            <button onClick="{{ togglePdActs }}" style="flex:1;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:13px 15px;cursor:pointer"><div style="display:flex;align-items:center;justify-content:space-between;gap:6px"><span style="font-size:11px;color:var(--soft);font-weight:600">Mijn uren</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="{{ pdChevActs }}"><path d="M6 9l6 6 6-6"/></svg></div><div style="font-family:var(--disp);font-size:21px;font-weight:600;color:var(--ink);margin-top:3px">{{ pdOwn }}<span style="font-size:11px;color:var(--soft);font-weight:500;margin-left:3px">u</span></div></button>
+            <button onClick="{{ togglePdReg }}" style="flex:1;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:13px 15px;cursor:pointer"><div style="display:flex;align-items:center;justify-content:space-between;gap:6px"><span style="font-size:11px;color:var(--soft);font-weight:600">Totaal uren op locatie</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="{{ pdChevReg }}"><path d="M6 9l6 6 6-6"/></svg></div><div style="font-family:var(--disp);font-size:21px;font-weight:600;color:var(--ink);margin-top:3px">{{ pdRegTotal }}<span style="font-size:11px;color:var(--soft);font-weight:500;margin-left:3px">u</span></div></button>
           </div>
 
-          <sc-if value="{{ pdHasActs }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 9px">Mijn uren · per activiteit</div>
+          <sc-if value="{{ pdActsVisible }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 0 9px">Mijn uren · per activiteit</div>
             <div style="display:flex;flex-direction:column;gap:8px">
               <sc-for list="{{ pdActs }}" as="a" hint-placeholder-count="2">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:12px 14px">
@@ -718,8 +718,8 @@ window.__checkPendingBackup = function () {
             </div>
           </sc-if>
 
-          <sc-if value="{{ pdHasRegister }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 9px">Mandagenregister</div>
+          <sc-if value="{{ pdRegVisible }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 0 9px">Mandagenregister</div>
             <div style="display:flex;flex-direction:column;gap:8px">
               <sc-if value="{{ pdRegHasOwn }}" hint-placeholder-val="{{ false }}">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:13px;padding:12px 14px">
@@ -1103,7 +1103,7 @@ class Component extends DCLogic {
     return Object.assign({tab:'uren',sheet:null,omode:'dag',weekOffset:0,weeks:1,urenWeek:0,urenAll:false,urenYear:new Date().getFullYear(),regProjectId:firstProj,printMode:'register',undoLabel:'',openSwipe:'',
       editingId:null,projFromEntry:false,showNewAct:false,
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
-      newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
+      newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',editingAct:'',editActVal:'',pd_id:'',pdShowActs:false,pdShowReg:false,newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
       rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',reg_projQuery:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_projQuery:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false,n_blocks:[],rh_worker:'',rh_date:'',rh_val:''},data);
   }
   seed(){
@@ -1185,7 +1185,9 @@ class Component extends DCLogic {
   openNewProjectFromEntry(){ this.setState({sheet:'addProject',p_name:'',p_number:'',p_location:'',p_client:'',projFromEntry:true}); }
   saveProject(){ const s=this.state; if(!s.p_name.trim())return; const digits=(s.p_number||'').replace(/\D/g,''); const num=(digits?'A'+digits:'—'); if(s.editingProj){ const projects=s.projects.map(p=>p.id===s.editingProj?Object.assign({},p,{name:s.p_name.trim(),number:num,location:s.p_location.trim(),client:s.p_client.trim()}):p); this.up({projects,sheet:null,editingProj:null}); return; } const id=this.uid('pr'); const projects=s.projects.concat([{id,name:s.p_name.trim(),number:num,location:s.p_location.trim(),client:s.p_client.trim()}]); const patch={projects}; if(!s.regProjectId)patch.regProjectId=id; if(s.projFromEntry){ patch.f_projectId=id; patch.sheet='addEntry'; patch.projFromEntry=false; } else { patch.sheet=null; } this.up(patch); }
   deleteProjectById(id){ const s=this.state; if(!s.projects.some(p=>p.id===id))return; this._undoSnap={projects:s.projects.slice(),entries:s.entries.slice(),regWorkers:s.regWorkers.slice(),regHours:Object.assign({},s.regHours),regProjectId:s.regProjectId}; const projects=s.projects.filter(p=>p.id!==id); const entries=s.entries.filter(e=>e.projectId!==id); const regWorkers=s.regWorkers.filter(w=>w.projectId!==id); const regProjectId=s.regProjectId===id?(projects[0]?projects[0].id:''):s.regProjectId; this.up({projects,entries,regWorkers,regProjectId,openSwipe:''}); this.flagUndo('Project verwijderd'); }
-  openProjectDetail(id){ if(id===this.GEN){ this.openAddGeneral(); return; } this.setState({sheet:'projectDetail',pd_id:id,openSwipe:''}); }
+  openProjectDetail(id){ if(id===this.GEN){ this.openAddGeneral(); return; } this.setState({sheet:'projectDetail',pd_id:id,openSwipe:'',pdShowActs:false,pdShowReg:false}); }
+  togglePdActs(){ this.setState({pdShowActs:!this.state.pdShowActs}); }
+  togglePdReg(){ this.setState({pdShowReg:!this.state.pdShowReg}); }
   projectHours(pid){ const s=this.state; const mine=s.entries.filter(e=>e.projectId===pid); const own=mine.reduce((a,e)=>a+e.hours,0); const regAct=(s.company||{}).regActivity||''; const regOwn=mine.filter(e=>!regAct||e.activity===regAct).reduce((a,e)=>a+e.hours,0); const am={}; mine.forEach(e=>{ const k=e.activity||'Overig'; am[k]=(am[k]||0)+e.hours; }); const perAct=Object.keys(am).map(k=>({name:k,total:this.fmt(am[k]),_v:am[k],inReg:!!regAct&&k===regAct})).sort((a,b)=>b._v-a._v); let zzp=0; const perWorker=[]; s.regWorkers.filter(w=>w.projectId===pid).forEach(w=>{ const m=s.regHours[w.id]||{}; let t=0; for(const k in m)t+=(m[k]||0); zzp+=t; perWorker.push({name:this.wkName(w),kvkLabel:w.kvk?('KvK '+w.kvk):'geen KvK',total:this.fmt(t),_v:t}); }); perWorker.sort((a,b)=>b._v-a._v); return {own,zzp,total:own+zzp,perWorker,perAct,regOwn,regTotal:regOwn+zzp,regAct}; }
   // activities
   toggleNewAct(){ this.setState(st=>({showNewAct:!st.showNewAct})); }
@@ -1631,6 +1633,7 @@ class Component extends DCLogic {
       projectList, hasProjects:s.projects.length>0, noProjects:s.projects.length===0, openNewProject:()=>this.openNewProject(),
       isSheetProjectDetail:s.sheet==='projectDetail', pdName:pdP.name||'—', pdMeta:(pdMetaParts.length?pdMetaParts.join(' · '):'Geen extra gegevens'), pdTotal:this.fmt(pd.total), pdOwn:this.fmt(pd.own), pdZzp:this.fmt(pd.zzp), pdHasWorkers:pd.perWorker.length>0, pdWorkers:pd.perWorker, pdBook:()=>this.openAddWith(s.pd_id),
       pdActs:pd.perAct, pdHasActs:pd.perAct.length>0, pdRegTotal:this.fmt(pd.regTotal), pdRegOwn:this.fmt(pd.regOwn), pdRegHasOwn:pd.regOwn>0, pdRegActLabel:(pd.regAct||'Alle eigen uren'), pdHasRegister:(pd.regTotal>0||pd.perWorker.length>0),
+      togglePdActs:()=>this.togglePdActs(), togglePdReg:()=>this.togglePdReg(), pdActsVisible:(s.pdShowActs&&pd.perAct.length>0), pdRegVisible:(s.pdShowReg&&(pd.regTotal>0||pd.perWorker.length>0)), pdChevActs:'transition:transform .2s ease;flex:none;transform:rotate('+(s.pdShowActs?'180':'0')+'deg)', pdChevReg:'transition:transform .2s ease;flex:none;transform:rotate('+(s.pdShowReg?'180':'0')+'deg)',
       genEntries, hasGenEntries:genList.length>0, noGenEntries:genList.length===0, genTotalLabel:this.fmt(genTotal), openAddGeneral:()=>this.openAddGeneral(), openGeneralDetail:()=>this.openGeneralDetail(),
       isSheetGenDetail:s.sheet==='genDetail', genCatRows, genHasCatRows:genCatRows.length>0, genBookings, genHasBookings:genBookings.length>0, genCatChips, newGenCat:s.newGenCat, setNewGenCat:e=>this.setState({newGenCat:ev(e)}), addGenCat:()=>this.addGenCat(),
       isEditingGenCat:!!s.editingGenCat, notEditingGenCat:!s.editingGenCat, editGenCatVal:s.editGenCatVal, editGenCatW:(Math.max(20,this.measureChipText(s.editGenCatVal)+4))+'px', setEditGenCatVal:e=>this.setState({editGenCatVal:ev(e)}), saveEditGenCat:()=>this.saveEditGenCat(), cancelEditGenCat:()=>this.cancelEditGenCat(),

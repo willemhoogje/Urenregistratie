@@ -1322,6 +1322,7 @@ class Component extends DCLogic {
     var M=16, PW=210, PH=297, W=PW-2*M, RX=PW-M;
     var NAVY=[28,42,58],INK=[22,32,43],MUT=[108,114,128],SOFT=[154,160,168],LINE=[228,230,233],MIST=[246,247,248],SQ=[26,54,93],DASH=[205,209,214],WHITE=[255,255,255];
     function sc(fn,c){ doc[fn](c[0],c[1],c[2]); }
+    function drawFooter(){ var fy=PH-16; sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,fy,RX,fy); doc.setFont(BODY,'bold'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('ABECO Projecten BV',M,fy+5); doc.setFont(BODY,'normal'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('De Scheper 259, 5688 HP Oirschot  ·  info@abecoprojecten.nl  ·  www.abecoprojecten.nl',M,fy+9.6); }
     var logo=this.loadLogo(), y=13;
     // brandbar
     if(logo){ var lh=15,lw=lh*logo.w/logo.h; try{ doc.addImage(logo.data,'PNG',M,y,lw,lh); }catch(e){} }
@@ -1390,14 +1391,11 @@ class Component extends DCLogic {
     doc.setFont(BODY,'normal'); doc.setFontSize(9.5); sc('setTextColor',INK); doc.text(this.vgmFmtDate(s.vgmDatum),M+W,lineY-2,{align:'right'});
     sc('setDrawColor',DASH); doc.setLineWidth(0.3); doc.line(M,lineY,M+sigW,lineY); doc.line(rightX,lineY,M+W,lineY);
     // footer (vaste ABECO-voettekst)
-    var fy=PH-16;
-    sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,fy,RX,fy);
-    doc.setFont(BODY,'bold'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('ABECO Projecten BV',M,fy+5);
-    doc.setFont(BODY,'normal'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('De Scheper 259, 5688 HP Oirschot  ·  info@abecoprojecten.nl  ·  www.abecoprojecten.nl',M,fy+9.6);
+    drawFooter();
     // foto's op vervolgpagina('s)
     var photos=s.vgmPhotos||[];
     if(photos.length){
-      doc.addPage(); var py=13;
+      doc.addPage(); drawFooter(); var py=13;
       if(logo){ var lh2=15,lw2=lh2*logo.w/logo.h; try{ doc.addImage(logo.data,'PNG',M,py,lw2,lh2); }catch(e){} }
       doc.setFont(DISP,'bold'); doc.setFontSize(16); sc('setTextColor',INK); doc.text('V&G Deelplan',RX,py+13,{align:'right'});
       py+=17; sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,py,RX,py); py+=8;
@@ -1406,7 +1404,7 @@ class Component extends DCLogic {
       py+=12;
       var gap=6, cellW=(W-gap)/2, cellH=82, col=0;
       photos.forEach(function(ph){
-        if(col===0 && py+cellH>282){ doc.addPage(); py=16; }
+        if(col===0 && py+cellH>270){ doc.addPage(); drawFooter(); py=16; }
         var px=M+col*(cellW+gap);
         sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.rect(px,py,cellW,cellH);
         var iw=ph.w||4, ih=ph.h||3, sca=Math.min((cellW-3)/iw,(cellH-3)/ih), dw=iw*sca, dh=ih*sca;

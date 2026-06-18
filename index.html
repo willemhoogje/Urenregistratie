@@ -519,7 +519,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v103</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie v104</div>
         </div>
       </sc-if>
 
@@ -903,9 +903,9 @@ window.__checkPendingBackup = function () {
           </div>
         </div>
         <div style="padding:18px 18px 30px">
-          <div style="display:flex;align-items:center;justify-content:space-between;background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:18px">
-            <span style="font-size:14px;font-weight:600;color:var(--ink)">{{ rhWorkerName }}</span>
-            <span style="font-size:13px;color:var(--muted)">{{ rhDateLabel }}</span>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:18px">
+            <span style="font-size:14px;font-weight:600;color:var(--ink);text-align:center">{{ rhWorkerName }}</span>
+            <span style="font-size:13px;color:var(--muted);text-align:center">{{ rhDateLabel }}</span>
           </div>
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Aantal uren</label>
           <div style="display:flex;align-items:center;gap:10px">
@@ -1657,7 +1657,7 @@ class Component extends DCLogic {
       saveProject:()=>this.saveProject(), saveProjectStyle:this.primStyle(!!s.p_name.trim()), projectSheetTitle:s.editingProj?'Project bewerken':'Nieuw project',
       rwInit:s.rw_init, setRwInit:e=>this.setState({rw_init:ev(e)}), rwLast:s.rw_last, setRwLast:e=>this.setState({rw_last:ev(e)}), rwKvk:s.rw_kvk, setRwKvk:e=>this.setState({rw_kvk:ev(e)}), saveWorker:()=>this.saveWorker(), saveWorkerStyle:this.primStyle(!!s.rw_last.trim()),
       knownWorkers, hasKnownWorkers:!s.editingWorker&&knownWorkers.length>0, anyKnownWorkers:!s.editingWorker&&s.regWorkers.length>0, workerSheetTitle:s.editingWorker?'ZZP’er wijzigen':'ZZP’er toevoegen', workerSheetHint:s.editingWorker?'Pas naam en KvK-nummer aan':('Toevoegen aan '+this.projName(s.regProjectId)), rwQuery:s.rw_query, setRwQuery:e=>this.setState({rw_query:ev(e)}),
-      rhWorkerName:rhWorker?rhWorker.name:'', rhDateLabel:s.rh_date?this.dateMid(s.rh_date):'', rhVal:s.rh_val, setRhVal:e=>this.setState({rh_val:ev(e)}), rhChips, saveRegHour:()=>this.saveRegHour(), saveRegHourStyle:this.primStyle(true), clearRegHour:()=>this.clearRegHour(),
+      rhWorkerName:rhWorker?this.wkName(rhWorker):'', rhDateLabel:s.rh_date?this.dateMid(s.rh_date):'', rhVal:s.rh_val, setRhVal:e=>this.setState({rh_val:ev(e)}), rhChips, saveRegHour:()=>this.saveRegHour(), saveRegHourStyle:this.primStyle(true), clearRegHour:()=>this.clearRegHour(),
       activitiesList, newActName:s.newActName, setNewAct:e=>this.setState({newActName:ev(e)}), addActivity:()=>this.addActivity(),
       newActReg:!!s.newActReg, newActRegStyle:regBtn(!!s.newActReg), toggleNewActReg:()=>this.toggleNewActReg(),
       isEditingAct:!!s.editingAct, notEditingAct:!s.editingAct, editActVal:s.editActVal, editActW:(Math.max(20,this.measureChipText(s.editActVal)+4))+'px', setEditActVal:e=>this.setState({editActVal:ev(e)}), saveEditActivity:()=>this.saveEditActivity(), cancelEditActivity:()=>this.cancelEditActivity(),

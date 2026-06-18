@@ -1325,13 +1325,11 @@ class Component extends DCLogic {
     var logo=this.loadLogo(), y=13;
     // brandbar
     if(logo){ var lh=15,lw=lh*logo.w/logo.h; try{ doc.addImage(logo.data,'PNG',M,y,lw,lh); }catch(e){} }
-    doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',NAVY); doc.text('V&G DEELPLAN',RX,y+8.5,{align:'right'});
-    doc.setFont(DISP,'bold'); doc.setFontSize(10.5); sc('setTextColor',INK); doc.text('Bijlagen',RX,y+14,{align:'right'});
+    doc.setFont(DISP,'bold'); doc.setFontSize(16); sc('setTextColor',INK); doc.text('V&G Deelplan',RX,y+13,{align:'right'});
     y+=17;
     sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,y,RX,y); y+=8;
     // title
     doc.setFont(DISP,'bold'); doc.setFontSize(18); sc('setTextColor',INK); doc.text(f.title,M,y+5);
-    doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',SOFT); doc.text(f.ix.toUpperCase(),RX,y+5,{align:'right'});
     y+=11;
     // intro strip
     doc.setFont(BODY,'normal'); doc.setFontSize(9.5);
@@ -1396,14 +1394,12 @@ class Component extends DCLogic {
     sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,fy,RX,fy);
     doc.setFont(BODY,'bold'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('ABECO Projecten BV',M,fy+5);
     doc.setFont(BODY,'normal'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('De Scheper 259, 5688 HP Oirschot  ·  info@abecoprojecten.nl  ·  www.abecoprojecten.nl',M,fy+9.6);
-    doc.setFont(BODY,'normal'); doc.setFontSize(8.5); sc('setTextColor',SOFT); doc.text(f.pageNo.toUpperCase(),RX,fy+5,{align:'right'});
     // foto's op vervolgpagina('s)
     var photos=s.vgmPhotos||[];
     if(photos.length){
       doc.addPage(); var py=13;
       if(logo){ var lh2=15,lw2=lh2*logo.w/logo.h; try{ doc.addImage(logo.data,'PNG',M,py,lw2,lh2); }catch(e){} }
-      doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',NAVY); doc.text('V&G DEELPLAN',RX,py+8.5,{align:'right'});
-      doc.setFont(DISP,'bold'); doc.setFontSize(10.5); sc('setTextColor',INK); doc.text('Bijlagen',RX,py+14,{align:'right'});
+      doc.setFont(DISP,'bold'); doc.setFontSize(16); sc('setTextColor',INK); doc.text('V&G Deelplan',RX,py+13,{align:'right'});
       py+=17; sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,py,RX,py); py+=8;
       doc.setFont(DISP,'bold'); doc.setFontSize(18); sc('setTextColor',INK); doc.text('Foto’s — '+(kind==='lmra'?'LMRA':'Werkplekinspectie'),M,py+5);
       doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',SOFT); doc.text(((s.vgmLocatie?s.vgmLocatie+' · ':'')+this.vgmFmtDate(s.vgmDatum)).toUpperCase(),RX,py+5,{align:'right'});
@@ -1421,8 +1417,7 @@ class Component extends DCLogic {
     // opslaan / delen
     var base=(kind==='lmra'?'LMRA':'Werkplekinspectie');
     var fname=this.sanitizeFn(base)+(s.vgmLocatie?'_'+this.sanitizeFn(s.vgmLocatie):'')+'_'+this.sanitizeFn(this.vgmFmtDate(s.vgmDatum))+'.pdf';
-    this.savePdf(doc,fname);
-    this.showFlash('PDF aangemaakt ✓');
+    this.savePdf(doc,fname,function(){ self.vgmClearDraft(); self.setState({sheet:null}); self.showFlash('PDF opgeslagen — formulier leeggemaakt ✓'); });
   }
   seed(){
     return {
@@ -1683,16 +1678,16 @@ class Component extends DCLogic {
   loadLogo(){ try{ var img=document.querySelector('#printArea img'); if(img&&img.complete&&img.naturalWidth){ var c=document.createElement('canvas'); c.width=img.naturalWidth; c.height=img.naturalHeight; c.getContext('2d').drawImage(img,0,0); return {data:c.toDataURL('image/png'),w:img.naturalWidth,h:img.naturalHeight}; } }catch(e){} return null; }
   sanitizeFn(s){ return String(s==null?'':s).replace(/[\/\\:*?"<>|,]+/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-+|-+$/g,''); }
   isoYear(date){ var d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate())); var dn=(d.getUTCDay()+6)%7; d.setUTCDate(d.getUTCDate()-dn+3); return d.getUTCFullYear(); }
-  savePdf(doc,fname){
+  savePdf(doc,fname,onSaved){
     // Probeer het deel-menu (zoals bij de backup) zodat de gebruiker de locatie kiest (Drive/Bestanden); val anders terug op downloaden.
     try{
       if(navigator.canShare){
         var blob=doc.output('blob');
         var file=new File([blob],fname,{type:'application/pdf'});
-        if(navigator.canShare({files:[file]})){ navigator.share({files:[file],title:fname}).catch(function(){}); return; }
+        if(navigator.canShare({files:[file]})){ navigator.share({files:[file],title:fname}).then(function(){ if(onSaved)onSaved(); }).catch(function(){}); return; }
       }
     }catch(e){}
-    doc.save(fname);
+    doc.save(fname); if(onSaved)onSaved();
   }
   buildPdf(kind,weekKey,year){
     if(!(window.jspdf&&window.jspdf.jsPDF)){ try{ document.body.setAttribute('data-print',kind==='overview'?'overview':'register'); window.print(); }catch(e){} return; }

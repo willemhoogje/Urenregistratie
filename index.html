@@ -975,12 +975,26 @@ window.__checkPendingBackup = function () {
           <input value="{{ vgmNaam }}" onChange="{{ setVgmNaam }}" placeholder="{{ vgmNameLabel }}" autocapitalize="words" style="width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
 
           <label style="display:block;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Projectlocatie</label>
-          <input value="{{ vgmLocatie }}" onChange="{{ setVgmLocatie }}" placeholder="Projectlocatie" style="width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
-          <sc-if value="{{ hasVgmLocMatches }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-direction:column;gap:7px;margin-top:9px">
-              <sc-for list="{{ vgmLocMatches }}" as="l" hint-placeholder-count="2">
-                <button onClick="{{ l.onPick }}" style="width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:11px;padding:11px 13px;cursor:pointer"><span style="min-width:0;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ l.label }}</span><span style="display:inline-flex;align-items:center;gap:5px;color:var(--navy);font-size:12.5px;font-weight:600;flex:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10l-4 4 4 4"/><path d="M20 4v6a4 4 0 0 1-4 4H5"/></svg>Invullen</span></button>
+          <sc-if value="{{ vgmHasProj }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:12px;background:var(--navy);border-radius:12px;padding:13px 15px">
+              <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:rgba(255,255,255,.16);border-radius:6px;padding:4px 7px;white-space:nowrap">{{ vgmSelProjBadge }}</span>
+              <span style="flex:1;min-width:0;font-size:14.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ vgmSelProjName }}</span>
+              <button onClick="{{ clearVgmProj }}" style="background:rgba(255,255,255,.16);border:none;color:#fff;font-size:12px;font-weight:600;border-radius:8px;padding:7px 11px;cursor:pointer">Wijzig</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ vgmNoProj }}" hint-placeholder-val="{{ true }}">
+            <div style="position:relative">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" style="position:absolute;left:13px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+              <input value="{{ vgmProjQuery }}" onChange="{{ setVgmProjQuery }}" placeholder="Zoek op naam, nummer of plaats…" style="width:100%;box-sizing:border-box;padding:13px 14px 13px 38px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist)"/>
+            </div>
+            <div style="margin-top:9px;display:flex;flex-direction:column;gap:7px">
+              <sc-for list="{{ vgmProjMatches }}" as="m" hint-placeholder-count="3">
+                <button onClick="{{ m.onTap }}" style="width:100%;text-align:left;display:flex;align-items:center;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 13px;cursor:pointer">
+                  <span style="font-family:var(--disp);font-size:10px;font-weight:600;color:#fff;background:var(--navy);border-radius:6px;padding:4px 7px;white-space:nowrap;flex:none">{{ m.badge }}</span>
+                  <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span><sc-if value="{{ m.hasSub }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.sub }}</span></sc-if></span>
+                </button>
               </sc-for>
+              <sc-if value="{{ vgmNoProjMatches }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:var(--soft);padding:4px 2px">Geen project gevonden.</div></sc-if>
             </div>
           </sc-if>
 
@@ -1180,7 +1194,7 @@ class Component extends DCLogic {
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',newActReg:false,editingAct:'',editActVal:'',pd_id:'',pdShowActs:false,pdShowReg:false,newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
       rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',reg_projQuery:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_projQuery:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false,n_blocks:[],rh_worker:'',rh_date:'',rh_val:'',
-      vgmKind:'',vgmDatum:'',vgmNaam:'',vgmLocatie:'',vgmLocQuery:'',vgmAnswers:[],vgmNotes:''},data);
+      vgmKind:'',vgmDatum:'',vgmNaam:'',vgmLocatie:'',vgmProjId:'',vgmProjQuery:'',vgmAnswers:[],vgmNotes:''},data);
   }
   vgmForm(kind){
     if(kind==='inspectie') return {kind:'inspectie',title:'Werkplekinspectie',ix:'10 — Bijlage C',
@@ -1197,15 +1211,16 @@ class Component extends DCLogic {
       noteLabel:"Bij twijfel of “Nee” — genomen maatregel of overleg",pageNo:'Pagina 9 / 11'};
   }
   openVgm(kind){
-    const f=this.vgmForm(kind); const today=this.toISO(new Date()); let d=null;
+    const f=this.vgmForm(kind); const today=this.toISO(new Date()); const co=this.state.company||{}; const defName=this.nm(co.myLast,co.myInit); let d=null;
     try{ d=JSON.parse(localStorage.getItem('vgm_draft_'+kind)||'null'); }catch(_){}
-    if(d&&typeof d==='object'){ this.setState({sheet:'vgmForm',vgmKind:kind,vgmDatum:d.datum||today,vgmNaam:d.naam||'',vgmLocatie:d.locatie||'',vgmLocQuery:'',vgmAnswers:(d.answers&&d.answers.length===f.questions.length)?d.answers:f.questions.map(()=>''),vgmNotes:d.notes||''}); }
-    else { this.setState({sheet:'vgmForm',vgmKind:kind,vgmDatum:today,vgmNaam:'',vgmLocatie:'',vgmLocQuery:'',vgmAnswers:f.questions.map(()=>''),vgmNotes:''}); }
+    if(d&&typeof d==='object'){ this.setState({sheet:'vgmForm',vgmKind:kind,vgmDatum:d.datum||today,vgmNaam:(d.naam!==undefined?d.naam:defName),vgmLocatie:d.locatie||'',vgmProjId:d.projId||'',vgmProjQuery:'',vgmAnswers:(d.answers&&d.answers.length===f.questions.length)?d.answers:f.questions.map(()=>''),vgmNotes:d.notes||''}); }
+    else { this.setState({sheet:'vgmForm',vgmKind:kind,vgmDatum:today,vgmNaam:defName,vgmLocatie:'',vgmProjId:'',vgmProjQuery:'',vgmAnswers:f.questions.map(()=>''),vgmNotes:''}); }
   }
   vgmSet(patch){ this.setState(patch,()=>this.vgmSaveDraft()); }
   setVgmAnswer(i,key){ const a=(this.state.vgmAnswers||[]).slice(); a[i]=(a[i]===key?'':key); this.vgmSet({vgmAnswers:a}); }
-  pickVgmLoc(loc){ this.vgmSet({vgmLocatie:loc,vgmLocQuery:''}); }
-  vgmSaveDraft(){ const s=this.state; if(!s.vgmKind)return; const d={datum:s.vgmDatum,naam:s.vgmNaam,locatie:s.vgmLocatie,answers:s.vgmAnswers,notes:s.vgmNotes}; try{ localStorage.setItem('vgm_draft_'+s.vgmKind,JSON.stringify(d)); }catch(_){}}
+  pickVgmProj(id){ const p=this.proj(id)||{}; this.vgmSet({vgmProjId:id,vgmLocatie:(p.location||p.name||''),vgmProjQuery:''}); }
+  clearVgmProj(){ this.vgmSet({vgmProjId:'',vgmLocatie:'',vgmProjQuery:''}); }
+  vgmSaveDraft(){ const s=this.state; if(!s.vgmKind)return; const d={datum:s.vgmDatum,naam:s.vgmNaam,locatie:s.vgmLocatie,projId:s.vgmProjId,answers:s.vgmAnswers,notes:s.vgmNotes}; try{ localStorage.setItem('vgm_draft_'+s.vgmKind,JSON.stringify(d)); }catch(_){}}
   vgmClearDraft(){ const s=this.state; try{ localStorage.removeItem('vgm_draft_'+s.vgmKind); }catch(_){}}
   closeVgm(){ this.setState({sheet:null}); }
   vgmMakePdf(){ this.showFlash('PDF-uitdraai volgt in de volgende stap'); }
@@ -1703,13 +1718,14 @@ class Component extends DCLogic {
     const clientMatches=(cQ?clientHist.filter(c=>c.toLowerCase().indexOf(cQ)>=0&&c.toLowerCase()!==cQ):[]).slice(0,6).map(c=>({label:c,onPick:()=>this.setState({p_client:c})}));
     const vgmF=s.vgmKind?this.vgmForm(s.vgmKind):null;
     const vgmPill=(on)=>'flex:1;text-align:center;cursor:pointer;padding:9px 6px;border-radius:9px;font-size:13px;font-weight:600;background:'+(on?C.navy:C.mist)+';color:'+(on?'#fff':C.ink)+';border:'+(on?'1.5px solid '+C.navy:'1px solid '+C.line);
-    let vgmQuestions=[],vgmLocMatches=[];
+    let vgmQuestions=[],vgmProjMatches=[];
     if(vgmF){ const ans=s.vgmAnswers||[];
       vgmQuestions=vgmF.questions.map((text,i)=>({text,options:vgmF.cols.map(c=>({label:c.label,style:vgmPill(ans[i]===c.key),onPick:()=>this.setVgmAnswer(i,c.key)}))}));
-      const locHist=[]; (s.projects||[]).forEach(p=>{ const l=(p.location||'').trim(); if(l&&locHist.indexOf(l)<0)locHist.push(l); }); locHist.sort((a,b)=>a.localeCompare(b,'nl'));
-      const lQ=(s.vgmLocatie||'').trim().toLowerCase();
-      vgmLocMatches=(lQ?locHist.filter(l=>l.toLowerCase().indexOf(lQ)>=0&&l.toLowerCase()!==lQ):[]).slice(0,5).map(l=>({label:l,onPick:()=>this.pickVgmLoc(l)}));
+      const vQ=(s.vgmProjQuery||'').trim().toLowerCase();
+      vgmProjMatches=(vQ?s.projects.filter(p=>p.name.toLowerCase().indexOf(vQ)>=0||(p.number||'').toLowerCase().indexOf(vQ)>=0||(p.location||'').toLowerCase().indexOf(vQ)>=0).slice(0,6):[]).map(p=>({name:p.name,badge:this.projBadge(p),sub:p.location||'',hasSub:!!p.location,onTap:()=>this.pickVgmProj(p.id)}));
     }
+    const vgmSelProj=s.vgmProjId?this.proj(s.vgmProjId):null;
+    const vgmQActive=!!(s.vgmProjQuery||'').trim();
     let vgmHasLmraDraft=false,vgmHasInspectieDraft=false;
     try{ vgmHasLmraDraft=!!localStorage.getItem('vgm_draft_lmra'); }catch(_){}
     try{ vgmHasInspectieDraft=!!localStorage.getItem('vgm_draft_inspectie'); }catch(_){}
@@ -1737,8 +1753,10 @@ class Component extends DCLogic {
       openVgmLmra:()=>this.openVgm('lmra'), openVgmInspectie:()=>this.openVgm('inspectie'), vgmHasLmraDraft:vgmHasLmraDraft, vgmHasInspectieDraft:vgmHasInspectieDraft,
       isSheetVgm:s.sheet==='vgmForm', closeVgm:()=>this.closeVgm(), vgmMakePdf:()=>this.vgmMakePdf(),
       vgmShortTitle:(vgmF?(vgmF.kind==='lmra'?'LMRA':'Werkplekinspectie'):''), vgmIntro:(vgmF?vgmF.intro:''), vgmNameLabel:(vgmF?vgmF.nameLabel:''), vgmNoteLabel:(vgmF?vgmF.noteLabel:''),
-      vgmDatum:s.vgmDatum, setVgmDatum:e=>this.vgmSet({vgmDatum:ev(e)}), vgmNaam:s.vgmNaam, setVgmNaam:e=>this.vgmSet({vgmNaam:ev(e)}), vgmLocatie:s.vgmLocatie, setVgmLocatie:e=>this.vgmSet({vgmLocatie:ev(e)}),
-      vgmLocMatches:vgmLocMatches, hasVgmLocMatches:vgmLocMatches.length>0, vgmQuestions:vgmQuestions, vgmNotes:s.vgmNotes, setVgmNotes:e=>this.vgmSet({vgmNotes:ev(e)}),
+      vgmDatum:s.vgmDatum, setVgmDatum:e=>this.vgmSet({vgmDatum:ev(e)}), vgmNaam:s.vgmNaam, setVgmNaam:e=>this.vgmSet({vgmNaam:ev(e)}),
+      vgmHasProj:!!vgmSelProj, vgmNoProj:!vgmSelProj, vgmSelProjName:vgmSelProj?vgmSelProj.name:'', vgmSelProjBadge:vgmSelProj?this.projBadge(vgmSelProj):'', clearVgmProj:()=>this.clearVgmProj(),
+      vgmProjQuery:s.vgmProjQuery, setVgmProjQuery:e=>this.setState({vgmProjQuery:ev(e)}), vgmProjMatches:vgmProjMatches, vgmNoProjMatches:(vgmQActive&&vgmProjMatches.length===0),
+      vgmQuestions:vgmQuestions, vgmNotes:s.vgmNotes, setVgmNotes:e=>this.vgmSet({vgmNotes:ev(e)}),
       noteGroups, hasNotes:(s.notes||[]).length>0, noNotes:(s.notes||[]).length===0, openNewNote:()=>this.openNewNote(),
       isSheetNote:s.sheet==='note', noteSheetTitle:s.n_id?'Notitie bewerken':'Nieuwe notitie', isNoteEditing:!!s.n_id,
       nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}), nText:s.n_text, setNText:e=>this.setState({n_text:ev(e)}),

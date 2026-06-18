@@ -1014,7 +1014,54 @@ window.__checkPendingBackup = function () {
           <label style="display:block;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px">{{ vgmNoteLabel }}</label>
           <textarea value="{{ vgmNotes }}" onChange="{{ setVgmNotes }}" placeholder="Optioneel — noteer maatregelen, afwijkingen of overleg" rows="3" style="width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink);background:var(--mist);font-family:var(--body);line-height:1.5;resize:vertical"></textarea>
 
-          <p style="font-size:11.5px;color:var(--soft);line-height:1.55;margin:16px 4px 0">Foto's en handtekening volgen als volgende stap. Je invoer wordt automatisch als concept bewaard.</p>
+          <label style="display:block;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px">Foto's <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
+          <sc-if value="{{ vgmHasPhotos }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+              <sc-for list="{{ vgmPhotoList }}" as="p" hint-placeholder-count="2">
+                <div style="position:relative;width:80px;height:80px;border-radius:10px;overflow:hidden;border:1px solid var(--line)">
+                  <img src="{{ p.src }}" style="width:100%;height:100%;object-fit:cover;display:block"/>
+                  <button onClick="{{ p.onRemove }}" aria-label="Verwijder foto" style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(8,12,20,.62);border:none;color:#fff;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <label style="display:inline-flex;align-items:center;gap:7px;padding:11px 16px;border-radius:12px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:14px;font-weight:600;cursor:pointer"><input type="file" accept="image/*" multiple onChange="{{ onVgmPhotos }}" style="display:none"/><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Foto toevoegen</label>
+
+          <label style="display:block;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px">Handtekening <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
+          <sc-if value="{{ vgmHasSign }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--paper)"><img src="{{ vgmSign }}" style="width:100%;max-height:90px;object-fit:contain;display:block"/></div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button onClick="{{ openVgmSign }}" style="flex:1;background:var(--mist);border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:11px;font-size:13.5px;font-weight:600;cursor:pointer">Opnieuw tekenen</button>
+              <button onClick="{{ removeSign }}" style="flex:none;background:none;border:1px solid var(--line);color:var(--muted);border-radius:11px;padding:11px 16px;font-size:13.5px;font-weight:600;cursor:pointer">Verwijderen</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ vgmNoSign }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ openVgmSign }}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:12px;border:1.5px dashed #c4ccd6;background:none;color:var(--navy);font-size:14px;font-weight:600;cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/><path d="M14.06 6.19l3.75 3.75"/></svg>Handtekening zetten</button>
+          </sc-if>
+
+          <p style="font-size:11.5px;color:var(--soft);line-height:1.55;margin:18px 4px 0">Je invoer wordt automatisch als concept bewaard. Tik op <b style="color:var(--navy)">PDF maken</b> bovenaan om de uitdraai te maken en op te slaan in je eigen cloud.</p>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== SHEET: HANDTEKENING ===== -->
+    <sc-if value="{{ isSheetVgmSign }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:64;background:rgba(8,12,20,.5);animation:fadeIn .18s ease" onClick="{{ cancelSig }}"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;z-index:65;background:var(--paper);border-radius:24px 24px 0 0;animation:sheetUp .26s cubic-bezier(.2,.8,.2,1)">
+        <div style="padding:11px 0 0">
+          <div style="width:38px;height:5px;border-radius:99px;background:#d4d8de;margin:0 auto"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)">
+            <button onClick="{{ cancelSig }}" style="background:none;border:none;color:var(--muted);font-size:14.5px;cursor:pointer;font-weight:500">Annuleer</button>
+            <span style="font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)">Handtekening</span>
+            <button onClick="{{ saveSig }}" style="background:var(--navy);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-size:13.5px;font-weight:600;cursor:pointer">Gereed</button>
+          </div>
+        </div>
+        <div style="padding:16px 18px 30px">
+          <canvas id="vgmSigCanvas" style="width:100%;height:210px;background:var(--mist);border:1px solid var(--line);border-radius:14px;touch-action:none;display:block;cursor:crosshair"></canvas>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+            <span style="font-size:12px;color:var(--soft)">Teken je handtekening met je vinger.</span>
+            <button onClick="{{ clearSig }}" style="background:none;border:1px solid var(--line);color:var(--muted);border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer">Wissen</button>
+          </div>
         </div>
       </div>
     </sc-if>
@@ -1194,7 +1241,7 @@ class Component extends DCLogic {
       f_date:this.toISO(new Date()),f_projectId:'',f_activity:'',f_hours:'',f_note:'',f_projQuery:'',
       newActInline:'',p_name:'',p_number:'',p_location:'',p_client:'',newActName:'',newActReg:false,editingAct:'',editActVal:'',pd_id:'',pdShowActs:false,pdShowReg:false,newGenCat:'',editingGenCat:'',editGenCatVal:'',settingsOpen:{},
       rw_init:'',rw_last:'',rw_kvk:'',rw_query:'',reg_projQuery:'',editingWorker:null,editingProj:null,backupSnooze:false,n_id:null,n_title:'',n_projectId:'',n_projQuery:'',n_text:'',n_items:[],n_newItem:'',n_reminderDate:'',n_reminderTime:'',n_showCheck:false,n_blocks:[],rh_worker:'',rh_date:'',rh_val:'',
-      vgmKind:'',vgmDatum:'',vgmNaam:'',vgmLocatie:'',vgmProjId:'',vgmProjQuery:'',vgmAnswers:[],vgmNotes:''},data);
+      vgmKind:'',vgmDatum:'',vgmNaam:'',vgmLocatie:'',vgmProjId:'',vgmProjQuery:'',vgmAnswers:[],vgmNotes:'',vgmPhotos:[],vgmSign:'',vgmSignAR:0},data);
   }
   vgmForm(kind){
     if(kind==='inspectie') return {kind:'inspectie',title:'Werkplekinspectie',ix:'10 — Bijlage C',
@@ -1213,16 +1260,57 @@ class Component extends DCLogic {
   openVgm(kind){
     const f=this.vgmForm(kind); const today=this.toISO(new Date()); const co=this.state.company||{}; const defName=this.nm(co.myLast,co.myInit); let d=null;
     try{ d=JSON.parse(localStorage.getItem('vgm_draft_'+kind)||'null'); }catch(_){}
-    if(d&&typeof d==='object'){ this.setState({sheet:'vgmForm',vgmKind:kind,vgmDatum:d.datum||today,vgmNaam:(d.naam!==undefined?d.naam:defName),vgmLocatie:d.locatie||'',vgmProjId:d.projId||'',vgmProjQuery:'',vgmAnswers:(d.answers&&d.answers.length===f.questions.length)?d.answers:f.questions.map(()=>''),vgmNotes:d.notes||''}); }
-    else { this.setState({sheet:'vgmForm',vgmKind:kind,vgmDatum:today,vgmNaam:defName,vgmLocatie:'',vgmProjId:'',vgmProjQuery:'',vgmAnswers:f.questions.map(()=>''),vgmNotes:''}); }
+    if(d&&typeof d==='object'){ this.setState({sheet:'vgmForm',vgmKind:kind,vgmDatum:d.datum||today,vgmNaam:(d.naam!==undefined?d.naam:defName),vgmLocatie:d.locatie||'',vgmProjId:d.projId||'',vgmProjQuery:'',vgmAnswers:(d.answers&&d.answers.length===f.questions.length)?d.answers:f.questions.map(()=>''),vgmNotes:d.notes||'',vgmPhotos:(d.photos||[]),vgmSign:(d.sign||''),vgmSignAR:(d.signAR||0)}); }
+    else { this.setState({sheet:'vgmForm',vgmKind:kind,vgmDatum:today,vgmNaam:defName,vgmLocatie:'',vgmProjId:'',vgmProjQuery:'',vgmAnswers:f.questions.map(()=>''),vgmNotes:'',vgmPhotos:[],vgmSign:'',vgmSignAR:0}); }
   }
   vgmSet(patch){ this.setState(patch,()=>this.vgmSaveDraft()); }
   setVgmAnswer(i,key){ const a=(this.state.vgmAnswers||[]).slice(); a[i]=(a[i]===key?'':key); this.vgmSet({vgmAnswers:a}); }
   pickVgmProj(id){ const p=this.proj(id)||{}; this.vgmSet({vgmProjId:id,vgmLocatie:(p.location||p.name||''),vgmProjQuery:''}); }
   clearVgmProj(){ this.vgmSet({vgmProjId:'',vgmLocatie:'',vgmProjQuery:''}); }
-  vgmSaveDraft(){ const s=this.state; if(!s.vgmKind)return; const d={datum:s.vgmDatum,naam:s.vgmNaam,locatie:s.vgmLocatie,projId:s.vgmProjId,answers:s.vgmAnswers,notes:s.vgmNotes}; try{ localStorage.setItem('vgm_draft_'+s.vgmKind,JSON.stringify(d)); }catch(_){}}
+  vgmSaveDraft(){ const s=this.state; if(!s.vgmKind)return; const base={datum:s.vgmDatum,naam:s.vgmNaam,locatie:s.vgmLocatie,projId:s.vgmProjId,answers:s.vgmAnswers,notes:s.vgmNotes,sign:s.vgmSign,signAR:s.vgmSignAR}; const full=Object.assign({photos:s.vgmPhotos},base); const k='vgm_draft_'+s.vgmKind; try{ localStorage.setItem(k,JSON.stringify(full)); }catch(e){ try{ localStorage.setItem(k,JSON.stringify(base)); }catch(_){}}}
   vgmClearDraft(){ const s=this.state; try{ localStorage.removeItem('vgm_draft_'+s.vgmKind); }catch(_){}}
   closeVgm(){ this.setState({sheet:null}); }
+  handleVgmPhotos(e){
+    var tgt=e&&e.target, files=tgt&&tgt.files; if(!files||!files.length)return;
+    var self=this, arr=Array.prototype.slice.call(files), pending=arr.length, photos=(this.state.vgmPhotos||[]).slice();
+    arr.forEach(function(file){
+      var reader=new FileReader();
+      reader.onload=function(){ var img=new Image(); img.onload=function(){
+        var maxD=1500, w=img.width, h=img.height;
+        if(w>=h&&w>maxD){ h=Math.round(h*maxD/w); w=maxD; } else if(h>w&&h>maxD){ w=Math.round(w*maxD/h); h=maxD; }
+        var c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
+        photos.push({data:c.toDataURL('image/jpeg',0.72),w:w,h:h}); pending--; if(pending===0)self.vgmSet({vgmPhotos:photos});
+      }; img.onerror=function(){ pending--; if(pending===0)self.vgmSet({vgmPhotos:photos}); }; img.src=reader.result; };
+      reader.onerror=function(){ pending--; if(pending===0)self.vgmSet({vgmPhotos:photos}); };
+      reader.readAsDataURL(file);
+    });
+    try{ tgt.value=''; }catch(_){}
+  }
+  removeVgmPhoto(i){ var p=(this.state.vgmPhotos||[]).slice(); p.splice(i,1); this.vgmSet({vgmPhotos:p}); }
+  openVgmSign(){ var self=this; this.setState({sheet:'vgmSign'},function(){ setTimeout(function(){ self.initSigCanvas(); },30); }); }
+  initSigCanvas(){
+    var c=document.getElementById('vgmSigCanvas'); if(!c)return; if(this._sigCleanup)this._sigCleanup();
+    var rect=c.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+    c.width=Math.round(rect.width*dpr); c.height=Math.round(rect.height*dpr);
+    var ctx=c.getContext('2d'); ctx.scale(dpr,dpr); ctx.lineWidth=2.2; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.strokeStyle='#16202b';
+    this._sigCtx=ctx; this._sigCanvas=c; this._sigEmpty=true;
+    var drawing=false;
+    function pos(e){ var r=c.getBoundingClientRect(); return {x:e.clientX-r.left,y:e.clientY-r.top}; }
+    function down(e){ e.preventDefault(); drawing=true; var p=pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); c.setPointerCapture&&c.setPointerCapture(e.pointerId); }
+    function move(e){ if(!drawing)return; e.preventDefault(); var p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); }
+    var selfE=this; function up(e){ if(drawing){ drawing=false; selfE._sigEmpty=false; } }
+    c.addEventListener('pointerdown',down); c.addEventListener('pointermove',move); c.addEventListener('pointerup',up); c.addEventListener('pointercancel',up);
+    this._sigCleanup=function(){ c.removeEventListener('pointerdown',down); c.removeEventListener('pointermove',move); c.removeEventListener('pointerup',up); c.removeEventListener('pointercancel',up); };
+  }
+  clearSig(){ var c=this._sigCanvas, ctx=this._sigCtx; if(!c||!ctx)return; ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,c.width,c.height); ctx.restore(); this._sigEmpty=true; }
+  cancelSig(){ if(this._sigCleanup)this._sigCleanup(); this.setState({sheet:'vgmForm'}); }
+  saveSig(){
+    var c=this._sigCanvas; if(this._sigCleanup)this._sigCleanup();
+    if(!c||this._sigEmpty){ this.setState({sheet:'vgmForm'}); return; }
+    var data=c.toDataURL('image/png'), ar=c.width/c.height;
+    this.setState({sheet:'vgmForm',vgmSign:data,vgmSignAR:ar},()=>this.vgmSaveDraft());
+  }
+  removeSign(){ this.vgmSet({vgmSign:'',vgmSignAR:0}); }
   vgmFmtDate(iso){ if(!iso)return ''; var p=String(iso).split('-'); if(p.length!==3)return iso; return p[2]+'-'+p[1]+'-'+p[0]; }
   vgmMakePdf(){ var self=this, kind=this.state.vgmKind; if(!kind)return; this.ensureFonts(function(){ self.buildVgmPdf(kind); }); }
   buildVgmPdf(kind){
@@ -1296,18 +1384,40 @@ class Component extends DCLogic {
     sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.rect(M,y,W,nHeadH+bodyH); doc.line(M,y+nHeadH,M+W,y+nHeadH);
     y+=nHeadH+bodyH+9;
     // signature strip
-    var colGap=14, sigW=(W-colGap)/2, rightX=M+sigW+colGap;
+    var colGap=14, sigW=(W-colGap)/2, rightX=M+sigW+colGap, lineY=y+17;
     doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',MUT);
     doc.text(f.signNameLabel.toUpperCase(),M,y+3.5); doc.text('HANDTEKENING & DATUM',rightX,y+3.5);
-    doc.setFont(DISP,'bold'); doc.setFontSize(10.5); sc('setTextColor',INK); doc.text(String(s.vgmNaam||''),M,y+15);
-    doc.setFont(BODY,'normal'); doc.setFontSize(9.5); sc('setTextColor',INK); doc.text(this.vgmFmtDate(s.vgmDatum),rightX,y+15);
-    sc('setDrawColor',DASH); doc.setLineWidth(0.3); doc.line(M,y+17,M+sigW,y+17); doc.line(rightX,y+17,M+W,y+17);
+    doc.setFont(DISP,'bold'); doc.setFontSize(10.5); sc('setTextColor',INK); doc.text(String(s.vgmNaam||''),M,lineY-2);
+    if(s.vgmSign){ try{ var sigH=12, sigImgW=sigH*(s.vgmSignAR||2.2); if(sigImgW>sigW-23)sigImgW=sigW-23; doc.addImage(s.vgmSign,'PNG',rightX,lineY-sigH-0.5,sigImgW,sigH); }catch(e){} }
+    doc.setFont(BODY,'normal'); doc.setFontSize(9.5); sc('setTextColor',INK); doc.text(this.vgmFmtDate(s.vgmDatum),M+W,lineY-2,{align:'right'});
+    sc('setDrawColor',DASH); doc.setLineWidth(0.3); doc.line(M,lineY,M+sigW,lineY); doc.line(rightX,lineY,M+W,lineY);
     // footer (vaste ABECO-voettekst)
     var fy=PH-16;
     sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,fy,RX,fy);
     doc.setFont(BODY,'bold'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('ABECO Projecten BV',M,fy+5);
     doc.setFont(BODY,'normal'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('De Scheper 259, 5688 HP Oirschot  ·  info@abecoprojecten.nl  ·  www.abecoprojecten.nl',M,fy+9.6);
     doc.setFont(BODY,'normal'); doc.setFontSize(8.5); sc('setTextColor',SOFT); doc.text(f.pageNo.toUpperCase(),RX,fy+5,{align:'right'});
+    // foto's op vervolgpagina('s)
+    var photos=s.vgmPhotos||[];
+    if(photos.length){
+      doc.addPage(); var py=13;
+      if(logo){ var lh2=15,lw2=lh2*logo.w/logo.h; try{ doc.addImage(logo.data,'PNG',M,py,lw2,lh2); }catch(e){} }
+      doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',NAVY); doc.text('V&G DEELPLAN',RX,py+8.5,{align:'right'});
+      doc.setFont(DISP,'bold'); doc.setFontSize(10.5); sc('setTextColor',INK); doc.text('Bijlagen',RX,py+14,{align:'right'});
+      py+=17; sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,py,RX,py); py+=8;
+      doc.setFont(DISP,'bold'); doc.setFontSize(18); sc('setTextColor',INK); doc.text('Foto’s — '+(kind==='lmra'?'LMRA':'Werkplekinspectie'),M,py+5);
+      doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',SOFT); doc.text(((s.vgmLocatie?s.vgmLocatie+' · ':'')+this.vgmFmtDate(s.vgmDatum)).toUpperCase(),RX,py+5,{align:'right'});
+      py+=12;
+      var gap=6, cellW=(W-gap)/2, cellH=82, col=0;
+      photos.forEach(function(ph){
+        if(col===0 && py+cellH>282){ doc.addPage(); py=16; }
+        var px=M+col*(cellW+gap);
+        sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.rect(px,py,cellW,cellH);
+        var iw=ph.w||4, ih=ph.h||3, sca=Math.min((cellW-3)/iw,(cellH-3)/ih), dw=iw*sca, dh=ih*sca;
+        try{ doc.addImage(ph.data,'JPEG',px+(cellW-dw)/2,py+(cellH-dh)/2,dw,dh); }catch(e){}
+        col++; if(col>=2){ col=0; py+=cellH+gap; }
+      });
+    }
     // opslaan / delen
     var base=(kind==='lmra'?'LMRA':'Werkplekinspectie');
     var fname=this.sanitizeFn(base)+(s.vgmLocatie?'_'+this.sanitizeFn(s.vgmLocatie):'')+'_'+this.sanitizeFn(this.vgmFmtDate(s.vgmDatum))+'.pdf';
@@ -1816,6 +1926,7 @@ class Component extends DCLogic {
     }
     const vgmSelProj=s.vgmProjId?this.proj(s.vgmProjId):null;
     const vgmQActive=!!(s.vgmProjQuery||'').trim();
+    const vgmPhotoList=(s.vgmPhotos||[]).map((ph,i)=>({src:(ph&&ph.data)?ph.data:ph,onRemove:()=>this.removeVgmPhoto(i)}));
     let vgmHasLmraDraft=false,vgmHasInspectieDraft=false;
     try{ vgmHasLmraDraft=!!localStorage.getItem('vgm_draft_lmra'); }catch(_){}
     try{ vgmHasInspectieDraft=!!localStorage.getItem('vgm_draft_inspectie'); }catch(_){}
@@ -1847,6 +1958,9 @@ class Component extends DCLogic {
       vgmHasProj:!!vgmSelProj, vgmNoProj:!vgmSelProj, vgmSelProjName:vgmSelProj?vgmSelProj.name:'', vgmSelProjBadge:vgmSelProj?this.projBadge(vgmSelProj):'', clearVgmProj:()=>this.clearVgmProj(),
       vgmProjQuery:s.vgmProjQuery, setVgmProjQuery:e=>this.setState({vgmProjQuery:ev(e)}), vgmProjMatches:vgmProjMatches, vgmNoProjMatches:(vgmQActive&&vgmProjMatches.length===0),
       vgmQuestions:vgmQuestions, vgmNotes:s.vgmNotes, setVgmNotes:e=>this.vgmSet({vgmNotes:ev(e)}),
+      onVgmPhotos:e=>this.handleVgmPhotos(e), vgmPhotoList:vgmPhotoList, vgmHasPhotos:vgmPhotoList.length>0,
+      vgmHasSign:!!s.vgmSign, vgmNoSign:!s.vgmSign, vgmSign:s.vgmSign, openVgmSign:()=>this.openVgmSign(), removeSign:()=>this.removeSign(),
+      isSheetVgmSign:s.sheet==='vgmSign', clearSig:()=>this.clearSig(), saveSig:()=>this.saveSig(), cancelSig:()=>this.cancelSig(),
       noteGroups, hasNotes:(s.notes||[]).length>0, noNotes:(s.notes||[]).length===0, openNewNote:()=>this.openNewNote(),
       isSheetNote:s.sheet==='note', noteSheetTitle:s.n_id?'Notitie bewerken':'Nieuwe notitie', isNoteEditing:!!s.n_id,
       nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}), nText:s.n_text, setNText:e=>this.setState({n_text:ev(e)}),

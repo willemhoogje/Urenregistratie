@@ -427,7 +427,7 @@ window.__checkPendingBackup = function () {
             </button>
             <button onClick="{{ openVgmInspectie }}" style="width:100%;text-align:left;display:flex;align-items:center;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:15px 16px;cursor:pointer">
               <span style="width:46px;height:46px;border-radius:12px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg></span>
-              <span style="min-width:0;flex:1"><span style="display:flex;align-items:center;gap:8px"><span style="font-size:15.5px;font-weight:600;color:var(--ink)">Werkplekinspectie</span><sc-if value="{{ vgmHasInspectieDraft }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);background:var(--mist);border-radius:6px;padding:2px 6px">Concept</span></sc-if></span><span style="display:block;font-size:12.5px;color:var(--muted);margin-top:2px">Periodieke controle door de voorman</span></span>
+              <span style="min-width:0;flex:1"><span style="display:flex;align-items:center;gap:8px"><span style="font-size:15.5px;font-weight:600;color:var(--ink)">Werkplekinspectie</span><sc-if value="{{ vgmHasInspectieDraft }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);background:var(--mist);border-radius:6px;padding:2px 6px">Concept</span></sc-if></span><span style="display:block;font-size:12.5px;color:var(--muted);margin-top:2px">Periodieke controle van de werkplek</span></span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8ccd2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 6l6 6-6 6"/></svg>
             </button>
           </div>
@@ -539,7 +539,7 @@ window.__checkPendingBackup = function () {
           </div>
 
           <button onClick="{{ resetData }}" style="width:100%;margin-top:14px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:500;cursor:pointer">Alle gegevens wissen</button>
-          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie 1.1.1</div>
+          <div style="text-align:center;font-size:11px;color:var(--soft);margin-top:18px">ABECO Projecten · versie 1.1.2</div>
         </div>
       </sc-if>
 
@@ -1039,6 +1039,7 @@ window.__checkPendingBackup = function () {
           </sc-if>
 
           <p style="font-size:11.5px;color:var(--soft);line-height:1.55;margin:18px 4px 0">Je invoer wordt automatisch als concept bewaard. Tik op <b style="color:var(--navy)">PDF maken</b> bovenaan om de uitdraai te maken en op te slaan in je eigen cloud.</p>
+          <button onClick="{{ vgmResetForm }}" style="width:100%;margin-top:16px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:13px;font-size:13.5px;font-weight:600;cursor:pointer">Formulier leegmaken</button>
         </div>
       </div>
     </sc-if>
@@ -1244,7 +1245,7 @@ class Component extends DCLogic {
   }
   vgmForm(kind){
     if(kind==='inspectie') return {kind:'inspectie',title:'Werkplekinspectie',ix:'10 — Bijlage C',
-      intro:'Periodieke controle van de werkplek door de voorman. Beoordeel onderstaande punten en noteer afwijkingen met de te nemen actie.',
+      intro:'Periodieke controle van de werkplek. Beoordeel onderstaande punten en noteer afwijkingen met de te nemen actie.',
       nameLabel:'Uitgevoerd door',signNameLabel:'Naam voorman',
       cols:[{key:'akkoord',label:'Akkoord'},{key:'aandacht',label:'Aandacht'},{key:'nvt',label:'n.v.t.'}],
       questions:["Orde & netheid; afval en restmateriaal afgevoerd","Looproutes, vluchtwegen en nooduitgangen vrij","Rolsteiger / trap correct opgesteld en in orde","PBM aanwezig en juist gebruikt","Gereedschap & materieel gekeurd (sticker geldig)","Stofafzuiging aanwezig en in gebruik (hout- / kwartsstof)","Elektrische voeding via aardlekschakelaar; snoeren onbeschadigd","Gevaar van vallende voorwerpen afgeschermd"],
@@ -1269,6 +1270,7 @@ class Component extends DCLogic {
   vgmSaveDraft(){ const s=this.state; if(!s.vgmKind)return; const base={datum:s.vgmDatum,naam:s.vgmNaam,locatie:s.vgmLocatie,projId:s.vgmProjId,answers:s.vgmAnswers,notes:s.vgmNotes,sign:s.vgmSign,signAR:s.vgmSignAR}; const full=Object.assign({photos:s.vgmPhotos},base); const k='vgm_draft_'+s.vgmKind; try{ localStorage.setItem(k,JSON.stringify(full)); }catch(e){ try{ localStorage.setItem(k,JSON.stringify(base)); }catch(_){}}}
   vgmClearDraft(){ const s=this.state; try{ localStorage.removeItem('vgm_draft_'+s.vgmKind); }catch(_){}}
   closeVgm(){ this.setState({sheet:null}); }
+  vgmResetForm(){ var kind=this.state.vgmKind; if(!kind)return; if(window.confirm&&!window.confirm('Formulier leegmaken? Alle ingevulde gegevens, foto’s en handtekening worden gewist.'))return; this.vgmClearDraft(); var f=this.vgmForm(kind), co=this.state.company||{}; this.setState({vgmDatum:this.toISO(new Date()),vgmNaam:this.nm(co.myLast,co.myInit),vgmLocatie:'',vgmProjId:'',vgmProjQuery:'',vgmAnswers:f.questions.map(function(){return '';}),vgmNotes:'',vgmPhotos:[],vgmSign:'',vgmSignAR:0}); this.showFlash('Formulier leeggemaakt'); }
   handleVgmPhotos(e){
     var tgt=e&&e.target, files=tgt&&tgt.files; if(!files||!files.length)return;
     var self=this, arr=Array.prototype.slice.call(files), pending=arr.length, photos=(this.state.vgmPhotos||[]).slice();
@@ -1952,7 +1954,7 @@ class Component extends DCLogic {
       vgmQuestions:vgmQuestions, vgmNotes:s.vgmNotes, setVgmNotes:e=>this.vgmSet({vgmNotes:ev(e)}),
       onVgmPhotos:e=>this.handleVgmPhotos(e), vgmPhotoList:vgmPhotoList, vgmHasPhotos:vgmPhotoList.length>0,
       vgmHasSign:!!s.vgmSign, vgmNoSign:!s.vgmSign, vgmSign:s.vgmSign, openVgmSign:()=>this.openVgmSign(), removeSign:()=>this.removeSign(),
-      isSheetVgmSign:s.sheet==='vgmSign', clearSig:()=>this.clearSig(), saveSig:()=>this.saveSig(), cancelSig:()=>this.cancelSig(),
+      isSheetVgmSign:s.sheet==='vgmSign', clearSig:()=>this.clearSig(), saveSig:()=>this.saveSig(), cancelSig:()=>this.cancelSig(), vgmResetForm:()=>this.vgmResetForm(),
       noteGroups, hasNotes:(s.notes||[]).length>0, noNotes:(s.notes||[]).length===0, openNewNote:()=>this.openNewNote(),
       isSheetNote:s.sheet==='note', noteSheetTitle:s.n_id?'Notitie bewerken':'Nieuwe notitie', isNoteEditing:!!s.n_id,
       nTitle:s.n_title, setNTitle:e=>this.setState({n_title:ev(e)}), nText:s.n_text, setNText:e=>this.setState({n_text:ev(e)}),

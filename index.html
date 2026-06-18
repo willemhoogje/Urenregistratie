@@ -1276,7 +1276,7 @@ class Component extends DCLogic {
       sc('setTextColor',INK); doc.text(qlines,M+4,y+rH/2-(qlines.length-1)*1.9+1.0);
       f.cols.forEach(function(c,ci){
         var cx=M+qW+ansW*ci+ansW/2, cy=y+rH/2, bs=4;
-        sc('setDrawColor',NAVY); doc.setLineWidth(0.4); doc.roundedRect(cx-bs/2,cy-bs/2,bs,bs,0.6,0.6);
+        sc('setDrawColor',NAVY); doc.setLineWidth(0.4); doc.roundedRect(cx-bs/2,cy-bs/2,bs,bs,0.4,0.4);
         if(ans[qi]===c.key){ sc('setDrawColor',NAVY); doc.setLineWidth(0.65); doc.line(cx-1.2,cy+0.1,cx-0.3,cy+1.1); doc.line(cx-0.3,cy+1.1,cx+1.3,cy-1.2); }
       });
       if(qi<f.questions.length-1){ sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,y+rH,M+W,y+rH); }
@@ -1288,8 +1288,8 @@ class Component extends DCLogic {
     // notes box
     var nHeadH=7;
     sc('setFillColor',MIST); doc.rect(M,y,W,nHeadH,'F');
-    sc('setFillColor',SQ); doc.rect(M+4,y+nHeadH/2-1.1,2.2,2.2,'F');
-    doc.setFont(DISP,'bold'); doc.setFontSize(9.5); sc('setTextColor',INK); doc.text(f.noteLabel,M+8.5,y+4.7);
+    sc('setFillColor',SQ); doc.roundedRect(M+4,y+nHeadH/2-0.93,1.85,1.85,0.45,0.45,'F');
+    doc.setFont(DISP,'bold'); doc.setFontSize(9.5); sc('setTextColor',INK); doc.text(f.noteLabel,M+7.7,y+4.7);
     doc.setFont(BODY,'normal'); doc.setFontSize(9.5);
     var noteTxt=(s.vgmNotes||'').trim(), noteLines=noteTxt?doc.splitTextToSize(noteTxt,W-9):[], bodyH=Math.max(17,noteLines.length*4.5+6);
     if(noteTxt){ sc('setTextColor',INK); doc.text(noteLines,M+4.5,y+nHeadH+5.5); }

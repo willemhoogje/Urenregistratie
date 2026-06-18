@@ -667,9 +667,9 @@ window.__checkPendingBackup = function () {
           <label style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Opdrachtgever <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">(optioneel)</span></label>
           <input value="{{ pClient }}" onChange="{{ setPClient }}" placeholder="Opdrachtgever" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;color:var(--ink);background:var(--mist)"/>
           <sc-if value="{{ hasClientMatches }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:9px">
+            <div style="display:flex;flex-direction:column;gap:7px;margin-top:9px">
               <sc-for list="{{ clientMatches }}" as="c" hint-placeholder-count="2">
-                <button onClick="{{ c.onPick }}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:999px;background:var(--mist);border:1px solid var(--line);font-size:13.5px;font-weight:500;color:var(--ink);cursor:pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l3 2"/></svg>{{ c.label }}</button>
+                <button onClick="{{ c.onPick }}" style="width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:11px;padding:11px 13px;cursor:pointer"><span style="min-width:0;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.label }}</span><span style="display:inline-flex;align-items:center;gap:5px;color:var(--navy);font-size:12.5px;font-weight:600;flex:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c2a3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10l-4 4 4 4"/><path d="M20 4v6a4 4 0 0 1-4 4H5"/></svg>Invullen</span></button>
               </sc-for>
             </div>
           </sc-if>

@@ -1223,7 +1223,97 @@ class Component extends DCLogic {
   vgmSaveDraft(){ const s=this.state; if(!s.vgmKind)return; const d={datum:s.vgmDatum,naam:s.vgmNaam,locatie:s.vgmLocatie,projId:s.vgmProjId,answers:s.vgmAnswers,notes:s.vgmNotes}; try{ localStorage.setItem('vgm_draft_'+s.vgmKind,JSON.stringify(d)); }catch(_){}}
   vgmClearDraft(){ const s=this.state; try{ localStorage.removeItem('vgm_draft_'+s.vgmKind); }catch(_){}}
   closeVgm(){ this.setState({sheet:null}); }
-  vgmMakePdf(){ this.showFlash('PDF-uitdraai volgt in de volgende stap'); }
+  vgmFmtDate(iso){ if(!iso)return ''; var p=String(iso).split('-'); if(p.length!==3)return iso; return p[2]+'-'+p[1]+'-'+p[0]; }
+  vgmMakePdf(){ var self=this, kind=this.state.vgmKind; if(!kind)return; this.ensureFonts(function(){ self.buildVgmPdf(kind); }); }
+  buildVgmPdf(kind){
+    if(!(window.jspdf&&window.jspdf.jsPDF)){ this.showFlash('PDF niet beschikbaar op dit apparaat'); return; }
+    var s=this.state, f=this.vgmForm(kind), self=this;
+    var doc=new window.jspdf.jsPDF('p','mm','a4');
+    var FOK=this.regFonts(doc);
+    var BODY=FOK?'Poppins':'helvetica', DISP=FOK?'SpaceGrotesk':'helvetica';
+    var M=16, PW=210, PH=297, W=PW-2*M, RX=PW-M;
+    var NAVY=[28,42,58],INK=[22,32,43],MUT=[108,114,128],SOFT=[154,160,168],LINE=[228,230,233],MIST=[246,247,248],SQ=[26,54,93],DASH=[205,209,214],WHITE=[255,255,255];
+    function sc(fn,c){ doc[fn](c[0],c[1],c[2]); }
+    var logo=this.loadLogo(), y=13;
+    // brandbar
+    if(logo){ var lh=15,lw=lh*logo.w/logo.h; try{ doc.addImage(logo.data,'PNG',M,y,lw,lh); }catch(e){} }
+    doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',NAVY); doc.text('V&G DEELPLAN',RX,y+8.5,{align:'right'});
+    doc.setFont(DISP,'bold'); doc.setFontSize(10.5); sc('setTextColor',INK); doc.text('Bijlagen',RX,y+14,{align:'right'});
+    y+=17;
+    sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,y,RX,y); y+=8;
+    // title
+    doc.setFont(DISP,'bold'); doc.setFontSize(18); sc('setTextColor',INK); doc.text(f.title,M,y+5);
+    doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',SOFT); doc.text(f.ix.toUpperCase(),RX,y+5,{align:'right'});
+    y+=11;
+    // intro strip
+    doc.setFont(BODY,'normal'); doc.setFontSize(9.5);
+    var introLines=doc.splitTextToSize(f.intro,W-12), introH=introLines.length*4.5+8;
+    sc('setFillColor',MIST); doc.rect(M,y,W,introH,'F'); sc('setFillColor',NAVY); doc.rect(M,y,1,introH,'F');
+    sc('setTextColor',MUT); doc.text(introLines,M+5,y+5.8); y+=introH+7;
+    // field grid
+    var halfW=W/2, rowH=13, gy=y, pad=4;
+    function fieldCell(x,w,label,val,yy){
+      doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',MUT); doc.text((label||'').toUpperCase(),x+pad,yy+4.8);
+      doc.setFont(DISP,'bold'); doc.setFontSize(10.5); sc('setTextColor',INK); doc.text(String(val==null?'':val),x+pad,yy+9.7);
+      sc('setDrawColor',DASH); doc.setLineWidth(0.3); doc.setLineDashPattern([0.8,0.8],0); doc.line(x+pad,yy+11,x+w-pad,yy+11); doc.setLineDashPattern([],0);
+    }
+    fieldCell(M,halfW,'Datum',this.vgmFmtDate(s.vgmDatum),gy);
+    fieldCell(M+halfW,halfW,f.nameLabel,s.vgmNaam,gy);
+    fieldCell(M,W,'Projectlocatie',s.vgmLocatie,gy+rowH);
+    sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.rect(M,gy,W,rowH*2); doc.line(M+halfW,gy,M+halfW,gy+rowH); doc.line(M,gy+rowH,M+W,gy+rowH);
+    y=gy+rowH*2+7;
+    // table
+    var ansW=18,nCols=f.cols.length,qW=W-ansW*nCols,headH=8,tableTop=y,ans=s.vgmAnswers||[];
+    sc('setFillColor',NAVY); doc.rect(M,y,W,headH,'F');
+    doc.setFont(BODY,'bold'); doc.setFontSize(8.5); sc('setTextColor',WHITE);
+    doc.text(kind==='inspectie'?'Inspectiepunt':'Controlevraag',M+4,y+5.3);
+    f.cols.forEach(function(c,ci){ doc.text(c.label,M+qW+ansW*ci+ansW/2,y+5.3,{align:'center'}); });
+    y+=headH;
+    f.questions.forEach(function(q,qi){
+      doc.setFont(BODY,'normal'); doc.setFontSize(9);
+      var qlines=doc.splitTextToSize(q,qW-8), rH=Math.max(8.5,qlines.length*3.8+4);
+      if(qi%2===1){ sc('setFillColor',MIST); doc.rect(M,y,W,rH,'F'); }
+      sc('setTextColor',INK); doc.text(qlines,M+4,y+rH/2-(qlines.length-1)*1.9+1.0);
+      f.cols.forEach(function(c,ci){
+        var cx=M+qW+ansW*ci+ansW/2, cy=y+rH/2, bs=4;
+        sc('setDrawColor',NAVY); doc.setLineWidth(0.4); doc.roundedRect(cx-bs/2,cy-bs/2,bs,bs,0.6,0.6);
+        if(ans[qi]===c.key){ sc('setDrawColor',NAVY); doc.setLineWidth(0.65); doc.line(cx-1.2,cy+0.1,cx-0.3,cy+1.1); doc.line(cx-0.3,cy+1.1,cx+1.3,cy-1.2); }
+      });
+      if(qi<f.questions.length-1){ sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,y+rH,M+W,y+rH); }
+      y+=rH;
+    });
+    sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.rect(M,tableTop,W,y-tableTop);
+    f.cols.forEach(function(c,ci){ var lx=M+qW+ansW*ci; doc.line(lx,tableTop,lx,y); });
+    y+=7;
+    // notes box
+    var nHeadH=7;
+    sc('setFillColor',MIST); doc.rect(M,y,W,nHeadH,'F');
+    sc('setFillColor',SQ); doc.rect(M+4,y+nHeadH/2-1.1,2.2,2.2,'F');
+    doc.setFont(DISP,'bold'); doc.setFontSize(9.5); sc('setTextColor',INK); doc.text(f.noteLabel,M+8.5,y+4.7);
+    doc.setFont(BODY,'normal'); doc.setFontSize(9.5);
+    var noteTxt=(s.vgmNotes||'').trim(), noteLines=noteTxt?doc.splitTextToSize(noteTxt,W-9):[], bodyH=Math.max(17,noteLines.length*4.5+6);
+    if(noteTxt){ sc('setTextColor',INK); doc.text(noteLines,M+4.5,y+nHeadH+5.5); }
+    sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.rect(M,y,W,nHeadH+bodyH); doc.line(M,y+nHeadH,M+W,y+nHeadH);
+    y+=nHeadH+bodyH+9;
+    // signature strip
+    var colGap=14, sigW=(W-colGap)/2, rightX=M+sigW+colGap;
+    doc.setFont(BODY,'bold'); doc.setFontSize(7.5); sc('setTextColor',MUT);
+    doc.text(f.signNameLabel.toUpperCase(),M,y+3.5); doc.text('HANDTEKENING & DATUM',rightX,y+3.5);
+    doc.setFont(DISP,'bold'); doc.setFontSize(10.5); sc('setTextColor',INK); doc.text(String(s.vgmNaam||''),M,y+15);
+    doc.setFont(BODY,'normal'); doc.setFontSize(9.5); sc('setTextColor',INK); doc.text(this.vgmFmtDate(s.vgmDatum),rightX,y+15);
+    sc('setDrawColor',DASH); doc.setLineWidth(0.3); doc.line(M,y+17,M+sigW,y+17); doc.line(rightX,y+17,M+W,y+17);
+    // footer (vaste ABECO-voettekst)
+    var fy=PH-16;
+    sc('setDrawColor',LINE); doc.setLineWidth(0.3); doc.line(M,fy,RX,fy);
+    doc.setFont(BODY,'bold'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('ABECO Projecten BV',M,fy+5);
+    doc.setFont(BODY,'normal'); doc.setFontSize(9.5); sc('setTextColor',MUT); doc.text('De Scheper 259, 5688 HP Oirschot  ·  info@abecoprojecten.nl  ·  www.abecoprojecten.nl',M,fy+9.6);
+    doc.setFont(BODY,'normal'); doc.setFontSize(8.5); sc('setTextColor',SOFT); doc.text(f.pageNo.toUpperCase(),RX,fy+5,{align:'right'});
+    // opslaan / delen
+    var base=(kind==='lmra'?'LMRA':'Werkplekinspectie');
+    var fname=this.sanitizeFn(base)+(s.vgmLocatie?'_'+this.sanitizeFn(s.vgmLocatie):'')+'_'+this.sanitizeFn(this.vgmFmtDate(s.vgmDatum))+'.pdf';
+    this.savePdf(doc,fname);
+    this.showFlash('PDF aangemaakt ✓');
+  }
   seed(){
     return {
       company:{name:'ABECO Projecten BV',address:'Oude Grintweg 55',city:'5688 MA Oirschot'},
